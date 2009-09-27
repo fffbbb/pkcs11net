@@ -1,0 +1,62 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{96F7DEE9-B6A9-411C-8FB6-9638223F9336}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>net.pkcs11</RootNamespace>
+    <AssemblyName>net.pkcs11</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\CK_RV.cs" />
+    <Compile Include="src\functions\generalPurpose.cs" />
+    <Compile Include="src\functions\SlotAndTokenManagement.cs" />
+    <Compile Include="src\DelegateUtil.cs" />
+    <Compile Include="src\Pkcs11Module.cs" />
+    <Compile Include="src\KernelUtil.cs" />
+    <Compile Include="src\generalDataTypes\CK_ATTRIBUTE.cs" />
+    <Compile Include="src\generalDataTypes\CK_DATE.cs" />
+    <Compile Include="src\generalDataTypes\CK_INFO.cs" />
+    <Compile Include="src\generalDataTypes\CK_SESSION_INFO.cs" />
+    <Compile Include="src\generalDataTypes\CK_SLOT_INFO.cs" />
+    <Compile Include="src\generalDataTypes\CK_TOKEN_INFO.cs" />
+    <Compile Include="src\generalDataTypes\CK_VERSION.cs" />
+    <Compile Include="src\Validator.cs" />
+    <None Include="src\typeMappings.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src" />
+    <Folder Include="src\generalDataTypes" />
+    <Folder Include="src\functions" />
+  </ItemGroup>
+</Project>
