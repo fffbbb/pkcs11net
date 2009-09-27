@@ -1,0 +1,28 @@
+﻿CK_BYTE byte
+
+CK_CHAR byte
+ 
+CK_UTF8CHAR byte
+
+CK_BBOOL bool
+
+CK_Uuint uint
+
+CK_uint int
+
+CK_ULONG uint
+
+CK_LONG int
+
+THEN;
+typedef CK_ULONG          CK_FLAGS;
+CK_FLAGS --> uint
+
+typedef CK_ULONG          CK_STATE;
+CK_STATE --> uint
+
+typedef CK_ULONG          CK_SLOT_ID;
+CK_SLOT_ID --> uint
+
+typedef CK_ULONG          CK_ATTRIBUTE_TYPE;
+CK_ATTRIBUTE_TYPE --> uint
