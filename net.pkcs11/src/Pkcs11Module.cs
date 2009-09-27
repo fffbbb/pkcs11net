@@ -1,11 +1,4 @@
-﻿/*
- * 
- * Kullanıcı: ferhat
- * Tarih: 27.09.2009
- * Zaman: 16:03
- * 
- */
-using System;
+﻿using System;
 using net.pkcs11.functions;
 using net.pkcs11.generalDataTypes;
 using System.Collections.Generic;

@@ -1,11 +1,4 @@
-﻿/*
- * 
- * Kullanıcı: ferhat
- * Tarih: 27.09.2009
- * Zaman: 17:48
- * 
- */
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 
 namespace net.pkcs11
