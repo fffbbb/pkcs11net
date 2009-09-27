@@ -1,13 +1,4 @@
-﻿/*
- * SharpDevelop Tarafından Oluşturulmuşdur.
- * Kullanıcı: Administrator
- * Tarih: 13.09.2009
- * Zaman: 11:14
- * 
- * Bu şablonu değiştirmek için Araçlar | Seçenekler | Kodlama | Standart Başlıkları Düzenle 'yi kullanın.
- */
-
-using System;
+﻿using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using System.Reflection;

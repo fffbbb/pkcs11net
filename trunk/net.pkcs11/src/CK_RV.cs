@@ -1,16 +1,9 @@
-﻿/*
- * 
- * Kullanıcı: ferhat
- * Tarih: 27.09.2009
- * Zaman: 18:04
- * 
- */
-using System;
+﻿using System;
 
 namespace net.pkcs11
 {
 	/// <summary>
-	/// Description of CK_RV.
+	/// Return messages of function calls
 	/// </summary>
 	public enum CK_RV:uint{
 		OK = 0x00000000

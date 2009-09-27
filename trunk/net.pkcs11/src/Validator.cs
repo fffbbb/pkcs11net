@@ -1,11 +1,4 @@
-﻿/*
- * 
- * Kullanıcı: ferhat
- * Tarih: 27.09.2009
- * Zaman: 18:09
- * 
- */
-using System;
+﻿using System;
 
 namespace net.pkcs11
 {

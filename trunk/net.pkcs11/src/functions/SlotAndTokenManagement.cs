@@ -1,11 +1,4 @@
-﻿/*
- * 
- * Kullanıcı: ferhat
- * Tarih: 27.09.2009
- * Zaman: 18:44
- * 
- */
-using System;
+﻿using System;
 using net.pkcs11.generalDataTypes;
 namespace net.pkcs11.functions
 {
