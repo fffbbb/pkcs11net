@@ -1,9 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 namespace net.pkcs11.generalDataTypes
 {
-	/// <summary>
-	/// Description of SlotInfo.
-	/// </summary>
+
 	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct CK_SLOT_INFO
     {

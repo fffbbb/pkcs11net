@@ -26,3 +26,9 @@ CK_SLOT_ID --> uint
 
 typedef CK_ULONG          CK_ATTRIBUTE_TYPE;
 CK_ATTRIBUTE_TYPE --> uint
+
+typedef CK_ULONG CK_MECHANISM_TYPE; 
+CK_MECHANISM_TYPE --> uint
+
+typedef CK_ULONG CK_USER_TYPE;
+CK_USER_TYPE --> uint

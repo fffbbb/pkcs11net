@@ -21,7 +21,7 @@ namespace net.pkcs11.functions
 
 	internal delegate CK_RV C_GetSessionInfo(
 		uint hSession,
-		ref SessionInfo pInfo
+		ref CK_SESSION_INFO pInfo
 	);
 
 	internal delegate CK_RV C_GetOperationState(
@@ -39,10 +39,10 @@ namespace net.pkcs11.functions
 	);
 
 	internal delegate CK_RV C_Login(
-		uint hSession;
+		uint hSession,
 		uint userType,
 		byte[] pPin,
-		uint ulPinLen;
+		uint ulPinLen
 	);
 
 	internal delegate CK_RV C_Logout(
