@@ -27,7 +27,7 @@ namespace net.pkcs11.functions
 	internal delegate ReturnValues C_GetOperationState(
 		uint hSession,
 		byte[] pOperationState,
-		uint pulOperationStateLen
+		ref uint pulOperationStateLen
 	);
 
 	internal delegate ReturnValues C_SetOperationState(
@@ -40,7 +40,7 @@ namespace net.pkcs11.functions
 
 	internal delegate ReturnValues C_Login(
 		uint hSession,
-		uint userType,
+		UserTypes userType,
 		byte[] pPin,
 		uint ulPinLen
 	);
