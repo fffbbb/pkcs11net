@@ -152,5 +152,80 @@ namespace net.pkcs11
 				proc(hSession,oldPinBytes,(uint)oldPinBytes.Length,newPinBytes,(uint)newPinBytes.Length));
 		}
 		
+		public uint OpenSession(uint slotId, uint applicationId, bool readOnly){
+			
+			C_OpenSession proc= (C_OpenSession)DelegateUtil.getDelegate(this.hLib,typeof(C_OpenSession));
+			
+			uint flags=SessionInformationFlags.CKF_SERIAL_SESSION| (readOnly? 0: SessionInformationFlags.CKF_RW_SESSION);
+			
+			uint hSession=0;
+			
+			Validator.ValidateCK_RV( proc(slotId,flags, ref applicationId, IntPtr.Zero, ref hSession) );
+			
+			return hSession;
+		}
+		
+		public void CloseSession(uint hSession){
+			
+			C_CloseSession proc= (C_CloseSession)DelegateUtil.getDelegate(this.hLib,typeof(C_CloseSession));
+			
+			Validator.ValidateCK_RV(proc(hSession));
+		}
+		
+		public void CloseAllSessions(uint slotId){
+			
+			C_CloseAllSessions proc= (C_CloseAllSessions)DelegateUtil.getDelegate(this.hLib,typeof(C_CloseAllSessions));
+			
+			Validator.ValidateCK_RV(proc(slotId));
+		}
+		
+		public CK_SESSION_INFO GetSessionInfo(uint hSession){
+			
+			C_GetSessionInfo proc= (C_GetSessionInfo)DelegateUtil.getDelegate(this.hLib,typeof(C_GetSessionInfo));
+
+			CK_SESSION_INFO sessionInfo=new CK_SESSION_INFO();
+			
+			Validator.ValidateCK_RV(proc(hSession, ref sessionInfo));
+			
+			return sessionInfo;
+		}
+		
+		public byte[] GetOperationState(uint hSession){
+			
+			C_GetOperationState proc= (C_GetOperationState)DelegateUtil.getDelegate(this.hLib,typeof(C_GetOperationState));
+			
+			uint pLen=0;
+			
+			Validator.ValidateCK_RV(proc(hSession, null, ref pLen));
+			
+			byte[] opState=new byte[pLen];
+			
+			Validator.ValidateCK_RV(proc(hSession, opState, ref pLen));
+			
+			return opState;
+		}
+		
+		public void SetOperationState(uint hSession, byte[] opState, uint hEncryptionKey, uint hAuthenticationKey){
+			
+			C_SetOperationState proc= (C_SetOperationState)DelegateUtil.getDelegate(this.hLib,typeof(C_SetOperationState));
+			
+			Validator.ValidateCK_RV ( proc(hSession, opState, (uint)opState.Length, hEncryptionKey, hAuthenticationKey ) );
+		}
+		
+		public void Login(uint hSession, UserTypes userType, string pin){
+			
+			C_Login proc = (C_Login)DelegateUtil.getDelegate(this.hLib,typeof(C_Login));
+			
+			byte[] pinBytes=System.Text.Encoding.UTF8.GetBytes(pin);
+			
+			Validator.ValidateCK_RV(proc(hSession, userType, pinBytes, (uint)pinBytes.Length ));
+		}
+		
+		public void Logout(uint hSession){
+			
+			C_Logout proc= (C_Logout)DelegateUtil.getDelegate(this.hLib,typeof(C_Logout));
+			
+			Validator.ValidateCK_RV(proc(hSession));
+		}
 	}
 }
