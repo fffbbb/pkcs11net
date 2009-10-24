@@ -3,48 +3,54 @@ using net.pkcs11.generalDataTypes;
 namespace net.pkcs11.functions
 {
 
-	internal delegate CK_RV C_GetSlotList(
+	internal delegate ReturnValues C_GetSlotList(
 		bool tokenPresent, 
 		uint[] pSlotList, 
 		ref uint pulCount
 	);
 
-	internal delegate CK_RV C_GetSlotInfo(
+	internal delegate ReturnValues C_GetSlotInfo(
 		uint slotID, 
 		ref CK_SLOT_INFO pInfo
 	);
 	
-	internal delegate CK_RV C_GetTokenInfo(
+	internal delegate ReturnValues C_GetTokenInfo(
 		uint slotID, 
 		ref CK_TOKEN_INFO pInfo
 	);
-
-	internal delegate CK_RV C_GetMechanismList(
+	
+	internal delegate ReturnValues C_WaitForSlotEvent(
+		uint flags,
+		ref uint pSlot,
+		IntPtr pReserved 
+	);
+		
+	internal delegate ReturnValues C_GetMechanismList(
 		uint slotID, 
-		uint[] pMechanismList,
+		MechanismTypes[] pMechanismList,
 		ref uint pulCount
 	);
 
-	internal delegate CK_RV C_GetMechanismInfo(
+	internal delegate ReturnValues C_GetMechanismInfo(
 		uint slotID, 
-		uint type, 
+		MechanismTypes type, 
 		ref CK_MECHANISM_INFO pInfo
 	);
 
-	internal delegate CK_RV C_InitToken(
+	internal delegate ReturnValues C_InitToken(
 		uint slotID, 
 		byte[] pPin, 
 		uint ulPinLen, 
 		byte[] pLabel
 	);
 
-	internal delegate CK_RV C_InitPIN(
+	internal delegate ReturnValues C_InitPIN(
 		uint hSession, 
 		byte[] pPin, 
 		uint ulPinLen
 	);
 
-	internal delegate CK_RV C_SetPIN(
+	internal delegate ReturnValues C_SetPIN(
 		uint hSession, 
 		byte[] pOldPin, 
 		uint ulOldLen,

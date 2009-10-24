@@ -3,19 +3,19 @@ using net.pkcs11.generalDataTypes;
 namespace net.pkcs11.functions
 {
 
-	internal delegate CK_RV C_Initialize(
+	internal delegate ReturnValues C_Initialize(
 		IntPtr pInitArgs
 	);
 	
-	internal delegate CK_RV C_Finalize(
+	internal delegate ReturnValues C_Finalize(
 		IntPtr pReserved
 	);
 	
-	internal delegate CK_RV C_GetInfo(
+	internal delegate ReturnValues C_GetInfo(
 		ref CK_INFO pInfo
 	);
 	
-	internal delegate CK_RV C_GetFunctionList(
+	internal delegate ReturnValues C_GetFunctionList(
 		IntPtr ppFunctionList 
 	);
 }

@@ -82,5 +82,75 @@ namespace net.pkcs11
 		}
 		
 		
+		public uint WaitForSlotEvent(params WaitForSlotEventOptions[] options){
+			
+			C_WaitForSlotEvent proc=(C_WaitForSlotEvent)DelegateUtil.getDelegate(this.HLib,typeof(C_WaitForSlotEvent));
+			
+			uint slotId=0, flags=0;
+			
+			foreach(WaitForSlotEventOptions opt in options) flags |= (uint) opt;
+			
+			Validator.ValidateCK_RV(proc(flags, ref slotId, IntPtr.Zero));
+			
+			return slotId;
+		}
+
+		public List<MechanismTypes> GetMechanismList(uint slotId){
+			
+			C_GetMechanismList proc=(C_GetMechanismList)DelegateUtil.getDelegate(this.HLib,typeof(C_GetMechanismList));
+			
+			uint pulCount=0;
+			Validator.ValidateCK_RV( proc(slotId,null,ref pulCount));
+			
+			MechanismTypes[] mechanismList = new MechanismTypes[pulCount];
+			
+			Validator.ValidateCK_RV( proc(slotId, mechanismList,ref pulCount));
+			
+			return  new List<MechanismTypes>(mechanismList);
+		}
+		
+		public CK_MECHANISM_INFO GetMechanismInfo(uint slotId, MechanismTypes mechanism){
+			
+			C_GetMechanismInfo proc=(C_GetMechanismInfo)DelegateUtil.getDelegate(this.hLib,typeof(C_GetMechanismInfo));
+			
+			CK_MECHANISM_INFO mecInfo=new CK_MECHANISM_INFO();
+			
+			Validator.ValidateCK_RV(proc(slotId,mechanism,ref mecInfo) );
+			
+			return mecInfo;
+		}
+		
+		public void InitToken(uint slotId, string pin, string label){
+			
+			C_InitToken proc=(C_InitToken)DelegateUtil.getDelegate(this.hLib,typeof(C_InitToken));
+
+			byte[] pinBytes=System.Text.Encoding.UTF8.GetBytes(pin);
+			
+			byte[] labelBytes=new byte[32];
+			new List<byte>(System.Text.Encoding.UTF8.GetBytes(label+new String(' ',32 ))).CopyTo(0,labelBytes,0,32);
+			
+			Validator.ValidateCK_RV(proc(slotId,pinBytes,(uint)pinBytes.Length,labelBytes));
+		}
+		
+		public void InitPIN(uint hSession , string pin){
+			
+			C_InitPIN proc = (C_InitPIN)DelegateUtil.getDelegate(this.hLib,typeof(C_InitPIN));
+			
+			byte[] pinBytes=System.Text.Encoding.UTF8.GetBytes(pin);
+			
+			Validator.ValidateCK_RV(proc(hSession,pinBytes,(uint)pinBytes.Length));
+		}
+		
+		public void SetPIN (uint hSession, string oldPin, string newPin){
+			
+			C_SetPIN proc = (C_SetPIN)DelegateUtil.getDelegate(this.hLib,typeof(C_SetPIN));
+			
+			byte[] oldPinBytes=System.Text.Encoding.UTF8.GetBytes(oldPin);
+			byte[] newPinBytes=System.Text.Encoding.UTF8.GetBytes(newPin);
+			
+			Validator.ValidateCK_RV(
+				proc(hSession,oldPinBytes,(uint)oldPinBytes.Length,newPinBytes,(uint)newPinBytes.Length));
+		}
+		
 	}
 }

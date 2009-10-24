@@ -3,7 +3,7 @@ using net.pkcs11.generalDataTypes;
 namespace net.pkcs11.functions
 {
 
-	internal delegate CK_RV C_OpenSession(
+	internal delegate ReturnValues C_OpenSession(
 		uint slotID,
 		uint flags,
 		ref uint pApplication,
@@ -11,26 +11,26 @@ namespace net.pkcs11.functions
 		ref uint phSession
 	);
 
-	internal delegate CK_RV C_CloseSession(
+	internal delegate ReturnValues C_CloseSession(
 		uint hSession
 	);
 
-	internal delegate CK_RV C_CloseAllSessions(
+	internal delegate ReturnValues C_CloseAllSessions(
 		uint slotID
 	);
 
-	internal delegate CK_RV C_GetSessionInfo(
+	internal delegate ReturnValues C_GetSessionInfo(
 		uint hSession,
 		ref CK_SESSION_INFO pInfo
 	);
 
-	internal delegate CK_RV C_GetOperationState(
+	internal delegate ReturnValues C_GetOperationState(
 		uint hSession,
 		byte[] pOperationState,
 		uint pulOperationStateLen
 	);
 
-	internal delegate CK_RV C_SetOperationState(
+	internal delegate ReturnValues C_SetOperationState(
 		uint hSession,
 		byte[] pOperationState,
 		uint ulOperationStateLen,
@@ -38,14 +38,14 @@ namespace net.pkcs11.functions
 		uint hAuthenticationKey
 	);
 
-	internal delegate CK_RV C_Login(
+	internal delegate ReturnValues C_Login(
 		uint hSession,
 		uint userType,
 		byte[] pPin,
 		uint ulPinLen
 	);
 
-	internal delegate CK_RV C_Logout(
+	internal delegate ReturnValues C_Logout(
 		uint hSession
 	);
 
