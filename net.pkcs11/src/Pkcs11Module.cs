@@ -227,5 +227,95 @@ namespace net.pkcs11
 			
 			Validator.ValidateCK_RV(proc(hSession));
 		}
+		
+		public uint CreateObject(uint hSession, CK_ATTRIBUTE[] template){
+			
+			C_CreateObject proc= (C_CreateObject)DelegateUtil.getDelegate(this.hLib,typeof(C_CreateObject));
+			
+			uint hObj=0;
+			
+			Validator.ValidateCK_RV(proc(hSession,template, (uint)template.Length,ref hObj));
+			
+			return hObj;
+		}
+		
+		public void DestroyObject(uint hSession, uint hObj){
+			
+			C_DestroyObject proc= (C_DestroyObject)DelegateUtil.getDelegate(this.hLib,typeof(C_DestroyObject));
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession,hObj));
+		}
+		
+		//TODO: implement C_CopyObject
+		
+		
+		public uint GetObjectSize(uint hSession, uint hObj){
+			
+			C_GetObjectSize proc= (C_GetObjectSize)DelegateUtil.getDelegate(this.hLib,typeof(C_GetObjectSize));
+			
+			uint pulSize=0;
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession,hObj, ref pulSize));
+			
+			return pulSize;
+		}
+		
+		public CK_ATTRIBUTE[] GetAttributeValue(uint hSession, uint hObj, CK_ATTRIBUTE[] template ){
+			
+			C_GetAttributeValue proc= (C_GetAttributeValue)DelegateUtil.getDelegate(this.hLib,typeof(C_GetAttributeValue));
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession,hObj, template, (uint)template.Length));
+			
+			return template;
+		}
+		
+		public void SetAttributeValue(uint hSession, uint hObj, CK_ATTRIBUTE[] pTemplate){
+			
+			C_SetAttributeValue proc= (C_SetAttributeValue)DelegateUtil.getDelegate(this.hLib,typeof(C_SetAttributeValue));
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession,hObj, pTemplate, (uint)pTemplate.Length));
+		}
+		
+		public void FindObjectsInit(uint hSession, CK_ATTRIBUTE[] pTemplate){
+			
+			C_FindObjectsInit proc= (C_FindObjectsInit)DelegateUtil.getDelegate(this.hLib,typeof(C_FindObjectsInit));
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pTemplate, (uint)pTemplate.Length));
+		}
+		
+		public uint[] FindObjects(uint hSession, uint maxCount){
+			
+			C_FindObjects proc= (C_FindObjects)DelegateUtil.getDelegate(this.hLib,typeof(C_FindObjects));
+			
+			uint[] maxObjs=new uint[maxCount];
+			
+			uint pulCount=0;
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, maxObjs,maxCount, ref pulCount));
+			
+			if(pulCount==maxCount){
+				
+				return maxObjs;
+				
+			}else{
+				
+				uint[] pulObjs=new uint[pulCount];
+				
+				maxObjs.CopyTo(pulObjs,pulCount);
+				
+				for(int i=0;i<pulCount;i++)
+					pulObjs[i]=maxObjs[i];
+				
+				return pulObjs;
+			}
+		}
+		
+		public void FindObjectsFinal(uint hSession){
+			
+			C_FindObjectsFinal proc= (C_FindObjectsFinal)DelegateUtil.getDelegate(this.hLib,typeof(C_FindObjectsFinal));
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession));
+		}
+		
 	}
 }

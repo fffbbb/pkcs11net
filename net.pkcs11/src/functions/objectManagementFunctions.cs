@@ -3,13 +3,6 @@ using net.pkcs11.generalDataTypes;
 namespace net.pkcs11.functions
 {
 
-	internal delegate ReturnValues C_CreateObject(
-		uint hSession,
-		CK_ATTRIBUTE[] pTemplate,
-		uint ulCount,
-		ref uint phObject
-	);
-	
 	internal delegate ReturnValues C_FindObjectsFinal(
 		uint hSession
 	);
@@ -58,5 +51,12 @@ namespace net.pkcs11.functions
 		CK_ATTRIBUTE[] hTemplate,
 		uint ulCount,
 		ref uint phNewObject
+	);
+	
+	internal delegate ReturnValues C_CreateObject(
+		uint hSession,
+		CK_ATTRIBUTE[] pTemplate,
+		uint ulCount,
+		ref uint phObject
 	);
 }
