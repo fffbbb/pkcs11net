@@ -3,9 +3,7 @@ using System;
 
 namespace net.pkcs11
 {
-	/// <summary>
-	/// Description of MechanismTypes.
-	/// </summary>
+
 	public enum MechanismTypes:uint
 	{
 		RSA_PKCS_KEY_PAIR_GEN = ManifestConstants.CKM_RSA_PKCS_KEY_PAIR_GEN,
