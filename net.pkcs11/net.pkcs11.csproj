@@ -43,9 +43,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\AttributeTypes.cs" />
+    <Compile Include="src\AttributeUtil.cs" />
     <Compile Include="src\exceptions\Pkcs11Exception.cs" />
+    <Compile Include="src\functions\callbackFunctions.cs" />
+    <Compile Include="src\functions\decryptionFunctions.cs" />
+    <Compile Include="src\functions\dualFunctionCryptographicFunctions.cs" />
     <Compile Include="src\functions\encriptionFunctions.cs" />
+    <Compile Include="src\functions\keyManagementFunctions.cs" />
+    <Compile Include="src\functions\messageDigestingFunctions.cs" />
     <Compile Include="src\functions\objectManagementFunctions.cs" />
+    <Compile Include="src\functions\parallelFunctionManagementFunctions.cs" />
+    <Compile Include="src\functions\randomNumberGenerationFunctions.cs" />
+    <Compile Include="src\functions\signingAndMacingFunctions.cs" />
+    <Compile Include="src\functions\verifyingSignaturesAndMacsFunctions.cs" />
+    <Compile Include="src\MechanismUtil.cs" />
     <Compile Include="src\ReturnValues.cs" />
     <Compile Include="src\ExceptionHandler.cs" />
     <Compile Include="src\exceptions\InvalidSlotIdException.cs" />
