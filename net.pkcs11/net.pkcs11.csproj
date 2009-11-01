@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\exceptions\Pkcs11Exception.cs" />
+    <Compile Include="src\functions\encriptionFunctions.cs" />
     <Compile Include="src\functions\objectManagementFunctions.cs" />
     <Compile Include="src\ReturnValues.cs" />
     <Compile Include="src\ExceptionHandler.cs" />
