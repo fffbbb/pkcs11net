@@ -5,7 +5,7 @@ namespace net.pkcs11.functions
 	internal delegate ReturnValues C_EncryptFinal(
 		uint hSession,
 		byte[] pLastEncryptedPart,
-		uint pulLastEncryptedPartLen
+		ref uint pulLastEncryptedPartLen
 	);
 
 	internal delegate ReturnValues C_EncryptUpdate(
