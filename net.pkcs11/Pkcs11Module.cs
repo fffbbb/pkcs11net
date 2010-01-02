@@ -9,6 +9,8 @@ namespace net.sf.pkcs11net
 	/// </summary>
 	public class Pkcs11Module
 	{
+
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -706,7 +708,72 @@ namespace net.sf.pkcs11net
 			return pDigest;
 		}
 		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <param name="pMechanism"></param>
+		/// <param name="hKey"></param>
+		public void SignInit (uint hSession, CK_MECHANISM pMechanism, uint hKey){
+			C_SignInit proc=(C_SignInit)DelegateUtil.getDelegate(this.hLib,typeof(C_SignInit));
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession,ref pMechanism,hKey));
+		}
 		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <param name="pData"></param>
+		/// <returns></returns>
+		public byte[] Sign(uint hSession, byte[] pData){
+			
+			C_Sign proc=(C_Sign)DelegateUtil.getDelegate(this.hLib,typeof(C_Sign));
+
+			uint size = 0;
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pData,(uint)pData.Length, null, ref size));
+			
+			byte[] pSignature=new byte[size];
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pData,(uint)pData.Length, pSignature, ref size));
+			
+			return pSignature;
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <param name="pPart"></param>
+		public void SignUpdate(uint hSession, byte[] pPart){
+			
+			C_SignUpdate proc=(C_SignUpdate)DelegateUtil.getDelegate(this.hLib,typeof(C_SignUpdate));
+
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pPart,(uint)pPart.Length));
+			
+			return ;
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <returns></returns>
+		public byte[] SignFinal(uint hSession){
+			
+			C_SignFinal proc=(C_SignFinal)DelegateUtil.getDelegate(this.hLib,typeof(C_SignFinal));
+			
+			uint size=0;
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, null,ref size));
+			
+			byte[] pSignature=new byte[size];
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pSignature,ref size));
+			
+			return pSignature;
+		}		
 		
 	}
 }
