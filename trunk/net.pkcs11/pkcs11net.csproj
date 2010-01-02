@@ -1,0 +1,93 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{96F7DEE9-B6A9-411C-8FB6-9638223F9336}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>net.sf.pkcs11net</RootNamespace>
+    <AssemblyName>net.sf.pkcs11net</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\usr\Application Data\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttributeTypes.cs" />
+    <Compile Include="AttributeUtil.cs" />
+    <Compile Include="DelegateUtil.cs" />
+    <Compile Include="ExceptionHandler.cs" />
+    <Compile Include="KernelUtil.cs" />
+    <Compile Include="ManifestConstants.cs" />
+    <Compile Include="MechanismTypes.cs" />
+    <Compile Include="MechanismUtil.cs" />
+    <Compile Include="Pkcs11Module.cs" />
+    <Compile Include="exceptions\Pkcs11Exception.cs" />
+    <Compile Include="functions\callbackFunctions.cs" />
+    <Compile Include="functions\decryptionFunctions.cs" />
+    <Compile Include="functions\dualFunctionCryptographicFunctions.cs" />
+    <Compile Include="functions\encriptionFunctions.cs" />
+    <Compile Include="functions\keyManagementFunctions.cs" />
+    <Compile Include="functions\messageDigestingFunctions.cs" />
+    <Compile Include="functions\objectManagementFunctions.cs" />
+    <Compile Include="functions\parallelFunctionManagementFunctions.cs" />
+    <Compile Include="functions\randomNumberGenerationFunctions.cs" />
+    <Compile Include="functions\signingAndMacingFunctions.cs" />
+    <Compile Include="functions\verifyingSignaturesAndMacsFunctions.cs" />
+    <Compile Include="ReturnValues.cs" />
+    <Compile Include="exceptions\InvalidSlotIdException.cs" />
+    <Compile Include="exceptions\UnexpectedRetValException.cs" />
+    <Compile Include="functions\generalPurpose.cs" />
+    <Compile Include="functions\sessionManagementFunctions.cs" />
+    <Compile Include="functions\slotAndTokenManagement.cs" />
+    <Compile Include="generalDataTypes\CK_MECHANISM.cs" />
+    <Compile Include="generalDataTypes\CK_MECHANISM_INFO.cs" />
+    <Compile Include="generalDataTypes\CK_ATTRIBUTE.cs" />
+    <Compile Include="generalDataTypes\CK_DATE.cs" />
+    <Compile Include="generalDataTypes\CK_INFO.cs" />
+    <Compile Include="generalDataTypes\CK_SESSION_INFO.cs" />
+    <Compile Include="generalDataTypes\CK_SLOT_INFO.cs" />
+    <Compile Include="generalDataTypes\CK_TOKEN_INFO.cs" />
+    <Compile Include="generalDataTypes\CK_VERSION.cs" />
+    <Compile Include="SessionInformationFlags.cs" />
+    <Compile Include="SessionOptions.cs" />
+    <Compile Include="UserTypes.cs" />
+    <Compile Include="Validator.cs" />
+    <Compile Include="WaitForSlotEventOptions.cs" />
+    <None Include="typeMappings.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="generalDataTypes" />
+    <Folder Include="functions" />
+    <Folder Include="exceptions" />
+  </ItemGroup>
+</Project>
