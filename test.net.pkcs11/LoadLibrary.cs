@@ -10,8 +10,6 @@ namespace net.sf.pkcs11net
 	[TestFixture]
 	public class LoadLibrary
 	{
-		
-
 		[Test]
 		public void TestMethod()
 		{
@@ -21,13 +19,8 @@ namespace net.sf.pkcs11net
 			CK_INFO cInfo=pm.GetInfo();
 			List<uint> slots= pm.GetSlotList(hasToken);
 			
-			CK_SLOT_INFO csInfo=pm.GetSlotInfo(slots[0]);
-
-				
+			CK_SLOT_INFO csInfo=pm.GetSlotInfo(slots[0]);			
 			
-		}
-		
-
-		
+		}			
 	}
 }
