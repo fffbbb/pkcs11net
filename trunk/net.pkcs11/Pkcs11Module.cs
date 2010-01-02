@@ -553,5 +553,160 @@ namespace net.sf.pkcs11net
 			
 			return pEncryptedData;
 		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <param name="pMechanism"></param>
+		/// <param name="hKey"></param>
+		public void DecryptInit (uint hSession, CK_MECHANISM pMechanism, uint hKey){
+			
+			C_DecryptInit proc=(C_DecryptInit)DelegateUtil.getDelegate(this.hLib,typeof(C_DecryptInit));
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession,ref pMechanism,hKey));
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <param name="pEncryptedData"></param>
+		/// <returns></returns>
+		public byte[] Decrypt(uint hSession, byte[] pEncryptedData){
+			
+			C_Decrypt proc=(C_Decrypt)DelegateUtil.getDelegate(this.hLib,typeof(C_Decrypt));
+
+			uint size = 0;
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pEncryptedData,(uint)pEncryptedData.Length, null, ref size));
+			
+			byte[] pData=new byte[size];
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pEncryptedData,(uint)pEncryptedData.Length, pData, ref size));
+			
+			return pData;
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <param name="pEncryptedPart"></param>
+		/// <returns></returns>
+		public byte[] DecryptUpdate(uint hSession, byte[] pEncryptedPart){
+			
+			C_DecryptUpdate proc=(C_DecryptUpdate)DelegateUtil.getDelegate(this.hLib,typeof(C_DecryptUpdate));
+
+			uint size = 0;
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pEncryptedPart,(uint)pEncryptedPart.Length, null, ref size));
+			
+			byte[] pPart=new byte[size];
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pEncryptedPart,(uint)pEncryptedPart.Length, pPart, ref size));
+			
+			return pPart;
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <returns></returns>
+		public byte[] DecryptFinal(uint hSession){
+			
+			C_DecryptFinal proc=(C_DecryptFinal)DelegateUtil.getDelegate(this.hLib,typeof(C_DecryptFinal));
+			
+			uint size = 0;
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, null, ref size));
+			
+			byte[] pLastPart=new byte[size];
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pLastPart, ref size));
+			
+			return pLastPart;
+		}
+		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <param name="pMechanism"></param>
+		/// <param name="hKey"></param>
+		public void DigestInit (uint hSession, CK_MECHANISM pMechanism){
+			
+			C_DigestInit proc=(C_DigestInit)DelegateUtil.getDelegate(this.hLib,typeof(C_DigestInit));
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession,ref pMechanism));
+		}
+		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <param name="pData"></param>
+		/// <returns></returns>
+		public byte[] Digest(uint hSession, byte[] pData){
+			
+			C_Digest proc=(C_Digest)DelegateUtil.getDelegate(this.hLib,typeof(C_Digest));
+
+			uint size = 0;
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pData,(uint)pData.Length, null, ref size));
+			
+			byte[] pDigest=new byte[size];
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pData,(uint)pData.Length, pDigest, ref size));
+			
+			return pDigest;
+		}
+
+		public void DigestUpdate(uint hSession, byte[] pPart){
+			
+			C_DigestUpdate proc=(C_DigestUpdate)DelegateUtil.getDelegate(this.hLib,typeof(C_DigestUpdate));
+
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pPart,(uint)pPart.Length));
+			
+			return ;
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <param name="hKey"></param>
+		public void DigestKey(uint hSession, uint hKey){
+			
+			C_DigestKey proc=(C_DigestKey)DelegateUtil.getDelegate(this.hLib,typeof(C_DigestKey));
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, hKey));
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <returns></returns>
+		public byte[] DigestFinal(uint hSession){
+			
+			C_DigestFinal proc=(C_DigestFinal)DelegateUtil.getDelegate(this.hLib,typeof(C_DigestFinal));
+			
+			uint size=0;
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, null,ref size));
+			
+			byte[] pDigest=new byte[size];
+			
+			Validator.ValidateCK_RV(proc.Invoke(hSession, pDigest,ref size));
+			
+			return pDigest;
+		}
+		
+		
+		
 	}
 }
