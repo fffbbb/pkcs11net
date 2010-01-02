@@ -45,9 +45,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\net.pkcs11\net.pkcs11.csproj">
+    <ProjectReference Include="..\net.pkcs11\pkcs11net.csproj">
       <Project>{96F7DEE9-B6A9-411C-8FB6-9638223F9336}</Project>
-      <Name>net.pkcs11</Name>
+      <Name>pkcs11net</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

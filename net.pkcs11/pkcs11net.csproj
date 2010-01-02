@@ -55,7 +55,7 @@
     <Compile Include="functions\callbackFunctions.cs" />
     <Compile Include="functions\decryptionFunctions.cs" />
     <Compile Include="functions\dualFunctionCryptographicFunctions.cs" />
-    <Compile Include="functions\encriptionFunctions.cs" />
+    <Compile Include="functions\encryptionFunctions.cs" />
     <Compile Include="functions\keyManagementFunctions.cs" />
     <Compile Include="functions\messageDigestingFunctions.cs" />
     <Compile Include="functions\objectManagementFunctions.cs" />

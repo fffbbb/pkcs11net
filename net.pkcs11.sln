@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-# SharpDevelop 3.0.0.3800
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.pkcs11", "net.pkcs11\net.pkcs11.csproj", "{96F7DEE9-B6A9-411C-8FB6-9638223F9336}"
+# SharpDevelop 3.1.1.5327
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pkcs11net", "net.pkcs11\pkcs11net.csproj", "{96F7DEE9-B6A9-411C-8FB6-9638223F9336}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test.net.pkcs11", "test.net.pkcs11\test.net.pkcs11.csproj", "{6726EA28-7D0B-4FDD-97BD-2ECE01B8971C}"
 EndProject
