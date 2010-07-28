@@ -1,18 +1,18 @@
 ﻿using System;
-using net.sf.pkcs11net.generalDataTypes;
 using System.Runtime.InteropServices;
-namespace net.sf.pkcs11net
+
+namespace Net.Sf.Pkcs11.Wrapper
 {
 	public class AttributeUtil
 	{
 		public static CK_ATTRIBUTE CreateClassAttribute(){
-			return createAttribute((uint)AttributeTypes.CLASS,new byte[0]);
+			return createAttribute((uint)CKA.CLASS,new byte[0]);
 			
 		}
 		
 		public static CK_ATTRIBUTE CreateClassAttribute(CKO objectClass){
 
-			return createAttribute((uint)AttributeTypes.CLASS,BitConverter.GetBytes((uint)objectClass));
+			return createAttribute((uint)CKA.CLASS,BitConverter.GetBytes((uint)objectClass));
 		}
 		
 		public static CK_ATTRIBUTE createAttribute(uint type, byte[]val ){
@@ -35,7 +35,7 @@ namespace net.sf.pkcs11net
 			return createAttribute(type,new byte[size]);
 		}
 		
-		public static CK_ATTRIBUTE createAttribute(AttributeTypes type, int size ){
+		public static CK_ATTRIBUTE createAttribute(CKA type, int size ){
 			return createAttribute((uint)type,new byte[size]);
 		}
 		

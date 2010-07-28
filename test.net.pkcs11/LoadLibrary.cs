@@ -14,7 +14,9 @@ namespace net.sf.pkcs11net
 		public void TestMethod()
 		{
 
-			Pkcs11Module pm=Pkcs11Module.GetInstance("test");
+			Pkcs11Module pm=Pkcs11Module.GetInstance("gclib.dll");
+			pm.Initialize();
+			
 			bool hasToken=true;
 			CK_INFO cInfo=pm.GetInfo();
 			List<uint> slots= pm.GetSlotList(hasToken);

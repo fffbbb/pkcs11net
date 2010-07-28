@@ -18,7 +18,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>Full</DebugType>
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
@@ -44,12 +44,18 @@
   <ItemGroup>
     <Compile Include="AttributeTypes.cs" />
     <Compile Include="AttributeUtil.cs" />
+    <Compile Include="CKO.cs" />
     <Compile Include="DelegateUtil.cs" />
     <Compile Include="ExceptionHandler.cs" />
     <Compile Include="KernelUtil.cs" />
     <Compile Include="ManifestConstants.cs" />
     <Compile Include="MechanismTypes.cs" />
     <Compile Include="MechanismUtil.cs" />
+    <Compile Include="ObjectManager.cs" />
+    <Compile Include="objects\Certificate.cs" />
+    <Compile Include="objects\PrivateKey.cs" />
+    <Compile Include="objects\PublicKey.cs" />
+    <Compile Include="objects\StorageObject.cs" />
     <Compile Include="Pkcs11Module.cs" />
     <Compile Include="exceptions\Pkcs11Exception.cs" />
     <Compile Include="functions\callbackFunctions.cs" />
@@ -79,7 +85,9 @@
     <Compile Include="generalDataTypes\CK_TOKEN_INFO.cs" />
     <Compile Include="generalDataTypes\CK_VERSION.cs" />
     <Compile Include="SessionInformationFlags.cs" />
+    <Compile Include="SessionManager.cs" />
     <Compile Include="SessionOptions.cs" />
+    <Compile Include="Signer.cs" />
     <Compile Include="UserTypes.cs" />
     <Compile Include="Validator.cs" />
     <Compile Include="WaitForSlotEventOptions.cs" />
@@ -89,5 +97,6 @@
     <Folder Include="generalDataTypes" />
     <Folder Include="functions" />
     <Folder Include="exceptions" />
+    <Folder Include="objects" />
   </ItemGroup>
 </Project>
