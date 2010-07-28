@@ -9,11 +9,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("pkcs11Wrapper")]
+[assembly: AssemblyTitle("Net.Pkcs11")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("pkcs11Wrapper")]
+[assembly: AssemblyProduct("Net.Pkcs11")]
 [assembly: AssemblyCopyright("Copyright 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
