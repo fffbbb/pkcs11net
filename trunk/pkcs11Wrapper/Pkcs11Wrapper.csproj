@@ -90,6 +90,7 @@
     <Compile Include="Pkcs11\Info.cs" />
     <Compile Include="Pkcs11\Module.cs" />
     <Compile Include="Pkcs11\Objects\Mechanism.cs" />
+    <Compile Include="Pkcs11\Objects\MechanismTypeAttribute.cs" />
     <Compile Include="Pkcs11\Objects\P11Attribute.cs" />
     <Compile Include="Pkcs11\Objects\BooleanAttribute.cs" />
     <Compile Include="Pkcs11\Objects\ByteArrayAttribute.cs" />

@@ -69,5 +69,11 @@ namespace Net.Sf.Pkcs11.Objects
 		protected virtual void DecodeAttr(){
 			Decode( getAsBinary(attr.pValue,(int)attr.ulValueLen) );
 		}
+		
+		public P11Attribute Load(CK_ATTRIBUTE attr){
+			this.attr=attr;
+			this.DecodeAttr();
+			return this;
+		}
 	}
 }

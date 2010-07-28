@@ -13,11 +13,11 @@ namespace Net.Sf.Pkcs11.Objects
 		public CertificateTypeAttribute CertificateType {
 			get { return certificateType_; }
 		}
-//		protected BooleanAttribute trusted_;
-//		
-//		public BooleanAttribute Trusted {
-//			get { return trusted_; }
-//		}
+		protected BooleanAttribute trusted_;
+		
+		public BooleanAttribute Trusted {
+			get { return trusted_; }
+		}
 		
 		public Certificate()
 		{
@@ -27,17 +27,13 @@ namespace Net.Sf.Pkcs11.Objects
 		{
 		}
 		
-		public override void readAttributes(Session session)
+		public override void ReadAttributes(Session session)
 		{
-			base.readAttributes(session);
+			base.ReadAttributes(session);
 			
-//			trusted_=new BooleanAttribute(
-//				getAttribute(session , HObj, new BooleanAttribute(CKA.TRUSTED))
-//			);
+			trusted_=	ReadAttribute(session , HObj, new BooleanAttribute(CKA.TRUSTED));
 			
-			certificateType_= new CertificateTypeAttribute(
-				getAttribute(session,HObj,new CertificateTypeAttribute())
-			);
+			certificateType_= ReadAttribute(session,HObj,new CertificateTypeAttribute());
 			
 		}
 		
@@ -46,9 +42,8 @@ namespace Net.Sf.Pkcs11.Objects
 			if (session == null)
 				throw new NullReferenceException("Argument \"session\" must not be null.");
 			
-			CertificateTypeAttribute classAtr =new CertificateTypeAttribute(
-				getAttribute(session , hObj, new CertificateTypeAttribute())
-			);
+			CertificateTypeAttribute classAtr = ReadAttribute(session , hObj, new CertificateTypeAttribute());
+			
 			
 			switch(classAtr.CertificateType){
 				case CKC.WTLS:
