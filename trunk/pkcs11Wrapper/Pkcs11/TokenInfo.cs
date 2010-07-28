@@ -11,10 +11,10 @@ namespace Net.Sf.Pkcs11
 	{
 		internal TokenInfo(CK_TOKEN_INFO paramCK_TOKEN_INFO)
 		{
-			this.label = P11Util.toUtf8String(paramCK_TOKEN_INFO.label);
-			this.manufacturerID = P11Util.toUtf8String(paramCK_TOKEN_INFO.manufacturerID);
-			this.model = P11Util.toUtf8String(paramCK_TOKEN_INFO.model);
-			this.serialNumber = P11Util.toUtf8String(paramCK_TOKEN_INFO.serialNumber);
+			this.label = P11Util.ConvertToUtf8String(paramCK_TOKEN_INFO.label);
+			this.manufacturerID = P11Util.ConvertToUtf8String(paramCK_TOKEN_INFO.manufacturerID);
+			this.model = P11Util.ConvertToUtf8String(paramCK_TOKEN_INFO.model);
+			this.serialNumber = P11Util.ConvertToUtf8String(paramCK_TOKEN_INFO.serialNumber);
 			this.maxSessionCount = paramCK_TOKEN_INFO.ulMaxSessionCount;
 			this.sessionCount = paramCK_TOKEN_INFO.ulSessionCount;
 			this.maxRwSessionCount = paramCK_TOKEN_INFO.ulMaxRwSessionCount;
@@ -27,7 +27,7 @@ namespace Net.Sf.Pkcs11
 			this.freePrivateMemory = paramCK_TOKEN_INFO.ulFreePrivateMemory;
 			this.hardwareVersion = new Version(paramCK_TOKEN_INFO.hardwareVersion);
 			this.firmwareVersion = new Version(paramCK_TOKEN_INFO.firmwareVersion);
-			this.time =P11Util.toDateTimeYYYYMMDDhhmmssxx( P11Util.toASCIIString(paramCK_TOKEN_INFO.utcTime));
+			this.time =P11Util.ConvertToDateTimeYYYYMMDDhhmmssxx( P11Util.ConvertToASCIIString(paramCK_TOKEN_INFO.utcTime));
 			
 			this.rng = ((paramCK_TOKEN_INFO.flags & 1L) != 0L);
 			this.writeProtected = ((paramCK_TOKEN_INFO.flags & 0x2) != 0L);

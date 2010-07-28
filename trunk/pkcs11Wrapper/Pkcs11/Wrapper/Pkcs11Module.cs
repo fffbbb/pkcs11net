@@ -58,7 +58,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// 
 		/// </summary>
 		public void Initialize(){
-			C_Initialize proc=(C_Initialize)DelegateUtil.getDelegate(this.HLib,typeof(C_Initialize));
+			C_Initialize proc=(C_Initialize)DelegateUtil.GetDelegate(this.HLib,typeof(C_Initialize));
 			checkCKR( proc(IntPtr.Zero));
 		}
 		
@@ -66,7 +66,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// 
 		/// </summary>
 		public void Finalize_(){
-			C_Finalize proc=(C_Finalize)DelegateUtil.getDelegate(this.HLib,typeof(C_Finalize));
+			C_Finalize proc=(C_Finalize)DelegateUtil.GetDelegate(this.HLib,typeof(C_Finalize));
 			checkCKR( proc(IntPtr.Zero));
 		}
 		
@@ -76,7 +76,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public CK_INFO GetInfo()
 		{
-			C_GetInfo proc=(C_GetInfo)DelegateUtil.getDelegate(this.HLib,typeof(C_GetInfo));
+			C_GetInfo proc=(C_GetInfo)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetInfo));
 			
 			CK_INFO ckInfo=new CK_INFO();
 			checkCKR( proc(ref ckInfo));
@@ -91,7 +91,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public List<uint> GetSlotList(bool tokenPresent){
 			
-			C_GetSlotList proc=(C_GetSlotList)DelegateUtil.getDelegate(this.HLib,typeof(C_GetSlotList));
+			C_GetSlotList proc=(C_GetSlotList)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetSlotList));
 			
 			uint pullVal=0;
 			checkCKR( proc(tokenPresent,null,ref pullVal));
@@ -109,7 +109,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public CK_SLOT_INFO GetSlotInfo(uint slotID){
 			
-			C_GetSlotInfo proc=(C_GetSlotInfo)DelegateUtil.getDelegate(this.HLib,typeof(C_GetSlotInfo));
+			C_GetSlotInfo proc=(C_GetSlotInfo)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetSlotInfo));
 			
 			CK_SLOT_INFO slotInfo=new CK_SLOT_INFO();
 			checkCKR( proc(slotID, ref slotInfo));
@@ -124,7 +124,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public CK_TOKEN_INFO GetTokenInfo(uint slotID){
 			
-			C_GetTokenInfo proc=(C_GetTokenInfo)DelegateUtil.getDelegate(this.HLib,typeof(C_GetTokenInfo));
+			C_GetTokenInfo proc=(C_GetTokenInfo)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetTokenInfo));
 			
 			CK_TOKEN_INFO tokenInfo=new CK_TOKEN_INFO();
 			checkCKR( proc(slotID, ref tokenInfo));
@@ -139,7 +139,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public uint WaitForSlotEvent(bool DO_NOT_BLOCK){
 			
-			C_WaitForSlotEvent proc=(C_WaitForSlotEvent)DelegateUtil.getDelegate(this.HLib,typeof(C_WaitForSlotEvent));
+			C_WaitForSlotEvent proc=(C_WaitForSlotEvent)DelegateUtil.GetDelegate(this.HLib,typeof(C_WaitForSlotEvent));
 			
 			uint slotId=0, flags=0;
 			
@@ -158,7 +158,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public List<CKM> GetMechanismList(uint slotId){
 			
-			C_GetMechanismList proc=(C_GetMechanismList)DelegateUtil.getDelegate(this.HLib,typeof(C_GetMechanismList));
+			C_GetMechanismList proc=(C_GetMechanismList)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetMechanismList));
 			
 			uint pulCount=0;
 			checkCKR( proc(slotId,null,ref pulCount));
@@ -178,7 +178,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public CK_MECHANISM_INFO GetMechanismInfo(uint slotId, CKM mechanism){
 			
-			C_GetMechanismInfo proc=(C_GetMechanismInfo)DelegateUtil.getDelegate(this.hLib,typeof(C_GetMechanismInfo));
+			C_GetMechanismInfo proc=(C_GetMechanismInfo)DelegateUtil.GetDelegate(this.hLib,typeof(C_GetMechanismInfo));
 			
 			CK_MECHANISM_INFO mecInfo=new CK_MECHANISM_INFO();
 			
@@ -195,7 +195,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="label"></param>
 		public void InitToken(uint slotId, string pin, string label){
 			
-			C_InitToken proc=(C_InitToken)DelegateUtil.getDelegate(this.hLib,typeof(C_InitToken));
+			C_InitToken proc=(C_InitToken)DelegateUtil.GetDelegate(this.hLib,typeof(C_InitToken));
 
 			byte[] pinBytes=System.Text.Encoding.UTF8.GetBytes(pin);
 			
@@ -212,7 +212,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="pin"></param>
 		public void InitPIN(uint hSession , string pin){
 			
-			C_InitPIN proc = (C_InitPIN)DelegateUtil.getDelegate(this.hLib,typeof(C_InitPIN));
+			C_InitPIN proc = (C_InitPIN)DelegateUtil.GetDelegate(this.hLib,typeof(C_InitPIN));
 			
 			byte[] pinBytes=System.Text.Encoding.UTF8.GetBytes(pin);
 			
@@ -227,7 +227,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="newPin"></param>
 		public void SetPIN (uint hSession, string oldPin, string newPin){
 			
-			C_SetPIN proc = (C_SetPIN)DelegateUtil.getDelegate(this.hLib,typeof(C_SetPIN));
+			C_SetPIN proc = (C_SetPIN)DelegateUtil.GetDelegate(this.hLib,typeof(C_SetPIN));
 			
 			byte[] oldPinBytes=System.Text.Encoding.UTF8.GetBytes(oldPin);
 			byte[] newPinBytes=System.Text.Encoding.UTF8.GetBytes(newPin);
@@ -245,7 +245,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public uint OpenSession(uint slotId, uint applicationId, bool readOnly){
 			
-			C_OpenSession proc= (C_OpenSession)DelegateUtil.getDelegate(this.hLib,typeof(C_OpenSession));
+			C_OpenSession proc= (C_OpenSession)DelegateUtil.GetDelegate(this.hLib,typeof(C_OpenSession));
 			
 			uint flags=PKCS11Constants.CKF_SERIAL_SESSION| (readOnly? 0: PKCS11Constants.CKF_RW_SESSION);
 			
@@ -262,7 +262,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="hSession"></param>
 		public void CloseSession(uint hSession){
 			
-			C_CloseSession proc= (C_CloseSession)DelegateUtil.getDelegate(this.hLib,typeof(C_CloseSession));
+			C_CloseSession proc= (C_CloseSession)DelegateUtil.GetDelegate(this.hLib,typeof(C_CloseSession));
 			
 			checkCKR(proc(hSession));
 		}
@@ -273,7 +273,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="slotId"></param>
 		public void CloseAllSessions(uint slotId){
 			
-			C_CloseAllSessions proc= (C_CloseAllSessions)DelegateUtil.getDelegate(this.hLib,typeof(C_CloseAllSessions));
+			C_CloseAllSessions proc= (C_CloseAllSessions)DelegateUtil.GetDelegate(this.hLib,typeof(C_CloseAllSessions));
 			
 			checkCKR(proc(slotId));
 		}
@@ -285,7 +285,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public CK_SESSION_INFO GetSessionInfo(uint hSession){
 			
-			C_GetSessionInfo proc= (C_GetSessionInfo)DelegateUtil.getDelegate(this.hLib,typeof(C_GetSessionInfo));
+			C_GetSessionInfo proc= (C_GetSessionInfo)DelegateUtil.GetDelegate(this.hLib,typeof(C_GetSessionInfo));
 
 			CK_SESSION_INFO sessionInfo=new CK_SESSION_INFO();
 			
@@ -301,7 +301,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public byte[] GetOperationState(uint hSession){
 			
-			C_GetOperationState proc= (C_GetOperationState)DelegateUtil.getDelegate(this.hLib,typeof(C_GetOperationState));
+			C_GetOperationState proc= (C_GetOperationState)DelegateUtil.GetDelegate(this.hLib,typeof(C_GetOperationState));
 			
 			uint pLen=0;
 			
@@ -323,7 +323,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="hAuthenticationKey"></param>
 		public void SetOperationState(uint hSession, byte[] opState, uint hEncryptionKey, uint hAuthenticationKey){
 			
-			C_SetOperationState proc= (C_SetOperationState)DelegateUtil.getDelegate(this.hLib,typeof(C_SetOperationState));
+			C_SetOperationState proc= (C_SetOperationState)DelegateUtil.GetDelegate(this.hLib,typeof(C_SetOperationState));
 			
 			checkCKR ( proc(hSession, opState, (uint)opState.Length, hEncryptionKey, hAuthenticationKey ) );
 		}
@@ -336,7 +336,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="pin"></param>
 		public void Login(uint hSession, CKU userType, string pin){
 			
-			C_Login proc = (C_Login)DelegateUtil.getDelegate(this.hLib,typeof(C_Login));
+			C_Login proc = (C_Login)DelegateUtil.GetDelegate(this.hLib,typeof(C_Login));
 			
 			byte[] pinBytes=System.Text.Encoding.UTF8.GetBytes(pin);
 			
@@ -349,7 +349,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="hSession"></param>
 		public void Logout(uint hSession){
 			
-			C_Logout proc= (C_Logout)DelegateUtil.getDelegate(this.hLib,typeof(C_Logout));
+			C_Logout proc= (C_Logout)DelegateUtil.GetDelegate(this.hLib,typeof(C_Logout));
 			
 			checkCKR(proc(hSession));
 		}
@@ -362,7 +362,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public uint CreateObject(uint hSession, CK_ATTRIBUTE[] template){
 			
-			C_CreateObject proc= (C_CreateObject)DelegateUtil.getDelegate(this.hLib,typeof(C_CreateObject));
+			C_CreateObject proc= (C_CreateObject)DelegateUtil.GetDelegate(this.hLib,typeof(C_CreateObject));
 			
 			uint hObj=0;
 			
@@ -378,7 +378,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="hObj"></param>
 		public void DestroyObject(uint hSession, uint hObj){
 			
-			C_DestroyObject proc= (C_DestroyObject)DelegateUtil.getDelegate(this.hLib,typeof(C_DestroyObject));
+			C_DestroyObject proc= (C_DestroyObject)DelegateUtil.GetDelegate(this.hLib,typeof(C_DestroyObject));
 			
 			checkCKR(proc.Invoke(hSession,hObj));
 		}
@@ -393,7 +393,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public uint GetObjectSize(uint hSession, uint hObj){
 			
-			C_GetObjectSize proc= (C_GetObjectSize)DelegateUtil.getDelegate(this.hLib,typeof(C_GetObjectSize));
+			C_GetObjectSize proc= (C_GetObjectSize)DelegateUtil.GetDelegate(this.hLib,typeof(C_GetObjectSize));
 			
 			uint pulSize=0;
 			
@@ -411,7 +411,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public CK_ATTRIBUTE[] GetAttributeValue(uint hSession, uint hObj, CK_ATTRIBUTE[] template ){
 			
-			C_GetAttributeValue proc= (C_GetAttributeValue)DelegateUtil.getDelegate(this.hLib,typeof(C_GetAttributeValue));
+			C_GetAttributeValue proc= (C_GetAttributeValue)DelegateUtil.GetDelegate(this.hLib,typeof(C_GetAttributeValue));
 			for(int i=0;i<template.Length;i++){
 				bool needsBuffer= template[i].pValue==IntPtr.Zero;
 				checkCKR(proc.Invoke(hSession,hObj, ref template[i], 1));
@@ -432,7 +432,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="pTemplate"></param>
 		public void SetAttributeValue(uint hSession, uint hObj, CK_ATTRIBUTE[] pTemplate){
 			
-			C_SetAttributeValue proc= (C_SetAttributeValue)DelegateUtil.getDelegate(this.hLib,typeof(C_SetAttributeValue));
+			C_SetAttributeValue proc= (C_SetAttributeValue)DelegateUtil.GetDelegate(this.hLib,typeof(C_SetAttributeValue));
 			for(int i=0;i<pTemplate.Length;i++)
 				checkCKR(proc.Invoke(hSession,hObj, ref pTemplate[i], (uint)pTemplate.Length));
 		}
@@ -444,7 +444,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="pTemplate"></param>
 		public void FindObjectsInit(uint hSession, CK_ATTRIBUTE[] pTemplate){
 			
-			C_FindObjectsInit proc= (C_FindObjectsInit)DelegateUtil.getDelegate(this.hLib,typeof(C_FindObjectsInit));
+			C_FindObjectsInit proc= (C_FindObjectsInit)DelegateUtil.GetDelegate(this.hLib,typeof(C_FindObjectsInit));
 			if(pTemplate==null || pTemplate.Length<1)
 				checkCKR(proc.Invoke(hSession, null, 0));
 			else
@@ -459,7 +459,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public uint[] FindObjects(uint hSession, uint maxCount){
 			
-			C_FindObjects proc= (C_FindObjects)DelegateUtil.getDelegate(this.hLib,typeof(C_FindObjects));
+			C_FindObjects proc= (C_FindObjects)DelegateUtil.GetDelegate(this.hLib,typeof(C_FindObjects));
 			
 			uint[] maxObjs=new uint[maxCount];
 			
@@ -488,7 +488,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="hSession"></param>
 		public void FindObjectsFinal(uint hSession){
 			
-			C_FindObjectsFinal proc= (C_FindObjectsFinal)DelegateUtil.getDelegate(this.hLib,typeof(C_FindObjectsFinal));
+			C_FindObjectsFinal proc= (C_FindObjectsFinal)DelegateUtil.GetDelegate(this.hLib,typeof(C_FindObjectsFinal));
 			
 			checkCKR(proc.Invoke(hSession));
 		}
@@ -501,7 +501,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="hKey"></param>
 		public void EncryptInit(uint hSession, CK_MECHANISM pMechanism, uint hKey){
 			
-			C_EncryptInit proc=(C_EncryptInit)DelegateUtil.getDelegate(this.hLib,typeof(C_EncryptInit));
+			C_EncryptInit proc=(C_EncryptInit)DelegateUtil.GetDelegate(this.hLib,typeof(C_EncryptInit));
 			
 			checkCKR(proc.Invoke(hSession,ref pMechanism,hKey));
 		}
@@ -514,7 +514,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public byte[] Encrypt(uint hSession, byte[] pData){
 			
-			C_Encrypt proc=(C_Encrypt)DelegateUtil.getDelegate(this.hLib,typeof(C_Encrypt));
+			C_Encrypt proc=(C_Encrypt)DelegateUtil.GetDelegate(this.hLib,typeof(C_Encrypt));
 			
 			uint size = 0;
 			
@@ -534,7 +534,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="pPart"></param>
 		/// <returns></returns>
 		public byte[] EncryptUpdate(uint hSession, byte[] pPart){
-			C_EncryptUpdate proc=(C_EncryptUpdate)DelegateUtil.getDelegate(this.hLib,typeof(C_EncryptUpdate));
+			C_EncryptUpdate proc=(C_EncryptUpdate)DelegateUtil.GetDelegate(this.hLib,typeof(C_EncryptUpdate));
 			
 			uint size = 0;
 			
@@ -554,7 +554,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public byte[] EncryptFinal(uint hSession){
 			
-			C_EncryptFinal proc=(C_EncryptFinal)DelegateUtil.getDelegate(this.hLib,typeof(C_EncryptFinal));
+			C_EncryptFinal proc=(C_EncryptFinal)DelegateUtil.GetDelegate(this.hLib,typeof(C_EncryptFinal));
 			
 			uint size = 0;
 			
@@ -575,7 +575,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="hKey"></param>
 		public void DecryptInit (uint hSession, CK_MECHANISM pMechanism, uint hKey){
 			
-			C_DecryptInit proc=(C_DecryptInit)DelegateUtil.getDelegate(this.hLib,typeof(C_DecryptInit));
+			C_DecryptInit proc=(C_DecryptInit)DelegateUtil.GetDelegate(this.hLib,typeof(C_DecryptInit));
 			
 			checkCKR(proc.Invoke(hSession,ref pMechanism,hKey));
 		}
@@ -588,7 +588,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public byte[] Decrypt(uint hSession, byte[] pEncryptedData){
 			
-			C_Decrypt proc=(C_Decrypt)DelegateUtil.getDelegate(this.hLib,typeof(C_Decrypt));
+			C_Decrypt proc=(C_Decrypt)DelegateUtil.GetDelegate(this.hLib,typeof(C_Decrypt));
 
 			uint size = 0;
 			
@@ -609,7 +609,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public byte[] DecryptUpdate(uint hSession, byte[] pEncryptedPart){
 			
-			C_DecryptUpdate proc=(C_DecryptUpdate)DelegateUtil.getDelegate(this.hLib,typeof(C_DecryptUpdate));
+			C_DecryptUpdate proc=(C_DecryptUpdate)DelegateUtil.GetDelegate(this.hLib,typeof(C_DecryptUpdate));
 
 			uint size = 0;
 			
@@ -629,7 +629,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public byte[] DecryptFinal(uint hSession){
 			
-			C_DecryptFinal proc=(C_DecryptFinal)DelegateUtil.getDelegate(this.hLib,typeof(C_DecryptFinal));
+			C_DecryptFinal proc=(C_DecryptFinal)DelegateUtil.GetDelegate(this.hLib,typeof(C_DecryptFinal));
 			
 			uint size = 0;
 			
@@ -651,7 +651,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="hKey"></param>
 		public void DigestInit (uint hSession, CK_MECHANISM pMechanism){
 			
-			C_DigestInit proc=(C_DigestInit)DelegateUtil.getDelegate(this.hLib,typeof(C_DigestInit));
+			C_DigestInit proc=(C_DigestInit)DelegateUtil.GetDelegate(this.hLib,typeof(C_DigestInit));
 			
 			checkCKR(proc.Invoke(hSession,ref pMechanism));
 		}
@@ -665,7 +665,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public byte[] Digest(uint hSession, byte[] pData){
 			
-			C_Digest proc=(C_Digest)DelegateUtil.getDelegate(this.hLib,typeof(C_Digest));
+			C_Digest proc=(C_Digest)DelegateUtil.GetDelegate(this.hLib,typeof(C_Digest));
 
 			uint size = 0;
 			
@@ -680,7 +680,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 
 		public void DigestUpdate(uint hSession, byte[] pPart){
 			
-			C_DigestUpdate proc=(C_DigestUpdate)DelegateUtil.getDelegate(this.hLib,typeof(C_DigestUpdate));
+			C_DigestUpdate proc=(C_DigestUpdate)DelegateUtil.GetDelegate(this.hLib,typeof(C_DigestUpdate));
 
 			checkCKR(proc.Invoke(hSession, pPart,(uint)pPart.Length));
 			
@@ -694,7 +694,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="hKey"></param>
 		public void DigestKey(uint hSession, uint hKey){
 			
-			C_DigestKey proc=(C_DigestKey)DelegateUtil.getDelegate(this.hLib,typeof(C_DigestKey));
+			C_DigestKey proc=(C_DigestKey)DelegateUtil.GetDelegate(this.hLib,typeof(C_DigestKey));
 			
 			checkCKR(proc.Invoke(hSession, hKey));
 		}
@@ -706,7 +706,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public byte[] DigestFinal(uint hSession){
 			
-			C_DigestFinal proc=(C_DigestFinal)DelegateUtil.getDelegate(this.hLib,typeof(C_DigestFinal));
+			C_DigestFinal proc=(C_DigestFinal)DelegateUtil.GetDelegate(this.hLib,typeof(C_DigestFinal));
 			
 			uint size=0;
 			
@@ -726,7 +726,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="pMechanism"></param>
 		/// <param name="hKey"></param>
 		public void SignInit (uint hSession, CK_MECHANISM pMechanism, uint hKey){
-			C_SignInit proc=(C_SignInit)DelegateUtil.getDelegate(this.hLib,typeof(C_SignInit));
+			C_SignInit proc=(C_SignInit)DelegateUtil.GetDelegate(this.hLib,typeof(C_SignInit));
 			
 			checkCKR(proc.Invoke(hSession,ref pMechanism,hKey));
 		}
@@ -739,7 +739,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public byte[] Sign(uint hSession, byte[] pData){
 			
-			C_Sign proc=(C_Sign)DelegateUtil.getDelegate(this.hLib,typeof(C_Sign));
+			C_Sign proc=(C_Sign)DelegateUtil.GetDelegate(this.hLib,typeof(C_Sign));
 
 			uint size = 0;
 			
@@ -759,7 +759,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <param name="pPart"></param>
 		public void SignUpdate(uint hSession, byte[] pPart){
 			
-			C_SignUpdate proc=(C_SignUpdate)DelegateUtil.getDelegate(this.hLib,typeof(C_SignUpdate));
+			C_SignUpdate proc=(C_SignUpdate)DelegateUtil.GetDelegate(this.hLib,typeof(C_SignUpdate));
 
 			checkCKR(proc.Invoke(hSession, pPart,(uint)pPart.Length));
 			
@@ -773,7 +773,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public byte[] SignFinal(uint hSession){
 			
-			C_SignFinal proc=(C_SignFinal)DelegateUtil.getDelegate(this.hLib,typeof(C_SignFinal));
+			C_SignFinal proc=(C_SignFinal)DelegateUtil.GetDelegate(this.hLib,typeof(C_SignFinal));
 			
 			uint size=0;
 			

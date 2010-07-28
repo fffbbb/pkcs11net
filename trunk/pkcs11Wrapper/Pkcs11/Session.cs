@@ -33,7 +33,7 @@ namespace Net.Sf.Pkcs11
 		
 		public void FindObjectsInit(P11Attribute[] attrs)
 		{
-			CK_ATTRIBUTE[] ckAttrs = P11Util.toCK_ATTRIBUTEs(attrs);
+			CK_ATTRIBUTE[] ckAttrs = P11Util.ConvertToCK_ATTRIBUTEs(attrs);
 			this.Module.P11Module.FindObjectsInit(this.hSession, ckAttrs);
 		}
 		
@@ -95,6 +95,22 @@ namespace Net.Sf.Pkcs11
 		
 		public byte[] EncryptFinal(){
 			return this.Module.P11Module.EncryptFinal(hSession);
+		}
+		
+		public void DecryptInit(Mechanism mechanism, PrivateKey key){
+			this.Module.P11Module.DecryptInit(hSession, mechanism.CK_MECHANISM, key.HObj);
+		}
+
+		public byte[] Decrypt(byte[] data){
+			return this.Module.P11Module.Decrypt(hSession, data);
+		}
+
+		public byte[] DecryptUpdate(byte[] data){
+			return this.Module.P11Module.DecryptUpdate(hSession, data);
+		}
+		
+		public byte[] DecryptFinal(){
+			return this.Module.P11Module.DecryptFinal(hSession);
 		}
 		
 		public void SignInit(Mechanism signingMechanism, PrivateKey key){

@@ -42,14 +42,14 @@ namespace Net.Sf.Pkcs11.Objects
 		protected override void decodeAttr(){
 			CK_DATE d=(CK_DATE)Marshal.PtrToStructure(attr.pValue, typeof(CK_DATE));
 			
-			Value= P11Util.toDateTime(d);
+			Value= P11Util.ConvertToDateTime(d);
 		}
 		
 		internal override CK_ATTRIBUTE toCK()
 		{
 			if(IsPresent){
 				
-				CK_DATE d=P11Util.toCK_DATE(val);
+				CK_DATE d=P11Util.ConvertToCK_DATE(val);
 				attr.pValue = Marshal.AllocHGlobal(Marshal.SizeOf(d));
 				Marshal.StructureToPtr(d, attr.pValue, false);
 				attr.ulValueLen=(uint)Marshal.SizeOf(d);
