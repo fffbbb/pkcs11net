@@ -20,36 +20,36 @@ namespace Net.Sf.Pkcs11.Objects
 			protected set { isPresent = value; }
 		}
 		
-		protected void assignValue( byte[] val ){
+		protected void AssignValue( byte[] val ){
 			attr.ulValueLen=(uint)val.Length;
 			attr.pValue=Marshal.AllocHGlobal(val.Length);
 			Marshal.Copy(val,0,attr.pValue,val.Length);
 		}
 		
-		protected void assignNullValue(){
+		protected void AssignNullValue(){
 			attr.pValue=IntPtr.Zero;
 			attr.ulValueLen=0;
 		}
 		
-		internal virtual CK_ATTRIBUTE toCK(){
-			
-			if(IsPresent)
-				assignValue(encode());
-			else assignNullValue();
+		internal virtual CK_ATTRIBUTE CK_ATTRIBUTE{
+			get{
+				if(IsPresent)
+					AssignValue(Encode());
+				else AssignNullValue();
 
-			return attr;
-			
+				return attr;
+			}
 		}
 		
-		public abstract byte[] encode();
+		public abstract byte[] Encode();
 		
-		public abstract void decode(byte[] val);
+		public abstract void Decode(byte[] val);
 		
 		
 		internal P11Attribute(CK_ATTRIBUTE attr){
 			this.attr=attr;
 			
-			this.decodeAttr();
+			this.DecodeAttr();
 		}
 		
 		internal P11Attribute(){
@@ -66,8 +66,8 @@ namespace Net.Sf.Pkcs11.Objects
 			return val;
 		}
 		
-		protected virtual void decodeAttr(){
-			decode( getAsBinary(attr.pValue,(int)attr.ulValueLen) );
+		protected virtual void DecodeAttr(){
+			Decode( getAsBinary(attr.pValue,(int)attr.ulValueLen) );
 		}
 	}
 }

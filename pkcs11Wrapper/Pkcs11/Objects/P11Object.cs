@@ -80,7 +80,7 @@ namespace Net.Sf.Pkcs11.Objects
 			uint hSession=session.HSession;
 			Wrapper.Pkcs11Module pm= session.Module.P11Module;
 			
-			return pm.GetAttributeValue(hSession, hObj, new CK_ATTRIBUTE[]{attr.toCK()})[0];
+			return pm.GetAttributeValue(hSession, hObj, new CK_ATTRIBUTE[]{attr.CK_ATTRIBUTE})[0];
 			
 		}
 		

@@ -32,10 +32,10 @@ namespace Net.Sf.Pkcs11.Objects
 		{
 		}
 		
-		public override byte[] encode(){
+		public override byte[] Encode(){
 			return System.Text.Encoding.UTF8.GetBytes(new String(Value));
 		}
-		public override void decode(byte[] val){
+		public override void Decode(byte[] val){
 			Value= System.Text.Encoding.UTF8.GetString(val).ToCharArray();
 		}
 		

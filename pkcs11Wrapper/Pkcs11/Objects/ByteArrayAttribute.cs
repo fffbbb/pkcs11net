@@ -28,10 +28,10 @@ namespace Net.Sf.Pkcs11.Objects
 		{
 		}
 		
-		public override byte[] encode(){
+		public override byte[] Encode(){
 			return Value;
 		}
-		public override void decode(byte[] val){
+		public override void Decode(byte[] val){
 			Value= val;
 		}
 		
