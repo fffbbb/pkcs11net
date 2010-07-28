@@ -65,7 +65,7 @@ namespace Net.Sf.Pkcs11
 			CK_ATTRIBUTE[] ckAttrs= new CK_ATTRIBUTE[attrs.Length];
 		
 			for(int i=0;i<attrs.Length;i++)
-				ckAttrs[i] = attrs[i].toCK();
+				ckAttrs[i] = attrs[i].CK_ATTRIBUTE;
 
 			return ckAttrs;
 		}

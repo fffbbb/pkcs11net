@@ -31,33 +31,34 @@ namespace Net.Sf.Pkcs11.Objects
 		{
 		}
 		
-		public override byte[] encode(){
+		public override byte[] Encode(){
 			throw new NotSupportedException();
 		}
 		
-		public override void decode(byte[] val){
+		public override void Decode(byte[] val){
 			throw new NotSupportedException();
 		}
 		
-		protected override void decodeAttr(){
+		protected override void DecodeAttr(){
 			CK_DATE d=(CK_DATE)Marshal.PtrToStructure(attr.pValue, typeof(CK_DATE));
 			
 			Value= P11Util.ConvertToDateTime(d);
 		}
 		
-		internal override CK_ATTRIBUTE toCK()
-		{
-			if(IsPresent){
-				
-				CK_DATE d=P11Util.ConvertToCK_DATE(val);
-				attr.pValue = Marshal.AllocHGlobal(Marshal.SizeOf(d));
-				Marshal.StructureToPtr(d, attr.pValue, false);
-				attr.ulValueLen=(uint)Marshal.SizeOf(d);
-				
-			}else{
-				assignNullValue();
+		internal override CK_ATTRIBUTE CK_ATTRIBUTE{
+			get{
+				if(IsPresent){
+					
+					CK_DATE d=P11Util.ConvertToCK_DATE(val);
+					attr.pValue = Marshal.AllocHGlobal(Marshal.SizeOf(d));
+					Marshal.StructureToPtr(d, attr.pValue, false);
+					attr.ulValueLen=(uint)Marshal.SizeOf(d);
+					
+				}else{
+					AssignNullValue();
+				}
+				return attr;
 			}
-			return attr;
 		}
 		
 		static string intToString(int val, int strSize){

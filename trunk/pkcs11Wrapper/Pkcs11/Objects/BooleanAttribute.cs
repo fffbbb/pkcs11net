@@ -23,10 +23,10 @@ namespace Net.Sf.Pkcs11.Objects
 			
 		}
 		
-		public override byte[] encode(){
+		public override byte[] Encode(){
 			return new byte[]{ (byte)(Value==true? 1:0) };
 		}
-		public override void decode(byte[] val){
+		public override void Decode(byte[] val){
 			Value= val[0]==1;
 		}
 		

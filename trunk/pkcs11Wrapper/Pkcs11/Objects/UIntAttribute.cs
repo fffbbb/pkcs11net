@@ -13,11 +13,11 @@ namespace Net.Sf.Pkcs11.Objects
 			}
 		}
 		
-		public override byte[] encode(){
+		public override byte[] Encode(){
 			return BitConverter.GetBytes(Value);
 		}
 
-		public override void decode(byte[] val){
+		public override void Decode(byte[] val){
 			Value=BitConverter.ToUInt32(val,0);
 		}
 		internal UIntAttribute(CK_ATTRIBUTE attr):base(attr){
