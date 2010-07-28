@@ -8,7 +8,7 @@ using Net.Sf.Pkcs11.Wrapper;
 namespace Net.Sf.Test
 {
 	[TestFixture]
-	public class AttributeTest_
+	class AttributeTest
 	{
 		[Test]
 		public void DateAttributeTest()
