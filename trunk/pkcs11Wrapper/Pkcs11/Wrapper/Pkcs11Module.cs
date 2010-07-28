@@ -1,9 +1,11 @@
-﻿using System;
-using net.sf.pkcs11net.functions;
-using net.sf.pkcs11net.generalDataTypes;
+﻿
+using System;
 using System.Collections.Generic;
-namespace net.sf.pkcs11net
+using Net.Sf.Pkcs11.Delegates;
+using System.Runtime.InteropServices;
+namespace Net.Sf.Pkcs11.Wrapper
 {
+
 	/// <summary>
 	/// Description of Cryptoki.
 	/// </summary>
@@ -45,7 +47,7 @@ namespace net.sf.pkcs11net
 		/// </example>
 		/// </param>
 		/// <returns></returns>
-		public static Pkcs11Module GetInstance(string moduleName){
+		internal static Pkcs11Module GetInstance(string moduleName){
 			IntPtr hLib;
 			if ((hLib = KernelUtil.LoadLibrary(moduleName)) == IntPtr.Zero)
 				throw new Exception("Could not load module. Module name:" + moduleName);
@@ -57,8 +59,7 @@ namespace net.sf.pkcs11net
 		/// </summary>
 		public void Initialize(){
 			C_Initialize proc=(C_Initialize)DelegateUtil.getDelegate(this.HLib,typeof(C_Initialize));
-			Validator.ValidateCK_RV( proc(IntPtr.Zero));
-
+			checkCKR( proc(IntPtr.Zero));
 		}
 		
 		/// <summary>
@@ -66,7 +67,7 @@ namespace net.sf.pkcs11net
 		/// </summary>
 		public void Finalize_(){
 			C_Finalize proc=(C_Finalize)DelegateUtil.getDelegate(this.HLib,typeof(C_Finalize));
-			Validator.ValidateCK_RV( proc(IntPtr.Zero));
+			checkCKR( proc(IntPtr.Zero));
 		}
 		
 		/// <summary>
@@ -78,7 +79,7 @@ namespace net.sf.pkcs11net
 			C_GetInfo proc=(C_GetInfo)DelegateUtil.getDelegate(this.HLib,typeof(C_GetInfo));
 			
 			CK_INFO ckInfo=new CK_INFO();
-			Validator.ValidateCK_RV( proc(ref ckInfo));
+			checkCKR( proc(ref ckInfo));
 			
 			return ckInfo;
 		}
@@ -93,10 +94,10 @@ namespace net.sf.pkcs11net
 			C_GetSlotList proc=(C_GetSlotList)DelegateUtil.getDelegate(this.HLib,typeof(C_GetSlotList));
 			
 			uint pullVal=0;
-			Validator.ValidateCK_RV( proc(tokenPresent,null,ref pullVal));
+			checkCKR( proc(tokenPresent,null,ref pullVal));
 			
 			uint[] slots = new uint[pullVal];
-			Validator.ValidateCK_RV( proc(tokenPresent,slots,ref pullVal));
+			checkCKR( proc(tokenPresent,slots,ref pullVal));
 			
 			return new List<uint>(slots);
 		}
@@ -111,7 +112,7 @@ namespace net.sf.pkcs11net
 			C_GetSlotInfo proc=(C_GetSlotInfo)DelegateUtil.getDelegate(this.HLib,typeof(C_GetSlotInfo));
 			
 			CK_SLOT_INFO slotInfo=new CK_SLOT_INFO();
-			Validator.ValidateCK_RV( proc(slotID, ref slotInfo));
+			checkCKR( proc(slotID, ref slotInfo));
 			
 			return slotInfo;
 		}
@@ -126,7 +127,7 @@ namespace net.sf.pkcs11net
 			C_GetTokenInfo proc=(C_GetTokenInfo)DelegateUtil.getDelegate(this.HLib,typeof(C_GetTokenInfo));
 			
 			CK_TOKEN_INFO tokenInfo=new CK_TOKEN_INFO();
-			Validator.ValidateCK_RV( proc(slotID, ref tokenInfo));
+			checkCKR( proc(slotID, ref tokenInfo));
 			
 			return tokenInfo;
 		}
@@ -136,15 +137,16 @@ namespace net.sf.pkcs11net
 		/// </summary>
 		/// <param name="options"></param>
 		/// <returns></returns>
-		public uint WaitForSlotEvent(params WaitForSlotEventOptions[] options){
+		public uint WaitForSlotEvent(bool DO_NOT_BLOCK){
 			
 			C_WaitForSlotEvent proc=(C_WaitForSlotEvent)DelegateUtil.getDelegate(this.HLib,typeof(C_WaitForSlotEvent));
 			
 			uint slotId=0, flags=0;
 			
-			foreach(WaitForSlotEventOptions opt in options) flags |= (uint) opt;
-			
-			Validator.ValidateCK_RV(proc(flags, ref slotId, IntPtr.Zero));
+			if(DO_NOT_BLOCK)
+				flags=PKCS11Constants.CKF_DONT_BLOCK;
+						
+			checkCKR(proc(flags, ref slotId, IntPtr.Zero));
 			
 			return slotId;
 		}
@@ -154,18 +156,18 @@ namespace net.sf.pkcs11net
 		/// </summary>
 		/// <param name="slotId"></param>
 		/// <returns></returns>
-		public List<MechanismTypes> GetMechanismList(uint slotId){
+		public List<CKM> GetMechanismList(uint slotId){
 			
 			C_GetMechanismList proc=(C_GetMechanismList)DelegateUtil.getDelegate(this.HLib,typeof(C_GetMechanismList));
 			
 			uint pulCount=0;
-			Validator.ValidateCK_RV( proc(slotId,null,ref pulCount));
+			checkCKR( proc(slotId,null,ref pulCount));
 			
-			MechanismTypes[] mechanismList = new MechanismTypes[pulCount];
+			CKM[] mechanismList = new CKM[pulCount];
 			
-			Validator.ValidateCK_RV( proc(slotId, mechanismList,ref pulCount));
+			checkCKR( proc(slotId, mechanismList,ref pulCount));
 			
-			return  new List<MechanismTypes>(mechanismList);
+			return  new List<CKM>(mechanismList);
 		}
 		
 		/// <summary>
@@ -174,13 +176,13 @@ namespace net.sf.pkcs11net
 		/// <param name="slotId"></param>
 		/// <param name="mechanism"></param>
 		/// <returns></returns>
-		public CK_MECHANISM_INFO GetMechanismInfo(uint slotId, MechanismTypes mechanism){
+		public CK_MECHANISM_INFO GetMechanismInfo(uint slotId, CKM mechanism){
 			
 			C_GetMechanismInfo proc=(C_GetMechanismInfo)DelegateUtil.getDelegate(this.hLib,typeof(C_GetMechanismInfo));
 			
 			CK_MECHANISM_INFO mecInfo=new CK_MECHANISM_INFO();
 			
-			Validator.ValidateCK_RV(proc(slotId,mechanism,ref mecInfo) );
+			checkCKR(proc(slotId,mechanism,ref mecInfo) );
 			
 			return mecInfo;
 		}
@@ -200,7 +202,7 @@ namespace net.sf.pkcs11net
 			byte[] labelBytes=new byte[32];
 			new List<byte>(System.Text.Encoding.UTF8.GetBytes(label+new String(' ',32 ))).CopyTo(0,labelBytes,0,32);
 			
-			Validator.ValidateCK_RV(proc(slotId,pinBytes,(uint)pinBytes.Length,labelBytes));
+			checkCKR(proc(slotId,pinBytes,(uint)pinBytes.Length,labelBytes));
 		}
 		
 		/// <summary>
@@ -214,7 +216,7 @@ namespace net.sf.pkcs11net
 			
 			byte[] pinBytes=System.Text.Encoding.UTF8.GetBytes(pin);
 			
-			Validator.ValidateCK_RV(proc(hSession,pinBytes,(uint)pinBytes.Length));
+			checkCKR(proc(hSession,pinBytes,(uint)pinBytes.Length));
 		}
 		
 		/// <summary>
@@ -230,7 +232,7 @@ namespace net.sf.pkcs11net
 			byte[] oldPinBytes=System.Text.Encoding.UTF8.GetBytes(oldPin);
 			byte[] newPinBytes=System.Text.Encoding.UTF8.GetBytes(newPin);
 			
-			Validator.ValidateCK_RV(
+			checkCKR(
 				proc(hSession,oldPinBytes,(uint)oldPinBytes.Length,newPinBytes,(uint)newPinBytes.Length));
 		}
 		
@@ -245,11 +247,11 @@ namespace net.sf.pkcs11net
 			
 			C_OpenSession proc= (C_OpenSession)DelegateUtil.getDelegate(this.hLib,typeof(C_OpenSession));
 			
-			uint flags=SessionInformationFlags.CKF_SERIAL_SESSION| (readOnly? 0: SessionInformationFlags.CKF_RW_SESSION);
+			uint flags=PKCS11Constants.CKF_SERIAL_SESSION| (readOnly? 0: PKCS11Constants.CKF_RW_SESSION);
 			
 			uint hSession=0;
 			
-			Validator.ValidateCK_RV( proc(slotId,flags, ref applicationId, IntPtr.Zero, ref hSession) );
+			checkCKR( proc(slotId,flags, ref applicationId, IntPtr.Zero, ref hSession) );
 			
 			return hSession;
 		}
@@ -262,7 +264,7 @@ namespace net.sf.pkcs11net
 			
 			C_CloseSession proc= (C_CloseSession)DelegateUtil.getDelegate(this.hLib,typeof(C_CloseSession));
 			
-			Validator.ValidateCK_RV(proc(hSession));
+			checkCKR(proc(hSession));
 		}
 		
 		/// <summary>
@@ -273,7 +275,7 @@ namespace net.sf.pkcs11net
 			
 			C_CloseAllSessions proc= (C_CloseAllSessions)DelegateUtil.getDelegate(this.hLib,typeof(C_CloseAllSessions));
 			
-			Validator.ValidateCK_RV(proc(slotId));
+			checkCKR(proc(slotId));
 		}
 		
 		/// <summary>
@@ -287,7 +289,7 @@ namespace net.sf.pkcs11net
 
 			CK_SESSION_INFO sessionInfo=new CK_SESSION_INFO();
 			
-			Validator.ValidateCK_RV(proc(hSession, ref sessionInfo));
+			checkCKR(proc(hSession, ref sessionInfo));
 			
 			return sessionInfo;
 		}
@@ -303,11 +305,11 @@ namespace net.sf.pkcs11net
 			
 			uint pLen=0;
 			
-			Validator.ValidateCK_RV(proc(hSession, null, ref pLen));
+			checkCKR(proc(hSession, null, ref pLen));
 			
 			byte[] opState=new byte[pLen];
 			
-			Validator.ValidateCK_RV(proc(hSession, opState, ref pLen));
+			checkCKR(proc(hSession, opState, ref pLen));
 			
 			return opState;
 		}
@@ -323,7 +325,7 @@ namespace net.sf.pkcs11net
 			
 			C_SetOperationState proc= (C_SetOperationState)DelegateUtil.getDelegate(this.hLib,typeof(C_SetOperationState));
 			
-			Validator.ValidateCK_RV ( proc(hSession, opState, (uint)opState.Length, hEncryptionKey, hAuthenticationKey ) );
+			checkCKR ( proc(hSession, opState, (uint)opState.Length, hEncryptionKey, hAuthenticationKey ) );
 		}
 		
 		/// <summary>
@@ -332,13 +334,13 @@ namespace net.sf.pkcs11net
 		/// <param name="hSession"></param>
 		/// <param name="userType"></param>
 		/// <param name="pin"></param>
-		public void Login(uint hSession, UserTypes userType, string pin){
+		public void Login(uint hSession, CKU userType, string pin){
 			
 			C_Login proc = (C_Login)DelegateUtil.getDelegate(this.hLib,typeof(C_Login));
 			
 			byte[] pinBytes=System.Text.Encoding.UTF8.GetBytes(pin);
 			
-			Validator.ValidateCK_RV(proc(hSession, userType, pinBytes, (uint)pinBytes.Length ));
+			checkCKR(proc(hSession, userType, pinBytes, (uint)pinBytes.Length ));
 		}
 		
 		/// <summary>
@@ -349,7 +351,7 @@ namespace net.sf.pkcs11net
 			
 			C_Logout proc= (C_Logout)DelegateUtil.getDelegate(this.hLib,typeof(C_Logout));
 			
-			Validator.ValidateCK_RV(proc(hSession));
+			checkCKR(proc(hSession));
 		}
 		
 		/// <summary>
@@ -364,7 +366,7 @@ namespace net.sf.pkcs11net
 			
 			uint hObj=0;
 			
-			Validator.ValidateCK_RV(proc(hSession,template, (uint)template.Length,ref hObj));
+			checkCKR(proc(hSession,template, (uint)template.Length,ref hObj));
 			
 			return hObj;
 		}
@@ -378,7 +380,7 @@ namespace net.sf.pkcs11net
 			
 			C_DestroyObject proc= (C_DestroyObject)DelegateUtil.getDelegate(this.hLib,typeof(C_DestroyObject));
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession,hObj));
+			checkCKR(proc.Invoke(hSession,hObj));
 		}
 		
 		//TODO: implement C_CopyObject
@@ -395,7 +397,7 @@ namespace net.sf.pkcs11net
 			
 			uint pulSize=0;
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession,hObj, ref pulSize));
+			checkCKR(proc.Invoke(hSession,hObj, ref pulSize));
 			
 			return pulSize;
 		}
@@ -410,9 +412,15 @@ namespace net.sf.pkcs11net
 		public CK_ATTRIBUTE[] GetAttributeValue(uint hSession, uint hObj, CK_ATTRIBUTE[] template ){
 			
 			C_GetAttributeValue proc= (C_GetAttributeValue)DelegateUtil.getDelegate(this.hLib,typeof(C_GetAttributeValue));
-			for(int i=0;i<template.Length;i++)
-				Validator.ValidateCK_RV(proc.Invoke(hSession,hObj, ref template[i], (uint)template.Length));
-			
+			for(int i=0;i<template.Length;i++){
+				bool needsBuffer= template[i].pValue==IntPtr.Zero;
+				checkCKR(proc.Invoke(hSession,hObj, ref template[i], 1));
+				if(needsBuffer){
+					template[i].pValue=Marshal.AllocHGlobal((int) template[i].ulValueLen);
+					checkCKR(proc.Invoke(hSession,hObj, ref template[i], 1));
+				}
+			}
+				
 			return template;
 		}
 		
@@ -426,7 +434,7 @@ namespace net.sf.pkcs11net
 			
 			C_SetAttributeValue proc= (C_SetAttributeValue)DelegateUtil.getDelegate(this.hLib,typeof(C_SetAttributeValue));
 			for(int i=0;i<pTemplate.Length;i++)
-				Validator.ValidateCK_RV(proc.Invoke(hSession,hObj, ref pTemplate[i], (uint)pTemplate.Length));
+				checkCKR(proc.Invoke(hSession,hObj, ref pTemplate[i], (uint)pTemplate.Length));
 		}
 		
 		/// <summary>
@@ -438,9 +446,9 @@ namespace net.sf.pkcs11net
 			
 			C_FindObjectsInit proc= (C_FindObjectsInit)DelegateUtil.getDelegate(this.hLib,typeof(C_FindObjectsInit));
 			if(pTemplate==null || pTemplate.Length<1)
-				Validator.ValidateCK_RV(proc.Invoke(hSession, null, 0));
+				checkCKR(proc.Invoke(hSession, null, 0));
 			else
-				Validator.ValidateCK_RV(proc.Invoke(hSession, pTemplate, (uint)pTemplate.Length));
+				checkCKR(proc.Invoke(hSession, pTemplate, (uint)pTemplate.Length));
 		}
 		
 		/// <summary>
@@ -458,7 +466,7 @@ namespace net.sf.pkcs11net
 			uint pulCount=0;
 			
 			/* get the objects */
-			Validator.ValidateCK_RV(proc.Invoke(hSession, maxObjs,maxCount, ref pulCount));
+			checkCKR(proc.Invoke(hSession, maxObjs,maxCount, ref pulCount));
 			
 			if(pulCount==maxCount){
 				
@@ -482,7 +490,7 @@ namespace net.sf.pkcs11net
 			
 			C_FindObjectsFinal proc= (C_FindObjectsFinal)DelegateUtil.getDelegate(this.hLib,typeof(C_FindObjectsFinal));
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession));
+			checkCKR(proc.Invoke(hSession));
 		}
 		
 		/// <summary>
@@ -495,7 +503,7 @@ namespace net.sf.pkcs11net
 			
 			C_EncryptInit proc=(C_EncryptInit)DelegateUtil.getDelegate(this.hLib,typeof(C_EncryptInit));
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession,ref pMechanism,hKey));
+			checkCKR(proc.Invoke(hSession,ref pMechanism,hKey));
 		}
 		
 		/// <summary>
@@ -510,11 +518,11 @@ namespace net.sf.pkcs11net
 			
 			uint size = 0;
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pData,(uint)pData.Length, null, ref size));
+			checkCKR(proc.Invoke(hSession, pData,(uint)pData.Length, null, ref size));
 			
 			byte[] pEncryptedData=new byte[size];
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pData,(uint)pData.Length, pEncryptedData, ref size));
+			checkCKR(proc.Invoke(hSession, pData,(uint)pData.Length, pEncryptedData, ref size));
 			
 			return pEncryptedData;
 		}
@@ -530,11 +538,11 @@ namespace net.sf.pkcs11net
 			
 			uint size = 0;
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pPart,(uint)pPart.Length, null, ref size));
+			checkCKR(proc.Invoke(hSession, pPart,(uint)pPart.Length, null, ref size));
 			
 			byte[] pEncryptedData=new byte[size];
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pPart,(uint)pPart.Length, pEncryptedData, ref size));
+			checkCKR(proc.Invoke(hSession, pPart,(uint)pPart.Length, pEncryptedData, ref size));
 			
 			return pEncryptedData;
 		}
@@ -550,11 +558,11 @@ namespace net.sf.pkcs11net
 			
 			uint size = 0;
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, null, ref size));
+			checkCKR(proc.Invoke(hSession, null, ref size));
 			
 			byte[] pEncryptedData=new byte[size];
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pEncryptedData, ref size));
+			checkCKR(proc.Invoke(hSession, pEncryptedData, ref size));
 			
 			return pEncryptedData;
 		}
@@ -569,7 +577,7 @@ namespace net.sf.pkcs11net
 			
 			C_DecryptInit proc=(C_DecryptInit)DelegateUtil.getDelegate(this.hLib,typeof(C_DecryptInit));
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession,ref pMechanism,hKey));
+			checkCKR(proc.Invoke(hSession,ref pMechanism,hKey));
 		}
 		
 		/// <summary>
@@ -584,11 +592,11 @@ namespace net.sf.pkcs11net
 
 			uint size = 0;
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pEncryptedData,(uint)pEncryptedData.Length, null, ref size));
+			checkCKR(proc.Invoke(hSession, pEncryptedData,(uint)pEncryptedData.Length, null, ref size));
 			
 			byte[] pData=new byte[size];
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pEncryptedData,(uint)pEncryptedData.Length, pData, ref size));
+			checkCKR(proc.Invoke(hSession, pEncryptedData,(uint)pEncryptedData.Length, pData, ref size));
 			
 			return pData;
 		}
@@ -605,11 +613,11 @@ namespace net.sf.pkcs11net
 
 			uint size = 0;
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pEncryptedPart,(uint)pEncryptedPart.Length, null, ref size));
+			checkCKR(proc.Invoke(hSession, pEncryptedPart,(uint)pEncryptedPart.Length, null, ref size));
 			
 			byte[] pPart=new byte[size];
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pEncryptedPart,(uint)pEncryptedPart.Length, pPart, ref size));
+			checkCKR(proc.Invoke(hSession, pEncryptedPart,(uint)pEncryptedPart.Length, pPart, ref size));
 			
 			return pPart;
 		}
@@ -625,11 +633,11 @@ namespace net.sf.pkcs11net
 			
 			uint size = 0;
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, null, ref size));
+			checkCKR(proc.Invoke(hSession, null, ref size));
 			
 			byte[] pLastPart=new byte[size];
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pLastPart, ref size));
+			checkCKR(proc.Invoke(hSession, pLastPart, ref size));
 			
 			return pLastPart;
 		}
@@ -645,7 +653,7 @@ namespace net.sf.pkcs11net
 			
 			C_DigestInit proc=(C_DigestInit)DelegateUtil.getDelegate(this.hLib,typeof(C_DigestInit));
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession,ref pMechanism));
+			checkCKR(proc.Invoke(hSession,ref pMechanism));
 		}
 		
 
@@ -661,11 +669,11 @@ namespace net.sf.pkcs11net
 
 			uint size = 0;
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pData,(uint)pData.Length, null, ref size));
+			checkCKR(proc.Invoke(hSession, pData,(uint)pData.Length, null, ref size));
 			
 			byte[] pDigest=new byte[size];
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pData,(uint)pData.Length, pDigest, ref size));
+			checkCKR(proc.Invoke(hSession, pData,(uint)pData.Length, pDigest, ref size));
 			
 			return pDigest;
 		}
@@ -674,7 +682,7 @@ namespace net.sf.pkcs11net
 			
 			C_DigestUpdate proc=(C_DigestUpdate)DelegateUtil.getDelegate(this.hLib,typeof(C_DigestUpdate));
 
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pPart,(uint)pPart.Length));
+			checkCKR(proc.Invoke(hSession, pPart,(uint)pPart.Length));
 			
 			return ;
 		}
@@ -688,7 +696,7 @@ namespace net.sf.pkcs11net
 			
 			C_DigestKey proc=(C_DigestKey)DelegateUtil.getDelegate(this.hLib,typeof(C_DigestKey));
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, hKey));
+			checkCKR(proc.Invoke(hSession, hKey));
 		}
 		
 		/// <summary>
@@ -702,11 +710,11 @@ namespace net.sf.pkcs11net
 			
 			uint size=0;
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, null,ref size));
+			checkCKR(proc.Invoke(hSession, null,ref size));
 			
 			byte[] pDigest=new byte[size];
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pDigest,ref size));
+			checkCKR(proc.Invoke(hSession, pDigest,ref size));
 			
 			return pDigest;
 		}
@@ -720,7 +728,7 @@ namespace net.sf.pkcs11net
 		public void SignInit (uint hSession, CK_MECHANISM pMechanism, uint hKey){
 			C_SignInit proc=(C_SignInit)DelegateUtil.getDelegate(this.hLib,typeof(C_SignInit));
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession,ref pMechanism,hKey));
+			checkCKR(proc.Invoke(hSession,ref pMechanism,hKey));
 		}
 		
 		/// <summary>
@@ -735,11 +743,11 @@ namespace net.sf.pkcs11net
 
 			uint size = 0;
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pData,(uint)pData.Length, null, ref size));
+			checkCKR(proc.Invoke(hSession, pData,(uint)pData.Length, null, ref size));
 			
 			byte[] pSignature=new byte[size];
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pData,(uint)pData.Length, pSignature, ref size));
+			checkCKR(proc.Invoke(hSession, pData,(uint)pData.Length, pSignature, ref size));
 			
 			return pSignature;
 		}
@@ -753,7 +761,7 @@ namespace net.sf.pkcs11net
 			
 			C_SignUpdate proc=(C_SignUpdate)DelegateUtil.getDelegate(this.hLib,typeof(C_SignUpdate));
 
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pPart,(uint)pPart.Length));
+			checkCKR(proc.Invoke(hSession, pPart,(uint)pPart.Length));
 			
 			return ;
 		}
@@ -769,14 +777,19 @@ namespace net.sf.pkcs11net
 			
 			uint size=0;
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, null,ref size));
+			checkCKR(proc.Invoke(hSession, null,ref size));
 			
 			byte[] pSignature=new byte[size];
 			
-			Validator.ValidateCK_RV(proc.Invoke(hSession, pSignature,ref size));
+			checkCKR(proc.Invoke(hSession, pSignature,ref size));
 			
 			return pSignature;
-		}		
+		}
+		
+		private void checkCKR(CKR retVal){
+			if(retVal!= CKR.OK)
+				throw new TokenException(retVal);
+		}
 		
 	}
 }

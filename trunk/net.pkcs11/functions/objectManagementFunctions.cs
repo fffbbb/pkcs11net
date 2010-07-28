@@ -23,14 +23,14 @@ namespace net.sf.pkcs11net.functions
 	internal delegate ReturnValues C_SetAttributeValue(
 		uint hSession,
 		uint hObject,
-		CK_ATTRIBUTE[] pTemplate,
+		ref CK_ATTRIBUTE pTemplate,
 		uint ulCount
 	);
 	
 	internal delegate ReturnValues C_GetAttributeValue(
 		uint hSession,
 		uint hObject,
-		CK_ATTRIBUTE[] pTemplate,
+		ref CK_ATTRIBUTE pTemplate,
 		uint ulCount
 	);
 	
