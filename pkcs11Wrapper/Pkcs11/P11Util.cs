@@ -10,26 +10,26 @@ namespace Net.Sf.Pkcs11
 	/// </summary>
 	internal static class P11Util
 	{
-		public static String toUtf8String(byte[] val){
+		public static String ConvertToUtf8String(byte[] val){
 			return System.Text.Encoding.UTF8.GetString(val);
 		}
 		
-		public static String toASCIIString(byte[] val){
+		public static String ConvertToASCIIString(byte[] val){
 			return System.Text.Encoding.ASCII.GetString(val);
 		}
 		
-		public static CK_DATE toCK_DATE(DateTime dateTime){
+		public static CK_DATE ConvertToCK_DATE(DateTime dateTime){
 			
 			CK_DATE d=new CK_DATE();
 
-			d.year= System.Text.Encoding.ASCII.GetBytes(intToString(dateTime.Year,4));
-			d.month= System.Text.Encoding.ASCII.GetBytes(intToString(dateTime.Month,2));
-			d.day= System.Text.Encoding.ASCII.GetBytes(intToString(dateTime.Day,2));
+			d.year= System.Text.Encoding.ASCII.GetBytes(ConvertIntToString(dateTime.Year,4));
+			d.month= System.Text.Encoding.ASCII.GetBytes(ConvertIntToString(dateTime.Month,2));
+			d.day= System.Text.Encoding.ASCII.GetBytes(ConvertIntToString(dateTime.Day,2));
 			
 			return d;
 		}
 		
-		public static DateTime toDateTime(CK_DATE ckDate){
+		public static DateTime ConvertToDateTime(CK_DATE ckDate){
 			
 			int _year=Int32.Parse( System.Text.Encoding.ASCII.GetString(ckDate.year));
 			int _month=Int32.Parse(System.Text.Encoding.ASCII.GetString(ckDate.month));
@@ -37,12 +37,12 @@ namespace Net.Sf.Pkcs11
 			return new DateTime(_year,_month,_day);
 		}
 		
-		public static string intToString(int val, int strSize){
+		public static string ConvertIntToString(int val, int strSize){
 			String str= new String('0',strSize)+val.ToString();
 			return str.Substring(str.Length-strSize, strSize);
 		}
 		
-		public static DateTime toDateTimeYYYYMMDDhhmmssxx(String time){
+		public static DateTime ConvertToDateTimeYYYYMMDDhhmmssxx(String time){
 			if(time.Equals("0000000000000000"))
 				return new DateTime();
 			else
@@ -58,7 +58,7 @@ namespace Net.Sf.Pkcs11
 		}
 		
 		
-		public static CK_ATTRIBUTE[] toCK_ATTRIBUTEs(P11Attribute[] attrs){
+		public static CK_ATTRIBUTE[] ConvertToCK_ATTRIBUTEs(P11Attribute[] attrs){
 			
 			if(attrs==null || attrs.Length==0)return null;
 			

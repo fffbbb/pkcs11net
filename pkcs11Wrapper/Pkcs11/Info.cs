@@ -32,8 +32,8 @@ namespace Net.Sf.Pkcs11
 		internal Info(CK_INFO ckInfo)
 		{
 			this.cryptokiVersion_ = new Version(ckInfo.cryptokiVersion);
-			this.manufacturerID_ = P11Util.toUtf8String(ckInfo.manufacturerID);
-			this.libraryDescription_ = P11Util.toUtf8String(ckInfo.libraryDescription);
+			this.manufacturerID_ = P11Util.ConvertToUtf8String(ckInfo.manufacturerID);
+			this.libraryDescription_ = P11Util.ConvertToUtf8String(ckInfo.libraryDescription);
 			this.libraryVersion_ = new Version(ckInfo.libraryVersion);
 		}
 	}

@@ -50,8 +50,8 @@ namespace Net.Sf.Pkcs11
 		internal SlotInfo(CK_SLOT_INFO ckSlotInfo)
 		{
 			this.firmwareVersion = new Version( ckSlotInfo.firmwareVersion);
-			this.slotDescription = P11Util.toUtf8String(ckSlotInfo.slotDescription);
-			this.manufacturerID = P11Util.toUtf8String(ckSlotInfo.manufacturerID);
+			this.slotDescription = P11Util.ConvertToUtf8String(ckSlotInfo.slotDescription);
+			this.manufacturerID = P11Util.ConvertToUtf8String(ckSlotInfo.manufacturerID);
 			this.hardwareVersion = new Version(ckSlotInfo.hardwareVersion);
 			
 			this.tokenPresent_ = ((ckSlotInfo.flags & 1L) != 0L);
