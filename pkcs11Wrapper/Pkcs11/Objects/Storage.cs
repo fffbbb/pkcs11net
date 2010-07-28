@@ -37,25 +37,17 @@ namespace Net.Sf.Pkcs11.Objects
 			
 		}
 		
-		public override void readAttributes(Session session)
+		public override void ReadAttributes(Session session)
 		{
-			base.readAttributes(session);
+			base.ReadAttributes(session);
 			
-			token_ =new BooleanAttribute(
-				getAttribute(session , HObj, new BooleanAttribute(CKA.TOKEN))
-			);
+			token_ = ReadAttribute(session , HObj, new BooleanAttribute(CKA.TOKEN));
 			
-			private_=new BooleanAttribute(
-				getAttribute(session , HObj, new BooleanAttribute(CKA.PRIVATE))
-			);
+			private_= ReadAttribute(session , HObj, new BooleanAttribute(CKA.PRIVATE));
 			
-			modifiable_=new BooleanAttribute(
-				getAttribute(session , HObj, new BooleanAttribute(CKA.MODIFIABLE))
-			);
+			modifiable_= ReadAttribute(session , HObj, new BooleanAttribute(CKA.MODIFIABLE));
 			
-			label_= new CharArrayAttribute(
-				getAttribute(session,HObj,new CharArrayAttribute(CKA.LABEL))
-			);
+			label_=  ReadAttribute(session,HObj,new CharArrayAttribute(CKA.LABEL));
 		}
 	}
 }

@@ -10,10 +10,30 @@ namespace Net.Sf.Pkcs11.Objects
 	public class X509PublicKeyCertificate:Certificate
 	{
 		protected ByteArrayAttribute subject_;
+		
+		public ByteArrayAttribute Subject {
+			get { return subject_; }
+		}
 		protected ByteArrayAttribute id_;
+		
+		public ByteArrayAttribute Id {
+			get { return id_; }
+		}
 		protected ByteArrayAttribute issuer_;
+		
+		public ByteArrayAttribute Issuer {
+			get { return issuer_; }
+		}
 		protected ByteArrayAttribute serialNumber_;
+		
+		public ByteArrayAttribute SerialNumber {
+			get { return serialNumber_; }
+		}
 		protected ByteArrayAttribute value_;
+		
+		public ByteArrayAttribute Value {
+			get { return value_; }
+		}
 		
 		
 		public X509PublicKeyCertificate()
@@ -29,29 +49,19 @@ namespace Net.Sf.Pkcs11.Objects
 			return new X509PublicKeyCertificate(session,hObj) ;
 		}
 		
-		public override void readAttributes(Session session)
+		public override void ReadAttributes(Session session)
 		{
-			base.readAttributes(session);
+			base.ReadAttributes(session);
 			
-			subject_=new ByteArrayAttribute(
-				getAttribute(session,HObj,new ByteArrayAttribute(CKA.SUBJECT))
-			);
+			subject_= ReadAttribute(session,HObj,new ByteArrayAttribute(CKA.SUBJECT));
 
-			id_=new ByteArrayAttribute(
-				getAttribute(session,HObj,new ByteArrayAttribute(CKA.ID))
-			);
+			id_= ReadAttribute(session,HObj,new ByteArrayAttribute(CKA.ID));
 			
-			issuer_=new ByteArrayAttribute(
-				getAttribute(session,HObj,new ByteArrayAttribute(CKA.ISSUER))
-			);
+			issuer_= ReadAttribute(session,HObj,new ByteArrayAttribute(CKA.ISSUER));
 			
-			serialNumber_=new ByteArrayAttribute(
-				getAttribute(session,HObj,new ByteArrayAttribute(CKA.SERIAL_NUMBER))
-			);
+			serialNumber_= ReadAttribute(session,HObj,new ByteArrayAttribute(CKA.SERIAL_NUMBER));
 			
-			value_=new ByteArrayAttribute(
-				getAttribute(session,HObj,new ByteArrayAttribute(CKA.VALUE))
-			);			
+			value_= ReadAttribute(session,HObj,new ByteArrayAttribute(CKA.VALUE));
 		}
 		
 	}

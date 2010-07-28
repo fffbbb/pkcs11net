@@ -20,9 +20,8 @@ namespace Net.Sf.Pkcs11.Objects
 		public static new P11Object GetInstance(Session session, uint hObj)
 		{
 			
-			KeyTypeAttribute keyAttr =new KeyTypeAttribute(
-				getAttribute(session , hObj, new KeyTypeAttribute())
-			);
+			KeyTypeAttribute keyAttr =	ReadAttribute(session , hObj, new KeyTypeAttribute());
+
 			
 			switch(keyAttr.KeyType){
 				case CKK.RSA:

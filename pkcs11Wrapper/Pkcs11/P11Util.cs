@@ -63,7 +63,7 @@ namespace Net.Sf.Pkcs11
 			if(attrs==null || attrs.Length==0)return null;
 			
 			CK_ATTRIBUTE[] ckAttrs= new CK_ATTRIBUTE[attrs.Length];
-		
+			
 			for(int i=0;i<attrs.Length;i++)
 				ckAttrs[i] = attrs[i].CK_ATTRIBUTE;
 

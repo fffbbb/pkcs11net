@@ -11,8 +11,20 @@ namespace Net.Sf.Pkcs11.Objects
 	{
 		
 		protected ByteArrayAttribute modulus_;
+		
+		public ByteArrayAttribute Modulus {
+			get { return modulus_; }
+		}
 		protected ByteArrayAttribute publicExponent_;
+		
+		public ByteArrayAttribute PublicExponent {
+			get { return publicExponent_; }
+		}
 		protected UIntAttribute modulusBits_;
+		
+		public UIntAttribute ModulusBits {
+			get { return modulusBits_; }
+		}
 		
 		public RSAPublicKey()
 		{
@@ -28,21 +40,16 @@ namespace Net.Sf.Pkcs11.Objects
 			return new RSAPublicKey(session,hObj) ;
 		}
 		
-		public override void readAttributes(Session session)
+		public override void ReadAttributes(Session session)
 		{
-			base.readAttributes(session);
+			base.ReadAttributes(session);
 			
-			modulus_=new ByteArrayAttribute(
-				getAttribute(session,HObj,new ByteArrayAttribute(CKA.MODULUS))
-			);
+			modulus_= ReadAttribute(session,HObj,new ByteArrayAttribute(CKA.MODULUS));
 
-			publicExponent_=new ByteArrayAttribute(
-				getAttribute(session,HObj,new ByteArrayAttribute(CKA.PUBLIC_EXPONENT))
-			);
+			publicExponent_= ReadAttribute(session,HObj,new ByteArrayAttribute(CKA.PUBLIC_EXPONENT));
 			
-			modulusBits_=new UIntAttribute(
-				getAttribute(session,HObj,new UIntAttribute((uint)CKA.MODULUS_BITS))
-			);
+			modulusBits_= ReadAttribute(session,HObj,new UIntAttribute((uint)CKA.MODULUS_BITS));
+
 		}
 	}
 }
