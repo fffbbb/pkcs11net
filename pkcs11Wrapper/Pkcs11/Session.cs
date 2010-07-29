@@ -128,6 +128,35 @@ namespace Net.Sf.Pkcs11
 		public byte[] Sign(byte[] data){
 			return this.Module.P11Module.Sign(hSession,data);
 		}
+
+		public void VerifyInit(Mechanism signingMechanism, PublicKey key){
+			this.Module.P11Module.VerifyInit(hSession, signingMechanism.CK_MECHANISM, key.HObj);
+		}
+		
+		public void VerifyUpdate(byte[] data){
+			this.Module.P11Module.VerifyUpdate(hSession,data);
+		}
+		
+		public bool VerifyFinal(byte[] signature){
+			try{
+				this.Module.P11Module.VerifyFinal(hSession,signature);
+				return true;
+			}catch(TokenException tex){
+				if(tex.ErrorCode== CKR.SIGNATURE_INVALID)return false;
+				throw tex;
+			}
+		}
+		
+		public bool Verify(byte[] data, byte[] signature){
+			
+			try{
+				this.Module.P11Module.Verify(hSession,data,signature);
+				return true;
+			}catch(TokenException tex){
+				if(tex.ErrorCode== CKR.SIGNATURE_INVALID)return false;
+				throw tex;
+			}
+		}
 		
 	}
 }

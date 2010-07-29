@@ -41,8 +41,7 @@ namespace Net.Sf.Pkcs11.Objects
 		}
 		
 		public X509PublicKeyCertificate(Session session, uint hObj):base(session,hObj)
-		{
-			
+		{			
 		}
 		public static new P11Object GetInstance(Session session, uint hObj)
 		{
