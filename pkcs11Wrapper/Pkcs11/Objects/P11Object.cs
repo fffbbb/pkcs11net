@@ -188,9 +188,21 @@ namespace Net.Sf.Pkcs11.Objects
 				uint hSession=session.HSession;
 				Wrapper.Pkcs11Module pm= session.Module.P11Module;
 				
-				return pm.GetAttributeValue(hSession, hObj, new CK_ATTRIBUTE[]{attr.CK_ATTRIBUTE})[0];
-			}catch{
-				return null;
+				CK_ATTRIBUTE tmp = pm.GetAttributeValue(hSession, hObj, new CK_ATTRIBUTE[]{attr.CK_ATTRIBUTE})[0];
+				
+				if(tmp.ulValueLen==0)
+					return null;
+				
+				return tmp;
+				
+			}catch(TokenException tex) {
+				if(tex.ErrorCode== CKR.ATTRIBUTE_TYPE_INVALID
+				   || tex.ErrorCode== CKR.ATTRIBUTE_VALUE_INVALID
+				   || tex.ErrorCode== CKR.ATTRIBUTE_SENSITIVE
+				  )
+					
+					return null;
+				else throw tex;
 			}
 		}
 	}
