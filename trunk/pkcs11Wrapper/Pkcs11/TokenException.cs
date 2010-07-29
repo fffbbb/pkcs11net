@@ -12,8 +12,15 @@ namespace Net.Sf.Pkcs11
 		{
 		}
 		
-		public TokenException(CKR ckr):base(ckr.ToString())
-		{			
+		public TokenException(CKR errorCode):base(errorCode.ToString())
+		{
+			this.errorCode=errorCode;
+		}
+		
+		CKR errorCode;
+		
+		public CKR ErrorCode {
+			get { return errorCode; }
 		}
 		
 	}

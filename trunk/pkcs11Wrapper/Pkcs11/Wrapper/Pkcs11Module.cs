@@ -145,7 +145,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 			
 			if(DO_NOT_BLOCK)
 				flags=PKCS11Constants.CKF_DONT_BLOCK;
-						
+			
 			checkCKR(proc(flags, ref slotId, IntPtr.Zero));
 			
 			return slotId;
@@ -415,12 +415,12 @@ namespace Net.Sf.Pkcs11.Wrapper
 			for(int i=0;i<template.Length;i++){
 				bool needsBuffer= template[i].pValue==IntPtr.Zero;
 				checkCKR(proc.Invoke(hSession,hObj, ref template[i], 1));
-				if(needsBuffer){
+				if(needsBuffer&&template[i].ulValueLen>0 ){
 					template[i].pValue=Marshal.AllocHGlobal((int) template[i].ulValueLen);
 					checkCKR(proc.Invoke(hSession,hObj, ref template[i], 1));
 				}
 			}
-				
+			
 			return template;
 		}
 		
@@ -785,6 +785,52 @@ namespace Net.Sf.Pkcs11.Wrapper
 			
 			return pSignature;
 		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <param name="pMechanism"></param>
+		/// <param name="hKey"></param>
+		public void VerifyInit (uint hSession, CK_MECHANISM pMechanism, uint hKey){
+			C_VerifyInit proc=(C_VerifyInit)DelegateUtil.GetDelegate(this.hLib,typeof(C_VerifyInit));
+			
+			checkCKR(proc.Invoke(hSession,ref pMechanism,hKey));
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <param name="pData"></param>
+		/// <param name="signature"></param>
+		public void Verify(uint hSession, byte[] pData, byte[] signature){
+			
+			C_Verify proc=(C_Verify)DelegateUtil.GetDelegate(this.hLib,typeof(C_Verify));
+
+			checkCKR(proc.Invoke(hSession, pData,(uint)pData.Length, signature, (uint)signature.Length));
+		}
+		
+		
+		public void VerifyUpdate(uint hSession, byte[] pPart){
+			
+			C_VerifyUpdate proc=(C_VerifyUpdate)DelegateUtil.GetDelegate(this.hLib,typeof(C_VerifyUpdate));
+
+			checkCKR(proc.Invoke(hSession, pPart,(uint)pPart.Length));
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="hSession"></param>
+		/// <returns></returns>
+		public void VerifyFinal(uint hSession, byte[] signature){
+			
+			C_VerifyFinal proc=(C_VerifyFinal)DelegateUtil.GetDelegate(this.hLib,typeof(C_VerifyFinal));
+			
+			checkCKR(proc.Invoke(hSession, signature, (uint)signature.Length ));
+		}
+		
 		
 		private void checkCKR(CKR retVal){
 			if(retVal!= CKR.OK)

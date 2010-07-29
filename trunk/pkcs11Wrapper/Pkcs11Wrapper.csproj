@@ -86,6 +86,10 @@
     <Compile Include="Pkcs11\Delegates\C_SignInit.cs" />
     <Compile Include="Pkcs11\Delegates\C_SignRecoverInit.cs" />
     <Compile Include="Pkcs11\Delegates\C_SignUpdate.cs" />
+    <Compile Include="Pkcs11\Delegates\C_Verify.cs" />
+    <Compile Include="Pkcs11\Delegates\C_VerifyFinal.cs" />
+    <Compile Include="Pkcs11\Delegates\C_VerifyInit.cs" />
+    <Compile Include="Pkcs11\Delegates\C_VerifyUpdate.cs" />
     <Compile Include="Pkcs11\Delegates\C_WaitForSlotEvent.cs" />
     <Compile Include="Pkcs11\Info.cs" />
     <Compile Include="Pkcs11\Module.cs" />
