@@ -36,5 +36,11 @@ namespace Net.Sf.Pkcs11
 			this.libraryDescription_ = P11Util.ConvertToUtf8String(ckInfo.libraryDescription);
 			this.libraryVersion_ = new Version(ckInfo.libraryVersion);
 		}
+		
+		public override string ToString()
+		{
+			return string.Format("[Info CryptokiVersion={0} ManufacturerID={1} LibraryDescription={2} LibraryVersion={3}]", this.cryptokiVersion_, this.manufacturerID_, this.libraryDescription_, this.libraryVersion_);
+		}
+		
 	}
 }
