@@ -26,5 +26,10 @@ namespace Net.Sf.Pkcs11.Objects
 			get { return (CKK)base.Value; }
 			set { base.Value= (uint)value; }
 		}
+		
+		protected override P11Attribute GetCkLoadedCopy()
+		{
+			return new KeyTypeAttribute(this.CK_ATTRIBUTE);
+		}
 	}
 }

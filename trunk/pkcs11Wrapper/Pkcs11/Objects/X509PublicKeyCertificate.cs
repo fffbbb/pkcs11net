@@ -9,27 +9,27 @@ namespace Net.Sf.Pkcs11.Objects
 	/// </summary>
 	public class X509PublicKeyCertificate:Certificate
 	{
-		protected ByteArrayAttribute subject_;
+		protected ByteArrayAttribute subject_ = new ByteArrayAttribute(CKA.SUBJECT);
 		
 		public ByteArrayAttribute Subject {
 			get { return subject_; }
 		}
-		protected ByteArrayAttribute id_;
+		protected ByteArrayAttribute id_ = new ByteArrayAttribute(CKA.ID);
 		
 		public ByteArrayAttribute Id {
 			get { return id_; }
 		}
-		protected ByteArrayAttribute issuer_;
+		protected ByteArrayAttribute issuer_ = new ByteArrayAttribute(CKA.ISSUER);
 		
 		public ByteArrayAttribute Issuer {
 			get { return issuer_; }
 		}
-		protected ByteArrayAttribute serialNumber_;
+		protected ByteArrayAttribute serialNumber_ = new ByteArrayAttribute(CKA.SERIAL_NUMBER);
 		
 		public ByteArrayAttribute SerialNumber {
 			get { return serialNumber_; }
 		}
-		protected ByteArrayAttribute value_;
+		protected ByteArrayAttribute value_ = new ByteArrayAttribute(CKA.VALUE);
 		
 		public ByteArrayAttribute Value {
 			get { return value_; }
@@ -37,7 +37,8 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		
 		public X509PublicKeyCertificate()
-		{
+		{			
+			this.CertificateType.CertificateType= CKC.X_509;
 		}
 		
 		public X509PublicKeyCertificate(Session session, uint hObj):base(session,hObj)

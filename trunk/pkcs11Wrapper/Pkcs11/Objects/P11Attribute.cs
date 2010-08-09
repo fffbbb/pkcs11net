@@ -6,7 +6,11 @@ namespace Net.Sf.Pkcs11.Objects
 {
 	public abstract class P11Attribute
 	{
-		bool isPresent;
+		bool isAssigned;
+		MetaData metaData=new MetaData();		
+		public MetaData MetaData {
+			get { return metaData; }
+		}
 
 		protected CK_ATTRIBUTE attr=new CK_ATTRIBUTE();
 		
@@ -15,9 +19,15 @@ namespace Net.Sf.Pkcs11.Objects
 			 private set {attr.type=value;}
 		}
 		
-		public bool IsPresent {
-			get { return isPresent; }
-			protected set { isPresent = value; }
+		internal CKA CKA{
+			get{
+				return (CKA)attr.type;
+			}
+		}
+		
+		public bool IsAssigned {
+			get { return isAssigned; }
+			protected set { isAssigned = value; }
 		}
 		
 		protected void AssignValue( byte[] val ){
@@ -33,7 +43,7 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		internal virtual CK_ATTRIBUTE CK_ATTRIBUTE{
 			get{
-				if(IsPresent)
+				if(IsAssigned)
 					AssignValue(Encode());
 				else AssignNullValue();
 
@@ -43,12 +53,10 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public abstract byte[] Encode();
 		
-		public abstract void Decode(byte[] val);
-		
+		public abstract void Decode(byte[] val);		
 		
 		internal P11Attribute(CK_ATTRIBUTE attr){
 			this.attr=attr;
-			
 			this.DecodeAttr();
 		}
 		
@@ -61,13 +69,20 @@ namespace Net.Sf.Pkcs11.Objects
 		}
 		
 		private byte[] getAsBinary(IntPtr ptr, int size){
+			if(ptr==IntPtr.Zero)
+				return null;
+			else if(size==0)
+				return new byte[0];
+			
 			byte[] val=new byte[size];
 			Marshal.Copy(ptr,val,0,size);
 			return val;
 		}
 		
 		protected virtual void DecodeAttr(){
-			Decode( getAsBinary(attr.pValue,(int)attr.ulValueLen) );
+			byte[] tmp=getAsBinary(attr.pValue,(int)attr.ulValueLen);
+			if( tmp!=null && tmp.Length>0  )
+				Decode(tmp);
 		}
 		
 		public P11Attribute Load(CK_ATTRIBUTE attr){
@@ -75,5 +90,14 @@ namespace Net.Sf.Pkcs11.Objects
 			this.DecodeAttr();
 			return this;
 		}
+		
+		public P11Attribute Clone(){
+			P11Attribute p11= GetCkLoadedCopy();
+			p11.metaData=this.metaData;
+			p11.isAssigned=this.isAssigned;
+			return p11;
+		}
+		
+		protected abstract P11Attribute GetCkLoadedCopy();
 	}
 }

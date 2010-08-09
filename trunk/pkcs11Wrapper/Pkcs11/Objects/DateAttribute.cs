@@ -15,7 +15,7 @@ namespace Net.Sf.Pkcs11.Objects
 		public DateTime Value {
 			get { return val; }
 			set { val = value;
-				IsPresent=true;
+				IsAssigned=true;
 			}
 		}
 		
@@ -40,14 +40,16 @@ namespace Net.Sf.Pkcs11.Objects
 		}
 		
 		protected override void DecodeAttr(){
-			CK_DATE d=(CK_DATE)Marshal.PtrToStructure(attr.pValue, typeof(CK_DATE));
+			if(attr.pValue==IntPtr.Zero || attr.ulValueLen==0)
+				return;
 			
+			CK_DATE d=(CK_DATE)Marshal.PtrToStructure(attr.pValue, typeof(CK_DATE));
 			Value= P11Util.ConvertToDateTime(d);
 		}
 		
 		internal override CK_ATTRIBUTE CK_ATTRIBUTE{
 			get{
-				if(IsPresent){
+				if(IsAssigned){
 					
 					CK_DATE d=P11Util.ConvertToCK_DATE(val);
 					attr.pValue = Marshal.AllocHGlobal(Marshal.SizeOf(d));
@@ -60,6 +62,17 @@ namespace Net.Sf.Pkcs11.Objects
 				return attr;
 			}
 		}
+		
+		protected override P11Attribute GetCkLoadedCopy()
+		{
+			return new DateAttribute(this.CK_ATTRIBUTE);
+		}
+		
+		public override string ToString()
+		{
+			return string.Format("[DateAttribute Value={0}]", this.val);
+		}
+		
 		
 		static string intToString(int val, int strSize){
 			String str= new String('0',strSize)+val.ToString();

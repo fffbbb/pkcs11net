@@ -9,7 +9,7 @@ namespace Net.Sf.Pkcs11.Objects
 		public bool Value {
 			get { return val_; }
 			set { val_ = value;
-			IsPresent=true;
+			IsAssigned=true;
 			}
 		}
 		
@@ -32,9 +32,14 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public override string ToString()
 		{
-			return this.val_.ToString();
+			return string.Format("[BooleanAttribute Value={0}]", this.val_);
 		}
 		
+		
+		protected override P11Attribute GetCkLoadedCopy()
+		{
+			return new BooleanAttribute(this.CK_ATTRIBUTE);
+		}
 
 	}
 }

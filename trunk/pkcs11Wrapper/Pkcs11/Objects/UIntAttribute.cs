@@ -8,8 +8,8 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public uint Value {
 			get { return val_; }
-			set { val_ = value; 
-			IsPresent=true;
+			set { val_ = value;
+				IsAssigned=true;
 			}
 		}
 		
@@ -31,6 +31,11 @@ namespace Net.Sf.Pkcs11.Objects
 		public override string ToString()
 		{
 			return Value.ToString();
+		}
+		
+		protected override P11Attribute GetCkLoadedCopy()
+		{
+			return new UIntAttribute(this.CK_ATTRIBUTE);
 		}
 		
 	}

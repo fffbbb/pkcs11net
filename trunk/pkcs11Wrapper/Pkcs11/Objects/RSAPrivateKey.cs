@@ -9,8 +9,14 @@ namespace Net.Sf.Pkcs11.Objects
 	public class RSAPrivateKey:PrivateKey
 	{
 		
-		ByteArrayAttribute modulus, publicExponent, privateExponent,
-		prime1, prime2, exponent1, exponent2, coefficient;
+		ByteArrayAttribute modulus= new ByteArrayAttribute(CKA.MODULUS), 
+		publicExponent=new ByteArrayAttribute(CKA.PUBLIC_EXPONENT), 
+		privateExponent =new ByteArrayAttribute(CKA.PRIVATE_EXPONENT),
+		prime1 =new ByteArrayAttribute(CKA.PRIME_1), 
+		prime2 = new ByteArrayAttribute(CKA.PRIME_2), 
+		exponent1 = new ByteArrayAttribute(CKA.EXPONENT_1), 
+		exponent2 = new ByteArrayAttribute(CKA.EXPONENT_2), 
+		coefficient = new ByteArrayAttribute(CKA.COEFFICIENT);
 		
 		public ByteArrayAttribute Coefficient {
 			get { return coefficient; }
@@ -46,6 +52,7 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public RSAPrivateKey()
 		{
+			this.KeyType.KeyType= CKK.RSA;
 		}
 		
 		public RSAPrivateKey(Session session, uint hObj):base(session,hObj)

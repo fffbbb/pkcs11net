@@ -14,18 +14,24 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public CertificateTypeAttribute(CK_ATTRIBUTE ckAttr):base(ckAttr)
 		{
-		}		
+		}
 		
 		public CKC CertificateType {
 			get { return (CKC)base.Value; }
 			set { base.Value= (uint)value;
-			IsPresent=true;
+				IsAssigned=true;
 			}
 		}
 		
 		public override string ToString()
 		{
-			return CertificateType.ToString();
+			return string.Format("[CertificateTypeAttribute CertificateType={0}]", this.CertificateType);
+		}
+		
+		
+		protected override P11Attribute GetCkLoadedCopy()
+		{
+			return new CertificateTypeAttribute(this.CK_ATTRIBUTE);
 		}
 	}
 }

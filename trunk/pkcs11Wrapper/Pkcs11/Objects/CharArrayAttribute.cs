@@ -12,9 +12,9 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public char[] Value {
 			get { return val; }
-			set { 
+			set {
 				val = value;
-				IsPresent=true; 
+				IsAssigned=true;
 			}
 		}
 		
@@ -41,7 +41,13 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public override string ToString()
 		{
-			return new String(Value);
+			return string.Format("[CharArrayAttribute Value={0}]", this.val.ToString());
+		}
+
+		
+		protected override P11Attribute GetCkLoadedCopy()
+		{
+			return new CharArrayAttribute(this.CK_ATTRIBUTE);
 		}
 	}
 }

@@ -17,6 +17,11 @@ namespace Net.Sf.Pkcs11.Objects
 			set { hObj = value; }
 		}
 		
+		protected ObjectClassAttribute class_= new ObjectClassAttribute();
+		
+		public ObjectClassAttribute Class {
+			get { return class_; }
+		}
 
 		internal P11Object(Session session, uint hObj)
 		{
@@ -43,7 +48,7 @@ namespace Net.Sf.Pkcs11.Objects
 					return Certificate.GetInstance(session,hObj);
 					
 				case CKO.DATA:
-					break;
+					return Data.GetInstance(session,hObj);
 					
 				case CKO.DOMAIN_PARAMETERS:
 					break;
@@ -87,92 +92,55 @@ namespace Net.Sf.Pkcs11.Objects
 		}
 		
 		public static BooleanAttribute ReadAttribute(Session session, uint hObj, BooleanAttribute attr){
-			
-			CK_ATTRIBUTE? ck;
-			if( null == (ck = GetCkAttribute(session,hObj,attr))  )
-				return  null;
-			else
-				return new BooleanAttribute(ck.Value);
+			return (BooleanAttribute)GetAttribute(session,hObj,attr);
 		}
 		
 		
 		
 		public static ByteArrayAttribute ReadAttribute(Session session, uint hObj, ByteArrayAttribute attr){
-			CK_ATTRIBUTE? ck;
-			if( null == (ck = GetCkAttribute(session,hObj,attr))  )
-				return  null;
-			else
-				return new ByteArrayAttribute(ck.Value);
+			return (ByteArrayAttribute)GetAttribute(session,hObj,attr);
 		}
 		
 		
 		
 		public static CertificateTypeAttribute ReadAttribute(Session session, uint hObj, CertificateTypeAttribute attr){
-			CK_ATTRIBUTE? ck;
-			if( null == (ck = GetCkAttribute(session,hObj,attr))  )
-				return  null;
-			else
-				return new CertificateTypeAttribute(ck.Value);
+			return (CertificateTypeAttribute)GetAttribute(session,hObj,attr);
 		}
 		
 		
 		
 		public static CharArrayAttribute ReadAttribute(Session session, uint hObj, CharArrayAttribute attr){
-			CK_ATTRIBUTE? ck;
-			if( null == (ck = GetCkAttribute(session,hObj,attr))  )
-				return  null;
-			else
-				return new CharArrayAttribute(ck.Value);
+			return (CharArrayAttribute)GetAttribute(session,hObj,attr);
 		}
 		
 		
 		
 		public static DateAttribute ReadAttribute(Session session, uint hObj, DateAttribute attr){
-			CK_ATTRIBUTE? ck;
-			if( null == (ck = GetCkAttribute(session,hObj,attr))  )
-				return  null;
-			else
-				return new DateAttribute(ck.Value);
+			return (DateAttribute)GetAttribute(session,hObj,attr);
 		}
 		
 		
 		
 		public static KeyTypeAttribute ReadAttribute(Session session, uint hObj, KeyTypeAttribute attr){
-			CK_ATTRIBUTE? ck;
-			if( null == (ck = GetCkAttribute(session,hObj,attr))  )
-				return  null;
-			else
-				return new KeyTypeAttribute(ck.Value);
+			return (KeyTypeAttribute)GetAttribute(session,hObj,attr);
 		}
 		
 		
 		
 		public static MechanismTypeAttribute ReadAttribute(Session session, uint hObj, MechanismTypeAttribute attr){
-			CK_ATTRIBUTE? ck;
-			if( null == (ck = GetCkAttribute(session,hObj,attr))  )
-				return  null;
-			else
-				return new MechanismTypeAttribute(ck.Value);
+			return (MechanismTypeAttribute)GetAttribute(session,hObj,attr);
 		}
 		
 		
 		
 		public static ObjectClassAttribute ReadAttribute(Session session, uint hObj, ObjectClassAttribute attr){
-			CK_ATTRIBUTE? ck;
-			if( null == (ck = GetCkAttribute(session,hObj,attr))  )
-				return  null;
-			else
-				return new ObjectClassAttribute(ck.Value);
+			return (ObjectClassAttribute)GetAttribute(session,hObj,attr);
 		}
 		
 		
 		
 		public static UIntAttribute ReadAttribute(Session session, uint hObj, UIntAttribute attr){
-			CK_ATTRIBUTE? ck;
-			if( null == (ck = GetCkAttribute(session,hObj,attr))  )
-				return  null;
-			else
-				return new UIntAttribute(ck.Value);
+			return (UIntAttribute)GetAttribute(session,hObj,attr);
 		}
 		
 		
@@ -180,29 +148,38 @@ namespace Net.Sf.Pkcs11.Objects
 		{
 			if (session == null)
 				throw new NullReferenceException("Argument \"session\" must not be null.");
+			class_= ReadAttribute(session, hObj,  new ObjectClassAttribute() );
 		}
 
-		public static CK_ATTRIBUTE? GetCkAttribute(Session session , uint hObj, P11Attribute attr)
+		public static P11Attribute GetAttribute(Session session , uint hObj, P11Attribute attr)
 		{
 			try{
 				uint hSession=session.HSession;
 				Wrapper.Pkcs11Module pm= session.Module.P11Module;
 				
 				CK_ATTRIBUTE tmp = pm.GetAttributeValue(hSession, hObj, new CK_ATTRIBUTE[]{attr.CK_ATTRIBUTE})[0];
-				
-				if(tmp.ulValueLen==0)
-					return null;
-				
-				return tmp;
+				P11Attribute p11 = attr.Clone().Load(tmp);
+				p11.MetaData.IsPresent=true;
+				p11.MetaData.IsSensitive=false;
+				return p11;
 				
 			}catch(TokenException tex) {
 				if(tex.ErrorCode== CKR.ATTRIBUTE_TYPE_INVALID
-				   || tex.ErrorCode== CKR.ATTRIBUTE_VALUE_INVALID
-				   || tex.ErrorCode== CKR.ATTRIBUTE_SENSITIVE
-				  )
-					
-					return null;
-				else throw tex;
+				   || tex.ErrorCode== CKR.ATTRIBUTE_VALUE_INVALID)
+				{
+					P11Attribute p11 = attr.Clone();
+					p11.MetaData.IsPresent=false;
+					p11.MetaData.IsSensitive=false;
+					return p11;
+				}
+				else if(tex.ErrorCode== CKR.ATTRIBUTE_SENSITIVE){
+					P11Attribute p11 = attr.Clone();
+					p11.MetaData.IsPresent=true;
+					p11.MetaData.IsSensitive=true;
+					return p11;
+				}else
+					throw tex;
+
 			}
 		}
 	}

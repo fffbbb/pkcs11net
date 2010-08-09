@@ -22,13 +22,18 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public CKO ObjectType {
 			get { return (CKO)base.Value; }
-			set { base.Value= (uint)value; }
+			internal set { base.Value= (uint)value; }
 		}
 		
 		public override string ToString()
 		{
-			return ObjectType.ToString();
+			return string.Format("[ObjectClassAttribute ObjectType={0}]", this.ObjectType);
 		}
 		
+		
+		protected override P11Attribute GetCkLoadedCopy()
+		{
+			return new ObjectClassAttribute(this.CK_ATTRIBUTE);
+		}
 	}
 }

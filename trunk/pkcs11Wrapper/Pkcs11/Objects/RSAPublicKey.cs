@@ -10,17 +10,17 @@ namespace Net.Sf.Pkcs11.Objects
 	public class RSAPublicKey:PublicKey
 	{
 		
-		protected ByteArrayAttribute modulus_;
+		protected ByteArrayAttribute modulus_=new ByteArrayAttribute(CKA.MODULUS);
 		
 		public ByteArrayAttribute Modulus {
 			get { return modulus_; }
 		}
-		protected ByteArrayAttribute publicExponent_;
+		protected ByteArrayAttribute publicExponent_=new ByteArrayAttribute(CKA.PUBLIC_EXPONENT);
 		
 		public ByteArrayAttribute PublicExponent {
 			get { return publicExponent_; }
 		}
-		protected UIntAttribute modulusBits_;
+		protected UIntAttribute modulusBits_ = new UIntAttribute((uint)CKA.MODULUS_BITS);
 		
 		public UIntAttribute ModulusBits {
 			get { return modulusBits_; }
@@ -28,6 +28,7 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public RSAPublicKey()
 		{
+			this.KeyType.KeyType= CKK.RSA;
 		}
 		
 		public RSAPublicKey(Session session, uint hObj):base(session,hObj)

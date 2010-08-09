@@ -1,11 +1,13 @@
 ﻿
 
 using System;
-using NUnit.Framework;
-using Net.Sf.Pkcs11.Objects;
-using Net.Sf.Pkcs11.Wrapper;
+using System.IO;
 using Net.Sf.Pkcs11;
+using Net.Sf.Pkcs11.Objects;
 using Net.Sf.Pkcs11.Params;
+using Net.Sf.Pkcs11.Wrapper;
+using NUnit.Framework;
+using Org.BouncyCastle.X509;
 
 namespace Net.Sf.Test
 {
@@ -97,7 +99,7 @@ namespace Net.Sf.Test
 			                        	new KeyTypeAttribute(CKK.RSA)
 			                        });
 			
-			RSAPrivateKey privKey= session.FindObjects(1)[0] as RSAPrivateKey;
+			RSAPrivateKey privKey= session.FindObjects(2)[1] as RSAPrivateKey;
 			session.FindObjectsFinal();
 			
 			//get public key
@@ -130,6 +132,59 @@ namespace Net.Sf.Test
 			
 		}
 		
+//		[Test]
+//		public void CreateFindAndDestroyCertificate(){
+//
+//			X509PublicKeyCertificate template= new X509PublicKeyCertificate();
+//			template.CertificateType.CertificateType= CKC.X_509;
+//			template.Token.Value=true;
+//			template.Id.Value=new byte[]{1,2,2,3};
+//			template.Label.Value="my-test-label".ToCharArray();
+//			X509Certificate cer= ReadCertificate("c:/a.der");
+//			template.Subject.Value=cer.SubjectDN.GetEncoded();
+//			template.Value.Value=cer.GetEncoded();
+//			session.CreateObject(template);
+//			
+//			
+//			
+//		}
+		
+		[Test]
+		public void CreateFindAndDestroyData(){
+
+			Data template= new Data();
+			
+			template.Label.Value="my-test-label".ToCharArray();
+			template.Token.Value=true;
+			template.Private.Value=true;
+			
+			byte[] dataToBeSaved = System.Text.Encoding.UTF8.GetBytes( "123456" );
+			template.Value.Value=dataToBeSaved;
+			
+			Data c2= (Data)session.CreateObject(template);
+			Console.WriteLine(c2);
+			
+			session.FindObjectsInit(new ObjectClassAttribute(CKO.DATA), template.Label);
+			Data savedData = (Data)session.FindObjects(1)[0];
+			session.FindObjectsFinal();
+			
+			Assert.AreEqual(savedData.Value.Value,template.Value.Value);
+			
+			session.DestroyObject(savedData);
+			
+		}
+		
+		
+		static X509Certificate ReadCertificate(String filename)
+		{
+			X509CertificateParser certParser = new X509CertificateParser();
+			
+			Stream stream = new FileStream(filename, FileMode.Open);
+			X509Certificate cert = certParser.ReadCertificate(stream);
+			stream.Close();
+			
+			return cert;
+		}
 		
 		#region session olusturulup kapatılıyor.
 		
@@ -144,7 +199,7 @@ namespace Net.Sf.Test
 			
 			session= m.GetSlotList(true)[0].Token.OpenSession(false);
 			
-			session.Login(UserType.USER,"123456".ToCharArray());
+			session.Login(UserType.USER,"1234".ToCharArray());
 		}
 		
 		[TestFixtureTearDown]
@@ -158,4 +213,7 @@ namespace Net.Sf.Test
 		
 		#endregion
 	}
+	
+
+
 }

@@ -29,5 +29,10 @@ namespace Net.Sf.Pkcs11.Objects
 			get { return (CKM)base.Value; }
 			set { base.Value= (uint)value; }
 		}
+		
+		protected override P11Attribute GetCkLoadedCopy()
+		{
+			return new MechanismTypeAttribute(this.CK_ATTRIBUTE);
+		}
 	}
 }

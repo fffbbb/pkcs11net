@@ -31,6 +31,9 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\..\..\ext\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="NUnit.Framework">
       <HintPath>$(SharpDevelopBinPath)\Tools\NUnit\NUnit.Framework.dll</HintPath>
     </Reference>
@@ -95,6 +98,7 @@
     <Compile Include="Pkcs11\Module.cs" />
     <Compile Include="Pkcs11\Objects\Mechanism.cs" />
     <Compile Include="Pkcs11\Objects\MechanismTypeAttribute.cs" />
+    <Compile Include="Pkcs11\Objects\MetaData.cs" />
     <Compile Include="Pkcs11\Objects\P11Attribute.cs" />
     <Compile Include="Pkcs11\Objects\BooleanAttribute.cs" />
     <Compile Include="Pkcs11\Objects\ByteArrayAttribute.cs" />
