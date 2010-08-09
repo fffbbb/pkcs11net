@@ -66,8 +66,7 @@ namespace Net.Sf.Pkcs11.Objects
 					return PublicKey.GetInstance(session,hObj);
 					
 				case CKO.SECRET_KEY:
-					break;
-					
+					return SecretKey.GetInstance(session,hObj);
 					
 				case CKO.VENDOR_DEFINED :
 					break;

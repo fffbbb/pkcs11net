@@ -12,7 +12,7 @@ namespace Net.Sf.Test
 		[Test]
 		public void TestMethod()
 		{
-			Module m=Module.GetInstance("gclib.dll");
+			Module m=Module.GetInstance("siecap11.dll");
 			m.Initialize();
 			
 			Slot slot= m.GetSlotList(true)[0];

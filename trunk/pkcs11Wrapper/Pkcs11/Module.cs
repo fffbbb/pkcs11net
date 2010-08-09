@@ -51,9 +51,9 @@ namespace Net.Sf.Pkcs11
 		
 		public Slot[] GetSlotList(bool onlyTokenPresent){
 			List<Slot> l= new List<Slot>();
-			List<uint> csis= p11Module.GetSlotList(onlyTokenPresent);
+			uint[] csis= p11Module.GetSlotList(onlyTokenPresent);
 			
-			for(int i=0;i<csis.Count;i++){
+			for(int i=0;i<csis.Length;i++){
 				l.Add( new Slot(this, csis[i]) );
 			}
 			return l.ToArray();
