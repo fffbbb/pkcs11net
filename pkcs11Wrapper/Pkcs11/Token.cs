@@ -1,5 +1,7 @@
 ﻿
 using System;
+using Net.Sf.Pkcs11.Objects;
+using Net.Sf.Pkcs11.Wrapper;
 
 namespace Net.Sf.Pkcs11
 {
@@ -20,13 +22,17 @@ namespace Net.Sf.Pkcs11
 		
 		public uint TokenId{
 			get { return slot_.SlotId; }
-		}
-		
-		
+		}			
 		
 		public TokenInfo TokenInfo{
 			get{
 				return new TokenInfo(slot_.Module.P11Module.GetTokenInfo(slot_.SlotId));
+			}
+		}
+		
+		public CKM[] MechanismList{
+			get{
+				return this.Module.P11Module.GetMechanismList(this.TokenId);
 			}
 		}
 		
