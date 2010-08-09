@@ -44,7 +44,11 @@ namespace Net.Sf.Pkcs11.Objects
 				return;
 			
 			CK_DATE d=(CK_DATE)Marshal.PtrToStructure(attr.pValue, typeof(CK_DATE));
+			try{
 			Value= P11Util.ConvertToDateTime(d);
+			}catch{
+				Value=new DateTime();
+			}
 		}
 		
 		internal override CK_ATTRIBUTE CK_ATTRIBUTE{
