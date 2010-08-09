@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pkcs11\Delegates\C_GenerateKey.cs" />
     <Compile Include="Pkcs11\Delegates\C_CloseAllSessions.cs" />
     <Compile Include="Pkcs11\Delegates\C_CloseSession.cs" />
     <Compile Include="Pkcs11\Delegates\C_CopyObject.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Pkcs11\Delegates\C_WaitForSlotEvent.cs" />
     <Compile Include="Pkcs11\Info.cs" />
     <Compile Include="Pkcs11\Module.cs" />
+    <Compile Include="Pkcs11\Objects\Des3SecretKey.cs" />
     <Compile Include="Pkcs11\Objects\Mechanism.cs" />
     <Compile Include="Pkcs11\Objects\MechanismTypeAttribute.cs" />
     <Compile Include="Pkcs11\Objects\MetaData.cs" />
@@ -157,8 +159,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test\AttributeTest.cs" />
     <Compile Include="Test\ModuleTest.cs" />
+    <Compile Include="Test\SecretKeyTest.cs" />
     <Compile Include="Test\SessionTest.cs" />
     <Compile Include="Test\SlotTest.cs" />
+    <Compile Include="Test\Test1.cs" />
     <Compile Include="Test\TokenTest.cs" />
   </ItemGroup>
   <ItemGroup>

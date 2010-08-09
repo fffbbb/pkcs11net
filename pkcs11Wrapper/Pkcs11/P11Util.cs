@@ -43,9 +43,7 @@ namespace Net.Sf.Pkcs11
 		}
 		
 		public static DateTime ConvertToDateTimeYYYYMMDDhhmmssxx(String time){
-			if(time.Equals("0000000000000000"))
-				return new DateTime();
-			else
+			try{
 				return new DateTime(
 					Int32.Parse(time.Substring(0,4)),
 					Int32.Parse(time.Substring(4,2)),
@@ -55,6 +53,10 @@ namespace Net.Sf.Pkcs11
 					Int32.Parse(time.Substring(12,2)),
 					Int32.Parse(time.Substring(14,2)),
 					DateTimeKind.Utc);
+			}catch{
+				return new DateTime();
+			}
+		
 		}
 		
 		

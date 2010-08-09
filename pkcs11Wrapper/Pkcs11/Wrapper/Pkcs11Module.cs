@@ -89,7 +89,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// </summary>
 		/// <param name="tokenPresent"></param>
 		/// <returns></returns>
-		public List<uint> GetSlotList(bool tokenPresent){
+		public uint[] GetSlotList(bool tokenPresent){
 			
 			C_GetSlotList proc=(C_GetSlotList)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetSlotList));
 			
@@ -99,7 +99,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 			uint[] slots = new uint[pullVal];
 			checkCKR( proc(tokenPresent,slots,ref pullVal));
 			
-			return new List<uint>(slots);
+			return slots;
 		}
 		
 		/// <summary>
@@ -156,7 +156,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// </summary>
 		/// <param name="slotId"></param>
 		/// <returns></returns>
-		public List<CKM> GetMechanismList(uint slotId){
+		public CKM[] GetMechanismList(uint slotId){
 			
 			C_GetMechanismList proc=(C_GetMechanismList)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetMechanismList));
 			
@@ -167,7 +167,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 			
 			checkCKR( proc(slotId, mechanismList,ref pulCount));
 			
-			return  new List<CKM>(mechanismList);
+			return  mechanismList;
 		}
 		
 		/// <summary>
@@ -831,11 +831,16 @@ namespace Net.Sf.Pkcs11.Wrapper
 			checkCKR(proc.Invoke(hSession, signature, (uint)signature.Length ));
 		}
 		
+		public uint GenerateKey(uint hSession, CK_MECHANISM mech, CK_ATTRIBUTE[] template){
+			C_GenerateKey proc=(C_GenerateKey)DelegateUtil.GetDelegate(this.hLib,typeof(C_GenerateKey));
+			uint hKey=0;
+			checkCKR(proc.Invoke(hSession, ref mech, template, (uint)template.Length, ref hKey));
+			return hKey;
+		}
 		
 		private void checkCKR(CKR retVal){
 			if(retVal!= CKR.OK)
 				throw new TokenException(retVal);
 		}
-		
 	}
 }

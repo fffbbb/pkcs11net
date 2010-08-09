@@ -30,13 +30,10 @@ namespace Net.Sf.Test
 		[Test]
 		public void FindObject()
 		{
-
-			session.FindObjectsInit( null/*new P11Attribute[]{new ObjectClassAttribute(CKO.CERTIFICATE),
-			                        		new ObjectClassAttribute(CKO.PUBLIC_KEY)
-			                        }*/);
+			session.FindObjectsInit();
 			
 			P11Object[] objs= session.FindObjects(10);
-			
+						
 			session.FindObjectsFinal();
 			
 			Console.WriteLine(objs);
@@ -170,7 +167,7 @@ namespace Net.Sf.Test
 			
 			Assert.AreEqual(savedData.Value.Value,template.Value.Value);
 			
-			session.DestroyObject(savedData);
+			//session.DestroyObject(savedData);
 			
 		}
 		
@@ -194,7 +191,7 @@ namespace Net.Sf.Test
 		[TestFixtureSetUp]
 		public void Init()
 		{
-			Module m=Module.GetInstance("gclib.dll");
+			Module m=Module.GetInstance("siecap11.dll");
 			m.Initialize();
 			
 			session= m.GetSlotList(true)[0].Token.OpenSession(false);
