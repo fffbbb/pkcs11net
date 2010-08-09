@@ -41,7 +41,7 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public override string ToString()
 		{
-			return string.Format("[CharArrayAttribute Value={0}]", this.val.ToString());
+			return string.Format("[CharArrayAttribute Value={0}]", new String(val));
 		}
 
 		
