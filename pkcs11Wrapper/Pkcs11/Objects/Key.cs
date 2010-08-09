@@ -6,45 +6,45 @@ namespace Net.Sf.Pkcs11.Objects
 	/// <summary>
 	/// Description of Key.
 	/// </summary>
-	public class Key:Storage
+	public abstract class Key:Storage
 	{
-		KeyTypeAttribute keyType;
+		KeyTypeAttribute keyType=new KeyTypeAttribute();
 		
 		public KeyTypeAttribute KeyType {
 			get { return keyType; }
 		}
 		
-		ByteArrayAttribute id;
+		ByteArrayAttribute id=new ByteArrayAttribute(CKA.ID);
 		
 		public ByteArrayAttribute Id {
 			get { return id; }
 		}
 		
-		DateAttribute startDate;
+		DateAttribute startDate=new DateAttribute((uint)CKA.START_DATE);
 		
 		public DateAttribute StartDate {
 			get { return startDate; }
 		}
 		
-		DateAttribute endDate;
+		DateAttribute endDate=new DateAttribute((uint)CKA.END_DATE);
 		
 		public DateAttribute EndDate {
 			get { return endDate; }
 		}
 		
-		BooleanAttribute derive;
+		BooleanAttribute derive = new BooleanAttribute(CKA.DERIVE);
 		
 		public BooleanAttribute Derive {
 			get { return derive; }
 		}
 		
-		BooleanAttribute local;
+		BooleanAttribute local = new BooleanAttribute(CKA.LOCAL);
 		
 		public BooleanAttribute Local {
 			get { return local; }
 		}
 		
-		MechanismTypeAttribute keyGenMechanism;
+		MechanismTypeAttribute keyGenMechanism=new MechanismTypeAttribute(CKA.KEY_GEN_MECHANISM);
 		
 		public MechanismTypeAttribute KeyGenMechanism {
 			get { return keyGenMechanism; }

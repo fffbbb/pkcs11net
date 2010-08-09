@@ -8,26 +8,27 @@ namespace Net.Sf.Pkcs11.Objects
 	/// </summary>
 	public class Storage:P11Object
 	{
-		protected BooleanAttribute token_;
+		protected BooleanAttribute token_ = new BooleanAttribute(CKA.TOKEN);		
+		protected BooleanAttribute private_=new BooleanAttribute(CKA.PRIVATE);	
+		protected BooleanAttribute modifiable_=new BooleanAttribute(CKA.MODIFIABLE);
+		protected CharArrayAttribute label_ = new CharArrayAttribute(CKA.LABEL);
 		
 		public BooleanAttribute Token {
 			get { return token_; }
 		}
-		protected BooleanAttribute private_;
 		
 		public BooleanAttribute Private {
 			get { return private_; }
 		}
-		protected BooleanAttribute modifiable_;
 		
 		public BooleanAttribute Modifiable {
 			get { return modifiable_; }
 		}
-		protected CharArrayAttribute label_;
 		
 		public CharArrayAttribute Label {
 			get { return label_; }
 		}
+		
 		
 		public Storage(Session session, uint hObj):base(session,hObj)
 		{

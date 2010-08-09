@@ -8,12 +8,12 @@ namespace Net.Sf.Pkcs11.Objects
 	/// </summary>
 	public class Certificate:Storage
 	{
-		protected CertificateTypeAttribute certificateType_;
+		protected CertificateTypeAttribute certificateType_ = new CertificateTypeAttribute();
 		
 		public CertificateTypeAttribute CertificateType {
 			get { return certificateType_; }
 		}
-		protected BooleanAttribute trusted_;
+		protected BooleanAttribute trusted_ = new BooleanAttribute(CKA.TRUSTED);
 		
 		public BooleanAttribute Trusted {
 			get { return trusted_; }
@@ -21,6 +21,7 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public Certificate()
 		{
+			this.Class.ObjectType= CKO.CERTIFICATE;
 		}
 		
 		public Certificate(Session session, uint hObj):base(session,hObj)

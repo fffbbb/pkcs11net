@@ -13,7 +13,9 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public byte[] Value {
 			get { return val; }
-			set { val = value; }
+			set { val = value; 
+			IsAssigned=true;
+			}
 		}
 		
 		public ByteArrayAttribute(uint type):base(type)
@@ -37,7 +39,13 @@ namespace Net.Sf.Pkcs11.Objects
 		
 		public override string ToString()
 		{
-			return BitConverter.ToString(Value).Replace('-',' ');
+			return string.Format("[ByteArrayAttribute Value={0}]", BitConverter.ToString(val).Replace('-',' '));
+		}
+		
+		
+		protected override P11Attribute GetCkLoadedCopy()
+		{
+			return new ByteArrayAttribute(this.CK_ATTRIBUTE);
 		}
 	}
 }

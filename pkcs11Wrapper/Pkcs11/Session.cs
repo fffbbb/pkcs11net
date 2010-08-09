@@ -1,7 +1,11 @@
 ﻿
 using System;
+using System.Collections.Generic;
+using System.Reflection;
+
 using Net.Sf.Pkcs11.Objects;
 using Net.Sf.Pkcs11.Wrapper;
+
 namespace Net.Sf.Pkcs11
 {
 	/// <summary>
@@ -31,7 +35,7 @@ namespace Net.Sf.Pkcs11
 			this.hSession=hSession;
 		}
 		
-		public void FindObjectsInit(P11Attribute[] attrs)
+		public void FindObjectsInit(params P11Attribute[] attrs)
 		{
 			CK_ATTRIBUTE[] ckAttrs = P11Util.ConvertToCK_ATTRIBUTEs(attrs);
 			this.Module.P11Module.FindObjectsInit(this.hSession, ckAttrs);
@@ -84,6 +88,10 @@ namespace Net.Sf.Pkcs11
 		public void EncryptInit(Mechanism mechanism, PublicKey key){
 			this.Module.P11Module.EncryptInit(hSession, mechanism.CK_MECHANISM, key.HObj);
 		}
+		
+		public void EncryptInit(Mechanism mechanism, SecretKey key){
+			this.Module.P11Module.EncryptInit(hSession, mechanism.CK_MECHANISM, key.HObj);
+		}
 
 		public byte[] Encrypt(byte[] data){
 			return this.Module.P11Module.Encrypt(hSession, data);
@@ -101,6 +109,10 @@ namespace Net.Sf.Pkcs11
 			this.Module.P11Module.DecryptInit(hSession, mechanism.CK_MECHANISM, key.HObj);
 		}
 
+		public void DecryptInit(Mechanism mechanism, SecretKey key){
+			this.Module.P11Module.DecryptInit(hSession, mechanism.CK_MECHANISM, key.HObj);
+		}
+		
 		public byte[] Decrypt(byte[] data){
 			return this.Module.P11Module.Decrypt(hSession, data);
 		}
@@ -157,6 +169,28 @@ namespace Net.Sf.Pkcs11
 				throw tex;
 			}
 		}
+		
+		public P11Object CreateObject(P11Object obj){
+						
+			uint hObj = this.Module.P11Module.CreateObject(hSession,getAssignedAttributes(obj));			
+			return P11Object.GetInstance(this,hObj) ;
+		}
+		
+		public void DestroyObject(P11Object obj){
+			this.Module.P11Module.DestroyObject(hSession, obj.HObj);			
+		}
+		
+		private CK_ATTRIBUTE[] getAssignedAttributes(P11Object obj){
+			PropertyInfo[] props = obj.GetType().GetProperties();
+			List<CK_ATTRIBUTE> attrs= new List<CK_ATTRIBUTE>();
+			for(int i=0;i<props.Length;i++){
+				P11Attribute val=props[i].GetValue(obj,null) as P11Attribute;
+				if(val  !=null && val.IsAssigned)
+					attrs.Add(val.CK_ATTRIBUTE);
+			}
+			return attrs.ToArray();
+		}
+			
 		
 	}
 }
