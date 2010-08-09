@@ -26,7 +26,9 @@ namespace Net.Sf.Pkcs11
 		
 		public override string ToString()
 		{
-			return major+"."+minor;
+			return string.Format("[Version Major={0} Minor={1}]", this.major, this.minor);
 		}
+
+		
 	}
 }

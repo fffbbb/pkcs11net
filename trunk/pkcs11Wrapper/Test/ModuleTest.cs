@@ -14,16 +14,11 @@ namespace Net.Sf.Test
 		[Test]
 		public void GetInfoTest()
 		{
-			Module m=Module.GetInstance("gclib.dll");
+			Module m=Module.GetInstance("siecap11.dll");
 			m.Initialize();
 			
 			Info info=m.GetInfo();
-			Console.WriteLine("field of info");
-			Console.WriteLine(info.CryptokiVersion);
-			Console.WriteLine(info.LibraryDescription);
-			Console.WriteLine(info.LibraryVersion);
-			Console.WriteLine(info.ManufacturerID);
-			
+			Console.WriteLine(info);
 			m.Finalize_();
 			
 		}
