@@ -22,7 +22,7 @@ namespace Net.Sf.Pkcs11
 		
 		public uint TokenId{
 			get { return slot_.SlotId; }
-		}			
+		}
 		
 		public TokenInfo TokenInfo{
 			get{
@@ -34,6 +34,10 @@ namespace Net.Sf.Pkcs11
 			get{
 				return this.Module.P11Module.GetMechanismList(this.TokenId);
 			}
+		}
+		
+		public MechanismInfo GetMechanismInfo(CKM ckm){
+			return new MechanismInfo( this.Module.P11Module.GetMechanismInfo(TokenId, ckm) );
 		}
 		
 		public Session OpenSession(bool readOnly){
