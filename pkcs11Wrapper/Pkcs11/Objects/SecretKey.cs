@@ -95,6 +95,10 @@ namespace Net.Sf.Pkcs11.Objects
 			KeyTypeAttribute keyType = ReadAttribute(session , hObj, new KeyTypeAttribute());
 			
 			switch (keyType.KeyType){
+				case CKK.DES:
+					return DesSecretKey.GetInstance(session,hObj);
+				case CKK.DES2:
+					return Des2SecretKey.GetInstance(session,hObj);
 				case CKK.DES3:
 					return Des3SecretKey.GetInstance(session,hObj);
 				default:
