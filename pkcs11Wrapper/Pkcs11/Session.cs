@@ -171,19 +171,35 @@ namespace Net.Sf.Pkcs11
 		}
 		
 		public P11Object CreateObject(P11Object template){
-						
-			uint hObj = this.Module.P11Module.CreateObject(hSession,getAssignedAttributes(template));			
+			
+			uint hObj = this.Module.P11Module.CreateObject(hSession,getAssignedAttributes(template));
 			return P11Object.GetInstance(this,hObj) ;
 		}
 		
 		public void DestroyObject(P11Object obj){
-			this.Module.P11Module.DestroyObject(hSession, obj.HObj);			
+			this.Module.P11Module.DestroyObject(hSession, obj.HObj);
 		}
 		
 		public SecretKey GenerateKey(Mechanism mech, P11Object template){
 			uint hKey = this.Module.P11Module.GenerateKey(hSession,mech.CK_MECHANISM, getAssignedAttributes(template));
 			return (SecretKey)SecretKey.GetInstance(this,hKey);
 		}
+		
+		public KeyPair GenerateKeyPair(Mechanism mech, P11Object pubTemplate,P11Object privTemplate){
+			
+			KeyPairHandler hkp= this.Module.P11Module.GenerateKeyPair(
+				hSession,
+				mech.CK_MECHANISM,
+				getAssignedAttributes(pubTemplate),
+				getAssignedAttributes(privTemplate)			
+			);
+			
+			return new KeyPair(
+				(PublicKey) PublicKey.GetInstance(this,hkp.hPublicKey),
+				(PrivateKey) PrivateKey.GetInstance(this,hkp.hPrivateKey)
+			);
+		}
+		
 		
 		private static CK_ATTRIBUTE[] getAssignedAttributes(P11Object obj){
 			PropertyInfo[] props = obj.GetType().GetProperties();
@@ -195,7 +211,7 @@ namespace Net.Sf.Pkcs11
 			}
 			return attrs.ToArray();
 		}
-			
+		
 		
 	}
 }

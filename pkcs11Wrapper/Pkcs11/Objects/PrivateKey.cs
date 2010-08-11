@@ -9,21 +9,22 @@ namespace Net.Sf.Pkcs11.Objects
 	public class PrivateKey:Key
 	{
 		
-		ByteArrayAttribute subject;
+		ByteArrayAttribute subject = new ByteArrayAttribute(CKA.SUBJECT);
 		
 		public ByteArrayAttribute Subject {
 			get { return subject; }
 		}
 		
-		BooleanAttribute sensitive,
-		decrypt,sign,signRecover,
-		unWrap,
-		extractable,
-		alwaysSensitive,
-		neverExtractable,
-		wrapWithTrusted,
-		alwaysAuthenticate
-			;
+		BooleanAttribute sensitive = new BooleanAttribute(CKA.SENSITIVE ),
+		decrypt = new BooleanAttribute(CKA.DECRYPT ),
+		sign = new BooleanAttribute(CKA.SIGN ),
+		signRecover = new BooleanAttribute(CKA.SIGN_RECOVER),
+		unWrap = new BooleanAttribute(CKA.UNWRAP),
+		extractable = new BooleanAttribute(CKA.SENSITIVE ),
+		alwaysSensitive = new BooleanAttribute(CKA.ALWAYS_SENSITIVE),
+		neverExtractable = new BooleanAttribute(CKA.NEVER_EXTRACTABLE ),
+		wrapWithTrusted = new BooleanAttribute(CKA.WRAP_WITH_TRUSTED),
+		alwaysAuthenticate = new BooleanAttribute(CKA.ALWAYS_AUTHENTICATE);
 		
 		public BooleanAttribute AlwaysAuthenticate {
 			get { return alwaysAuthenticate; }

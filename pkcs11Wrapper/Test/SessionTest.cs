@@ -39,6 +39,21 @@ namespace Net.Sf.Test
 			Console.WriteLine(objs);
 		}
 		
+				[Test]
+		public void DeleteAllObjects()
+		{
+			session.FindObjectsInit();
+			
+			P11Object[] objs= session.FindObjects(10);
+			foreach(P11Object obj in objs)
+				session.DestroyObject(obj);
+			
+			session.FindObjectsFinal();
+			
+			Console.WriteLine(objs);
+		}
+		
+		
 		[Test]
 		public void SignTest(){
 			
