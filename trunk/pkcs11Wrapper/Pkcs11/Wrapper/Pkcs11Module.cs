@@ -838,6 +838,20 @@ namespace Net.Sf.Pkcs11.Wrapper
 			return hKey;
 		}
 		
+		public KeyPairHandler GenerateKeyPair(uint hSession, CK_MECHANISM mech, CK_ATTRIBUTE[] pubKeyTemplate,CK_ATTRIBUTE[] privKeyTemplate){
+			C_GenerateKeyPair proc=(C_GenerateKeyPair)DelegateUtil.GetDelegate(this.hLib,typeof(C_GenerateKeyPair));
+			
+			KeyPairHandler kp=new KeyPairHandler();			
+			checkCKR(proc.Invoke(hSession, ref mech,
+			                     pubKeyTemplate, (uint)pubKeyTemplate.Length,
+			                     privKeyTemplate, (uint)privKeyTemplate.Length,
+			                     ref kp.hPublicKey,
+			                     ref kp.hPrivateKey
+			                    )
+			        );
+			return kp;
+		}
+		
 		private void checkCKR(CKR retVal){
 			if(retVal!= CKR.OK)
 				throw new TokenException(retVal);

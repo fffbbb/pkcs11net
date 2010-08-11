@@ -65,6 +65,7 @@
     <Compile Include="Pkcs11\Delegates\C_FindObjects.cs" />
     <Compile Include="Pkcs11\Delegates\C_FindObjectsFinal.cs" />
     <Compile Include="Pkcs11\Delegates\C_FindObjectsInit.cs" />
+    <Compile Include="Pkcs11\Delegates\C_GenerateKeyPair.cs" />
     <Compile Include="Pkcs11\Delegates\C_GetAttributeValue.cs" />
     <Compile Include="Pkcs11\Delegates\C_GetFunctionList.cs" />
     <Compile Include="Pkcs11\Delegates\C_GetInfo.cs" />
@@ -96,8 +97,12 @@
     <Compile Include="Pkcs11\Delegates\C_VerifyUpdate.cs" />
     <Compile Include="Pkcs11\Delegates\C_WaitForSlotEvent.cs" />
     <Compile Include="Pkcs11\Info.cs" />
+    <Compile Include="Pkcs11\KeyPair.cs" />
+    <Compile Include="Pkcs11\MechanismInfo.cs" />
     <Compile Include="Pkcs11\Module.cs" />
+    <Compile Include="Pkcs11\Objects\Des2SecretKey.cs" />
     <Compile Include="Pkcs11\Objects\Des3SecretKey.cs" />
+    <Compile Include="Pkcs11\Objects\DesSecretKey.cs" />
     <Compile Include="Pkcs11\Objects\Mechanism.cs" />
     <Compile Include="Pkcs11\Objects\MechanismTypeAttribute.cs" />
     <Compile Include="Pkcs11\Objects\MetaData.cs" />
@@ -153,11 +158,13 @@
     <Compile Include="Pkcs11\Wrapper\CK_VERSION.cs" />
     <Compile Include="Pkcs11\Wrapper\DelegateUtil.cs" />
     <Compile Include="Pkcs11\Wrapper\KernelUtil.cs" />
+    <Compile Include="Pkcs11\Wrapper\KeyPairHandler.cs" />
     <Compile Include="Pkcs11\Wrapper\MechanismUtil.cs" />
     <Compile Include="Pkcs11\Wrapper\Pkcs11Module.cs" />
     <Compile Include="Pkcs11\Wrapper\PKCS11Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test\AttributeTest.cs" />
+    <Compile Include="Test\KeyPairTest.cs" />
     <Compile Include="Test\ModuleTest.cs" />
     <Compile Include="Test\SecretKeyTest.cs" />
     <Compile Include="Test\SessionTest.cs" />

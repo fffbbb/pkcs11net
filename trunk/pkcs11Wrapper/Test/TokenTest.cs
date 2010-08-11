@@ -1,8 +1,9 @@
 ﻿
 
 using System;
-using NUnit.Framework;
 using Net.Sf.Pkcs11;
+using Net.Sf.Pkcs11.Wrapper;
+using NUnit.Framework;
 
 namespace Net.Sf.Test
 {
@@ -20,6 +21,22 @@ namespace Net.Sf.Test
 			TokenInfo ti=slot.Token.TokenInfo;
 			
 			Console.WriteLine(ti);
+			
+			
+			m.Finalize_();
+		}
+		
+		[Test]
+		public void GetCkmList()
+		{
+			Module m=Module.GetInstance("gclib.dll");
+			m.Initialize();
+			
+			Slot slot= m.GetSlotList(true)[0];
+			
+			CKM[] ckms=slot.Token.MechanismList;
+			
+			foreach(CKM ckm in ckms ) Console.WriteLine(ckm);
 			
 			
 			m.Finalize_();

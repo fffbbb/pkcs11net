@@ -21,11 +21,15 @@ namespace Net.Sf.Test
 			template.Sensitive.Value=true;
 			template.Label.Value="my-test-des3-key".ToCharArray();
 			
-			Des3SecretKey sc=(Des3SecretKey )session.GenerateKey(mech,template);
-
-			//session.DestroyObject(sc);
+			template.Modifiable.Value=true;
+			template.Value.Value=new byte[]{
+				1,2,3,4,5,6,7,8,9,0,
+				1,2,3,4,5,6,7,8,9,0,
+				1,2,3,4				
+			};
 			
-			
+			Des3SecretKey sc2 =(Des3SecretKey )session.CreateObject(template);
+						
 		}
 		
 		#region session olusturulup kapatılıyor.
