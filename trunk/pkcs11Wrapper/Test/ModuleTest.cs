@@ -14,7 +14,7 @@ namespace Net.Sf.Test
 		[Test]
 		public void GetInfoTest()
 		{
-			Module m=Module.GetInstance("siecap11.dll");
+			Module m=Module.GetInstance("gclib.dll");
 			m.Initialize();
 			
 			Info info=m.GetInfo();

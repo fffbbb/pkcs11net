@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-# SharpDevelop 3.2.0.5777
+# SharpDevelop 3.2.1.6466
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pkcs11Net", "Pkcs11Net.csproj", "{3845DF22-E6C6-482D-B38C-45C3B92FA5B7}"
 EndProject
 Global
