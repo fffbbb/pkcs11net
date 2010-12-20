@@ -11,7 +11,7 @@ namespace Net.Sf.Test
 	class TokenTest
 	{
 		[Test]
-		public void TestMethod()
+		public void TokenInfoTest()
 		{
 			Module m=Module.GetInstance("siecap11.dll");
 			m.Initialize();
