@@ -32,7 +32,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\..\..\ext\BouncyCastle.Crypto.dll</HintPath>
+      <HintPath>..\..\libs\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="NUnit.Framework">
       <HintPath>$(SharpDevelopBinPath)\Tools\NUnit\NUnit.Framework.dll</HintPath>
@@ -149,6 +149,7 @@
     <Compile Include="Pkcs11\Wrapper\CKU.cs" />
     <Compile Include="Pkcs11\Wrapper\CK_ATTRIBUTE.cs" />
     <Compile Include="Pkcs11\Wrapper\CK_DATE.cs" />
+    <Compile Include="Pkcs11\Wrapper\CK_FUNCTION_LIST.cs" />
     <Compile Include="Pkcs11\Wrapper\CK_INFO.cs" />
     <Compile Include="Pkcs11\Wrapper\CK_MECHANISM.cs" />
     <Compile Include="Pkcs11\Wrapper\CK_MECHANISM_INFO.cs" />
