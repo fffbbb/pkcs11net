@@ -9,54 +9,41 @@ namespace Net.Sf.Pkcs11
 	/// </summary>
 	public class SlotInfo
 	{
-		String slotDescription;
-		
+		CK_SLOT_INFO ckSlotInfo;
+				
 		public string SlotDescription {
-			get { return slotDescription; }
+			get { return P11Util.ConvertToUtf8String(ckSlotInfo.slotDescription); }
 		}
-		String manufacturerID;
 		
 		public string ManufacturerID {
-			get { return manufacturerID; }
+			get { return P11Util.ConvertToUtf8String(ckSlotInfo.manufacturerID); }
 		}
-		Version firmwareVersion;
 		
 		public Version FirmwareVersion {
-			get { return firmwareVersion; }
+			get { return new Version( ckSlotInfo.firmwareVersion); }
 		}
-		Version hardwareVersion;
 		
 		public Version HardwareVersion {
-			get { return hardwareVersion; }
+			get { return new Version(ckSlotInfo.hardwareVersion); }
 		}
-		
-		protected bool tokenPresent_;
 		
 		public bool IsTokenPresent {
-			get { return tokenPresent_; }
+			get { return ((ckSlotInfo.flags & 1L) != 0L); }
 		}
-		protected bool removableDevice_;
+		
 		
 		public bool IsRemovableDevice {
-			get { return removableDevice_; }
+			get { return ((ckSlotInfo.flags & 0x2) != 0L); }
 		}
-		protected bool hwSlot_;
+		
 		
 		public bool IsHwSlot {
-			get { return hwSlot_; }
+			get { return ((ckSlotInfo.flags & 0x4) != 0L); }
 		}
 		
 		
-		internal SlotInfo(CK_SLOT_INFO ckSlotInfo)
-		{
-			this.firmwareVersion = new Version( ckSlotInfo.firmwareVersion);
-			this.slotDescription = P11Util.ConvertToUtf8String(ckSlotInfo.slotDescription);
-			this.manufacturerID = P11Util.ConvertToUtf8String(ckSlotInfo.manufacturerID);
-			this.hardwareVersion = new Version(ckSlotInfo.hardwareVersion);
-			
-			this.tokenPresent_ = ((ckSlotInfo.flags & 1L) != 0L);
-			this.removableDevice_ = ((ckSlotInfo.flags & 0x2) != 0L);
-			this.hwSlot_ = ((ckSlotInfo.flags & 0x4) != 0L);
+		internal SlotInfo(CK_SLOT_INFO ckSlotInfo) {
+			this.ckSlotInfo=ckSlotInfo;
 		}
 	}
 }
