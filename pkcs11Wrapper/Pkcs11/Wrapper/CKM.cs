@@ -228,6 +228,61 @@ namespace Net.Sf.Pkcs11.Wrapper
 		DSA_PARAMETER_GEN = PKCS11Constants.CKM_DSA_PARAMETER_GEN,
 		DH_PKCS_PARAMETER_GEN = PKCS11Constants.CKM_DH_PKCS_PARAMETER_GEN,
 		X9_42_DH_PARAMETER_GEN = PKCS11Constants.CKM_X9_42_DH_PARAMETER_GEN,
+
+        
+        /// <summary>
+        /// Механизм для генерации и проверки ЭЦП с использованием в качестве входа
+        /// ранее вычисленного значения хэш-функции (32 байта ровно).
+        /// </summary>
+        GOSTR3410 = PKCS11Constants.CKM_GOSTR3410,
+
+        /// <summary>
+        /// Механизм для генерации ключевой пары.
+        /// </summary>
+        GOSTR3410_KEY_PAIR_GEN = PKCS11Constants.CKM_GOSTR3410_KEY_PAIR_GEN,
+                
+        /// <summary>
+        /// Механизм для генерации и проверки ЭЦП с хэшированием подаваемых на вход данных.
+        /// Размер входных данных не ограничен.
+        /// </summary>
+        GOSTR3410_WITH_GOSTR3411 = PKCS11Constants.CKM_GOSTR3410_WITH_GOSTR3411,
+        
+        /// <summary>
+        /// Механизм для выработки ключа согласования.
+        /// </summary>
+        GOSTR3410_DERIVE = PKCS11Constants.CKM_GOSTR3410_DERIVE,
+
+        /// <summary>
+        /// Механизм вычисления хэш-функции.
+        /// </summary>
+        GOSTR3411 = PKCS11Constants.CKM_GOSTR3411,
+
+        /// <summary>
+        /// Механизм шифрования данных.
+        /// </summary>
+        GOST28147 = PKCS11Constants.CKM_GOST28147,
+
+        /// <summary>
+        /// Механизм шифрования данных с использованием метода простой замены.
+        /// </summary>
+        GOST28147_ECB = PKCS11Constants.CKM_GOST28147_ECB,
+
+        /// <summary>
+        /// Механизм экспорта и импорта открытых ключей.
+        /// </summary>
+        GOST28147_KEY_WRAP = PKCS11Constants.CKM_GOST28147_KEY_WRAP,
+
+        /// <summary>
+        /// Механизм выработки симметричных ключей.
+        /// </summary>
+        GOST28147_KEY_GEN = PKCS11Constants.CKM_GOST28147_KEY_GEN,
+
+        /// <summary>
+        /// Механизм для генерации ключевой пары согласно стандарту ГОСТ Р 34.10-2001.
+        /// (From Etoken documentation, см. п.5.2. Параметры цифровой подписи).
+        /// </summary>
+        GOSTR3410_KEY_PAIR_GEN_EX  = PKCS11Constants.CKM_GOSTR3410_KEY_PAIR_GEN_EX,
+
 		VENDOR_DEFINED = PKCS11Constants.CKM_VENDOR_DEFINED
 	}
 }

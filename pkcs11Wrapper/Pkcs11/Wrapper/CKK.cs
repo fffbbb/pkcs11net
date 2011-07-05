@@ -34,6 +34,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		SKIPJACK = 0x0000001B ,
 		TWOFISH = 0x00000021 ,
 		VENDOR_DEFINED = 0x80000000 ,
-		X9_42_DH = 0x00000004 
+		X9_42_DH = 0x00000004 ,
+        GOST = PKCS11Constants.CKK_GOSTR3410
 	}
 }
