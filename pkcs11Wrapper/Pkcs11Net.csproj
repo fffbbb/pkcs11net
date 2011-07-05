@@ -1,4 +1,5 @@
-﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{3845DF22-E6C6-482D-B38C-45C3B92FA5B7}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,6 +10,26 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\fbahar\Application Data\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <RootNamespace>Net.Sf</RootNamespace>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -29,16 +50,15 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\..\libs\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
-    <Reference Include="NUnit.Framework">
-      <HintPath>$(SharpDevelopBinPath)\Tools\NUnit\NUnit.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +123,8 @@
     <Compile Include="Pkcs11\Objects\Des2SecretKey.cs" />
     <Compile Include="Pkcs11\Objects\Des3SecretKey.cs" />
     <Compile Include="Pkcs11\Objects\DesSecretKey.cs" />
+    <Compile Include="Pkcs11\Objects\GostPrivateKey.cs" />
+    <Compile Include="Pkcs11\Objects\GostPublicKey.cs" />
     <Compile Include="Pkcs11\Objects\Mechanism.cs" />
     <Compile Include="Pkcs11\Objects\MechanismTypeAttribute.cs" />
     <Compile Include="Pkcs11\Objects\MetaData.cs" />
@@ -160,21 +182,25 @@
     <Compile Include="Pkcs11\Wrapper\DelegateUtil.cs" />
     <Compile Include="Pkcs11\Wrapper\KernelUtil.cs" />
     <Compile Include="Pkcs11\Wrapper\KeyPairHandler.cs" />
-    <Compile Include="Pkcs11\Wrapper\MechanismUtil.cs" />
     <Compile Include="Pkcs11\Wrapper\Pkcs11Module.cs" />
     <Compile Include="Pkcs11\Wrapper\PKCS11Constants.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test\AttributeTest.cs" />
-    <Compile Include="Test\KeyPairTest.cs" />
-    <Compile Include="Test\ModuleTest.cs" />
-    <Compile Include="Test\SecretKeyTest.cs" />
-    <Compile Include="Test\SessionTest.cs" />
-    <Compile Include="Test\SlotTest.cs" />
-    <Compile Include="Test\Test1.cs" />
-    <Compile Include="Test\TokenTest.cs" />
+    <Compile Include="Properties\AssemblyInfo_Pkcs11Net.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Test" />
-    <Folder Include="Pkcs11\Params" />
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
 </Project>
