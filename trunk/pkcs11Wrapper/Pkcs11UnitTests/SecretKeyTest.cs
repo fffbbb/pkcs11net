@@ -1,12 +1,10 @@
-﻿
-
-using System;
+﻿using System;
 using Net.Sf.Pkcs11;
 using Net.Sf.Pkcs11.Objects;
 using Net.Sf.Pkcs11.Wrapper;
 using NUnit.Framework;
 
-namespace Net.Sf.Test
+namespace Net.Sf.Pkcs11.Test
 {
 	[TestFixture]
 	public class SecretKeyTest
@@ -45,7 +43,7 @@ namespace Net.Sf.Test
 			
 			session= m.GetSlotList(true)[0].Token.OpenSession(false);
 			
-			session.Login(UserType.USER,"1234".ToCharArray());
+			session.Login(UserType.USER, "1234");
 		}
 		
 		[TestFixtureTearDown]

@@ -1,11 +1,9 @@
-﻿
-
-using System;
+﻿using System;
 using NUnit.Framework;
 using Net.Sf.Pkcs11.Objects;
-using Net.Sf.Pkcs11.Wrapper;	
-	
-namespace Net.Sf.Test
+using Net.Sf.Pkcs11.Wrapper;
+
+namespace Net.Sf.Pkcs11.Test
 {
 	[TestFixture]
 	class AttributeTest

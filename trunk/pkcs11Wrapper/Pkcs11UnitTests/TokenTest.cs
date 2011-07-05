@@ -5,7 +5,7 @@ using Net.Sf.Pkcs11;
 using Net.Sf.Pkcs11.Wrapper;
 using NUnit.Framework;
 
-namespace Net.Sf.Test
+namespace Net.Sf.Pkcs11.Test
 {
 	[TestFixture]
 	class TokenTest
