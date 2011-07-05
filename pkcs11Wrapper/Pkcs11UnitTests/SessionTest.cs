@@ -1,15 +1,11 @@
-﻿
-
-using System;
+﻿using System;
 using System.IO;
-using Net.Sf.Pkcs11;
 using Net.Sf.Pkcs11.Objects;
-using Net.Sf.Pkcs11.Params;
 using Net.Sf.Pkcs11.Wrapper;
 using NUnit.Framework;
 using Org.BouncyCastle.X509;
 
-namespace Net.Sf.Test
+namespace Net.Sf.Pkcs11.Test
 {
 	[TestFixture]
 	class SessionTest
@@ -211,7 +207,7 @@ namespace Net.Sf.Test
 			
 			session= m.GetSlotList(true)[0].Token.OpenSession(false);
 			
-			session.Login(UserType.USER,"1234".ToCharArray());
+			session.Login(UserType.USER,"1234");
 		}
 		
 		[TestFixtureTearDown]

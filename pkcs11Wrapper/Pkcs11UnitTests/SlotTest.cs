@@ -1,10 +1,8 @@
-﻿
-
-using System;
+﻿using System;
 using NUnit.Framework;
 using Net.Sf.Pkcs11;
 
-namespace Net.Sf.Test
+namespace Net.Sf.Pkcs11.Test
 {
 	[TestFixture]
 	class SlotTest

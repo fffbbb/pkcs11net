@@ -6,7 +6,7 @@ using System;
 using Net.Sf.Pkcs11;
 using NUnit.Framework;
 
-namespace Net.Sf.Test
+namespace Net.Sf.Pkcs11.Test
 {
 	[TestFixture]
 	public class KeyPairTest
@@ -58,7 +58,7 @@ namespace Net.Sf.Test
 			
 			session= m.GetSlotList(true)[0].Token.OpenSession(false);
 			
-			session.Login(UserType.USER,"1234".ToCharArray());
+			session.Login(UserType.USER,"1234");
 		}
 		
 		[TestFixtureTearDown]
