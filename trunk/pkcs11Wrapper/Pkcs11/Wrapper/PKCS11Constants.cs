@@ -6,7 +6,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 	/// <summary>
 	/// PKCS11Constants.
 	/// </summary>
-	public class PKCS11Constants
+	public static class PKCS11Constants
 	{
 		internal const uint CK_EFFECTIVELY_INFINITE = 0 ;
 		internal const uint CK_INVALID_HANDLE = 0 ;
@@ -95,18 +95,34 @@ namespace Net.Sf.Pkcs11.Wrapper
 		internal const uint CKA_WRAP = 0x00000106 ;
 		internal const uint CKA_WRAP_TEMPLATE = (CKF_ARRAY_ATTRIBUTE|0x00000211) ;
 		internal const uint CKA_WRAP_WITH_TRUSTED = 0x00000210 ;
+
+
+        /// <summary>
+        /// Набор эталонных параметров из RFC 4357,
+        /// используемых в алгоритме формирования ключевой пары,
+        /// описанном в ГОСТ 34.10-2001.
+        /// </summary>
+        internal const uint CKA_GOST3410PARAMS_EX = 0xD4321001;
+
+        internal const uint CKA_GOSTR3410PARAMS = 0x00000250;
+        internal const uint CKA_GOSTR3411PARAMS = 0x00000251;
+        internal const uint CKA_GOST28147PARAMS = 0x00000252;
+
 		internal const uint CKC_VENDOR_DEFINED = 0x80000000 ;
 		internal const uint CKC_WTLS = 0x00000002 ;
 		internal const uint CKC_X_509 = 0x00000000 ;
 		internal const uint CKC_X_509_ATTR_CERT =0x00000001 ;
+
 		internal const uint CKF_ARRAY_ATTRIBUTE = 0x40000000 ;
 		internal const uint CKF_DONT_BLOCK = 1 ;
 		internal const uint CKF_RW_SESSION = 0x00000002;
 		internal const uint CKF_SERIAL_SESSION = 0x00000004;
+
 		internal const uint CKH_CLOCK = 0x00000002 ;
 		internal const uint CKH_MONOTONIC_COUNTER = 0x00000001 ;
 		internal const uint CKH_USER_INTERFACE = 0x00000003 ;
 		internal const uint CKH_VENDOR_DEFINED = 0x80000000 ;
+
 		internal const uint CKK_AES = 0x0000001F ;
 		internal const uint CKK_BATON = 0x0000001C ;
 		internal const uint CKK_BLOWFISH = 0x00000020 ;
@@ -134,6 +150,8 @@ namespace Net.Sf.Pkcs11.Wrapper
 		internal const uint CKK_TWOFISH = 0x00000021 ;
 		internal const uint CKK_VENDOR_DEFINED = 0x80000000 ;
 		internal const uint CKK_X9_42_DH = 0x00000004 ;
+        internal const uint CKK_GOSTR3410 = 0x00000030 ;
+
 		internal const uint CKM_AES_CBC = 0x00001082 ;
 		internal const uint CKM_AES_CBC_ENCRYPT_DATA = 0x00001105 ;
 		internal const uint CKM_AES_CBC_PAD = 0x00001085 ;
@@ -358,7 +376,73 @@ namespace Net.Sf.Pkcs11.Wrapper
 		internal const uint CKM_X9_42_DH_PARAMETER_GEN = 0x00002002 ;
 		internal const uint CKM_X9_42_MQV_DERIVE = 0x00000033 ;
 		internal const uint CKM_XOR_BASE_AND_DATA = 0x00000364 ;
+        
+        /// <summary>
+        /// Механизм для генерации и проверки ЭЦП с использованием в качестве входа
+        /// ранее вычисленного значения хэш-функции (32 байта ровно).
+        /// </summary>
+        internal const uint CKM_GOSTR3410 = 0x00001201;
+
+        /// <summary>
+        /// Механизм для генерации ключевой пары.
+        /// </summary>
+        internal const uint CKM_GOSTR3410_KEY_PAIR_GEN = 0x00001200;
+                
+        /// <summary>
+        /// Механизм для генерации ключевой пары согласно стандарту ГОСТ Р 34.10-2001.
+        /// (From Etoken documentation, см. п.5.2. Параметры цифровой подписи).
+        /// </summary>
+        internal const uint CKM_GOSTR3410_KEY_PAIR_GEN_EX = 0xD4321010;
+
+        /// <summary>
+        /// Механизм для генерации и проверки ЭЦП с хэшированием подаваемых на вход данных.
+        /// Размер входных данных не ограничен.
+        /// </summary>
+        internal const uint CKM_GOSTR3410_WITH_GOSTR3411 = 0x00001202;
+        
+        /// <summary>
+        /// Механизм для выработки ключа согласования.
+        /// </summary>
+        internal const uint CKM_GOSTR3410_DERIVE = 0x00001204;
+
+        /// <summary>
+        /// Механизм вычисления хэш-функции.
+        /// </summary>
+        internal const uint CKM_GOSTR3411 = 0x00001210;
+
+        /// <summary>
+        /// Механизм шифрования данных.
+        /// </summary>
+        internal const uint CKM_GOST28147 = 0x00001222;
+
+        /// <summary>
+        /// Механизм шифрования данных с использованием метода простой замены.
+        /// </summary>
+        internal const uint CKM_GOST28147_ECB = 0x00001221;
+
+        /// <summary>
+        /// Механизм экспорта и импорта открытых ключей.
+        /// </summary>
+        internal const uint CKM_GOST28147_KEY_WRAP = 0x00001224;
+
+        /// <summary>
+        /// Механизм выработки симметричных ключей.
+        /// </summary>
+        internal const uint CKM_GOST28147_KEY_GEN = 0x00001220;      
+
+
+        /// <summary>
+        /// Parameters for elleptic curves (according to RFC 4357, paragraph 10.8)
+        /// 
+        /// Параметры эллиптических кривых (по RFC 4357, п.10.8)
+        /// </summary>
+        internal static byte[] SC_PARAMSET_GOSTR3410_A = { 0x06, 0x07, 0x2A, 0x85, 0x03, 0x02, 0x02, 0x23, 0x01 };
+        internal static byte[] SC_PARAMSET_GOSTR3410_B = { 0x06, 0x07, 0x2A, 0x85, 0x03, 0x02, 0x02, 0x23, 0x02 };
+        internal static byte[] SC_PARAMSET_GOSTR3410_C = { 0x06, 0x07, 0x2A, 0x85, 0x03, 0x02, 0x02, 0x23, 0x03 };
+        internal static byte[] SC_PARAMSET_GOSTR3410_D = { 0x06, 0x07, 0x2A, 0x85, 0x03, 0x02, 0x02, 0x23, 0x04 };
+
 		internal const uint CKN_SURRENDER = 0 ;
+
 		internal const uint CKO_CERTIFICATE = 0x00000001 ;
 		internal const uint CKO_DATA = 0x00000000 ;
 		internal const uint CKO_DOMAIN_PARAMETERS = 0x00000006 ;
@@ -368,6 +452,8 @@ namespace Net.Sf.Pkcs11.Wrapper
 		internal const uint CKO_PUBLIC_KEY = 0x00000002 ;
 		internal const uint CKO_SECRET_KEY = 0x00000004 ;
 		internal const uint CKO_VENDOR_DEFINED = 0x80000000 ;
+
+
 		internal const uint CKR_ARGUMENTS_BAD = 0x00000007 ;
 		internal const uint CKR_ATTRIBUTE_READ_ONLY = 0x00000010 ;
 		internal const uint CKR_ATTRIBUTE_SENSITIVE = 0x00000011 ;
@@ -454,15 +540,15 @@ namespace Net.Sf.Pkcs11.Wrapper
 		internal const uint CKR_WRAPPING_KEY_HANDLE_INVALID = 0x00000113 ;
 		internal const uint CKR_WRAPPING_KEY_SIZE_RANGE = 0x00000114 ;
 		internal const uint CKR_WRAPPING_KEY_TYPE_INCONSISTENT = 0x00000115 ;
+
 		internal const uint CKS_RO_PUBLIC_SESSION = 0 ;
 		internal const uint CKS_RO_USER_FUNCTIONS = 1 ;
 		internal const uint CKS_RW_PUBLIC_SESSION = 2 ;
 		internal const uint CKS_RW_SO_FUNCTIONS = 4 ;
 		internal const uint CKS_RW_USER_FUNCTIONS = 3 ;
+
 		internal const uint CKU_CONTEXT_SPECIFIC = 2 ;
 		internal const uint CKU_SO = 0 ;
 		internal const uint CKU_USER = 1 ;
-
-
 	}
 }
