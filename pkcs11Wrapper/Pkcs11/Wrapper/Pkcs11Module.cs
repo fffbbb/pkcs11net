@@ -7,31 +7,21 @@ namespace Net.Sf.Pkcs11.Wrapper
 {
 
 	/// <summary>
-	/// Description of Cryptoki.
+    /// Wrapper around Pkcs11 (low-level).
 	/// </summary>
 	public class Pkcs11Module
 	{
-
-
 		/// <summary>
 		/// 
 		/// </summary>
-		private IntPtr hLib;
+		protected IntPtr hLib;
 		
 		/// <summary>
-		/// 
-		/// </summary>
-		internal IntPtr HLib {
-			get{
-				return hLib;
-			}
-		}
-		
-		/// <summary>
-		/// 
+		/// Constructor.
 		/// </summary>
 		/// <param name="hLib"></param>
-		private Pkcs11Module(IntPtr hLib){
+        protected Pkcs11Module(IntPtr hLib)
+        {
 			this.hLib=	hLib;
 		}
 		
@@ -58,7 +48,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// 
 		/// </summary>
 		public void Initialize(){
-			C_Initialize proc=(C_Initialize)DelegateUtil.GetDelegate(this.HLib,typeof(C_Initialize));
+			C_Initialize proc=(C_Initialize)DelegateUtil.GetDelegate(this.hLib,typeof(C_Initialize));
 			checkCKR( proc(IntPtr.Zero));
 		}
 		
@@ -66,7 +56,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// 
 		/// </summary>
 		public void Finalize_(){
-			C_Finalize proc=(C_Finalize)DelegateUtil.GetDelegate(this.HLib,typeof(C_Finalize));
+			C_Finalize proc=(C_Finalize)DelegateUtil.GetDelegate(this.hLib,typeof(C_Finalize));
 			checkCKR( proc(IntPtr.Zero));
 		}
 		
@@ -76,7 +66,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public CK_INFO GetInfo()
 		{
-			C_GetInfo proc=(C_GetInfo)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetInfo));
+			C_GetInfo proc=(C_GetInfo)DelegateUtil.GetDelegate(this.hLib,typeof(C_GetInfo));
 			
 			CK_INFO ckInfo=new CK_INFO();
 			checkCKR( proc(ref ckInfo));
@@ -91,7 +81,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public uint[] GetSlotList(bool tokenPresent){
 			
-			C_GetSlotList proc=(C_GetSlotList)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetSlotList));
+			C_GetSlotList proc=(C_GetSlotList)DelegateUtil.GetDelegate(this.hLib,typeof(C_GetSlotList));
 			
 			uint pullVal=0;
 			checkCKR( proc(tokenPresent,null,ref pullVal));
@@ -109,7 +99,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public CK_SLOT_INFO GetSlotInfo(uint slotID){
 			
-			C_GetSlotInfo proc=(C_GetSlotInfo)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetSlotInfo));
+			C_GetSlotInfo proc=(C_GetSlotInfo)DelegateUtil.GetDelegate(this.hLib,typeof(C_GetSlotInfo));
 			
 			CK_SLOT_INFO slotInfo=new CK_SLOT_INFO();
 			checkCKR( proc(slotID, ref slotInfo));
@@ -124,7 +114,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public CK_TOKEN_INFO GetTokenInfo(uint slotID){
 			
-			C_GetTokenInfo proc=(C_GetTokenInfo)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetTokenInfo));
+			C_GetTokenInfo proc=(C_GetTokenInfo)DelegateUtil.GetDelegate(this.hLib,typeof(C_GetTokenInfo));
 			
 			CK_TOKEN_INFO tokenInfo=new CK_TOKEN_INFO();
 			checkCKR( proc(slotID, ref tokenInfo));
@@ -139,7 +129,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public uint WaitForSlotEvent(bool DO_NOT_BLOCK){
 			
-			C_WaitForSlotEvent proc=(C_WaitForSlotEvent)DelegateUtil.GetDelegate(this.HLib,typeof(C_WaitForSlotEvent));
+			C_WaitForSlotEvent proc=(C_WaitForSlotEvent)DelegateUtil.GetDelegate(this.hLib,typeof(C_WaitForSlotEvent));
 			
 			uint slotId=0, flags=0;
 			
@@ -158,7 +148,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 		/// <returns></returns>
 		public CKM[] GetMechanismList(uint slotId){
 			
-			C_GetMechanismList proc=(C_GetMechanismList)DelegateUtil.GetDelegate(this.HLib,typeof(C_GetMechanismList));
+			C_GetMechanismList proc=(C_GetMechanismList)DelegateUtil.GetDelegate(this.hLib,typeof(C_GetMechanismList));
 			
 			uint pulCount=0;
 			checkCKR( proc(slotId,null,ref pulCount));
@@ -852,7 +842,7 @@ namespace Net.Sf.Pkcs11.Wrapper
 			return kp;
 		}
 		
-		private void checkCKR(CKR retVal){
+		protected void checkCKR(CKR retVal){
 			if(retVal!= CKR.OK)
 				throw new TokenException(retVal);
 		}
