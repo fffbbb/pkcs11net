@@ -4,8 +4,11 @@ using System;
 
 namespace Net.Sf.Pkcs11.Wrapper
 {
+    /// <summary>
+    /// Converted to class because it can be inherited.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential,Pack=1, CharSet = CharSet.Unicode)]
-    public struct CK_FUNCTION_LIST
+    public class CK_FUNCTION_LIST
     {
         [MarshalAs(UnmanagedType.U1)]
         public byte major;
@@ -145,5 +148,7 @@ namespace Net.Sf.Pkcs11.Wrapper
         public IntPtr C_GetFunctionStatus;
         [MarshalAs(UnmanagedType.SysInt)]
         public IntPtr C_CancelFunction;
+        [MarshalAs(UnmanagedType.SysInt)]
+        public IntPtr C_WaitForSlotEvent;
     }
 }
