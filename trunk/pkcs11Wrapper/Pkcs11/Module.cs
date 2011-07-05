@@ -7,20 +7,33 @@ using Net.Sf.Pkcs11.Wrapper;
 namespace Net.Sf.Pkcs11
 {
 	/// <summary>
-	/// Description of Module.
+    /// Wrapper around Pkcs11 (high-level).
 	/// </summary>
 	public class Module
 	{
-		Pkcs11.Wrapper.Pkcs11Module p11Module;
-		
-		internal Pkcs11Module P11Module {
+		protected Pkcs11.Wrapper.Pkcs11Module p11Module;
+
+        public Pkcs11Module P11Module
+        {
 			get { return p11Module; }
 		}
 		protected Module(Pkcs11Module p11Module)
 		{
 			this.p11Module=p11Module;
 		}
-				
+
+        /// <summary>
+        /// Creates an instance of Pkcs11Module
+        /// </summary>
+        /// <param name="moduleName">
+        /// module to be loaded. it is the path of pkcs11 driver
+        /// <example>
+        /// <code>
+        /// Pkcs11Module pm=Pkcs11Module.GetInstance("gclib.dll");
+        /// </code>
+        /// </example>
+        /// </param>
+        /// <returns></returns>				
 		public static Module GetInstance(String moduleName)
 		{
 			if(moduleName == null)

@@ -6,18 +6,18 @@ namespace Net.Sf.Pkcs11.Wrapper
 	/// <summary>
 	/// Description of LibraryManager.
 	/// </summary>
-	internal static class KernelUtil 
+	public static class KernelUtil 
 	{
 
 		#region KernelCalls
 		[DllImport("kernel32")]
-		internal extern static IntPtr LoadLibrary(string lpLibFileName);
+        public extern static IntPtr LoadLibrary(string lpLibFileName);
 		
 		[DllImport("kernel32")]
-		internal extern static bool FreeLibrary(IntPtr hLibModule);
+        public extern static bool FreeLibrary(IntPtr hLibModule);
 		
 		[DllImport("kernel32", CharSet = CharSet.Ansi)]
-		internal extern static IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
+        public extern static IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
 		#endregion
 		
 	}

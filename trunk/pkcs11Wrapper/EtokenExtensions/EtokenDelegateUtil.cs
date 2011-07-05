@@ -1,10 +1,12 @@
-﻿#define USE_GETFUNCTIONLIST
+﻿// This extension does not work with FunctionList...
+//#define USE_GETFUNCTIONLIST
 
 using System;
 using System.Runtime.InteropServices;
 using Net.Sf.Pkcs11.Delegates;
+using Net.Sf.Pkcs11.Wrapper;
 
-namespace Net.Sf.Pkcs11.Wrapper
+namespace Net.Sf.Pkcs11.EtokenExtensions.Wrapper
 {
 	/// <summary>
 	/// Description of DelegateUtil.
