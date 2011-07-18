@@ -43,5 +43,10 @@ namespace Net.Sf.Pkcs11
 		public Session OpenSession(bool readOnly){
 			return new Session(this, this.slot_.Module.P11Module.OpenSession(this.slot_.SlotId,0,readOnly));
 		}
+
+        public void InitToken(string pin, string label)
+        {
+            Module.P11Module.InitToken(slot_.SlotId, pin, label);
+        }
 	}
 }

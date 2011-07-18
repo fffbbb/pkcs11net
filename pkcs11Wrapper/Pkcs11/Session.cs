@@ -65,6 +65,16 @@ namespace Net.Sf.Pkcs11
             this.Module.P11Module.Login(this.HSession, (CKU)userType, pwd);
         }
 
+        public void SetPIN(string oldPIN, string newPIN)
+        {
+            Module.P11Module.SetPIN(hSession, oldPIN, newPIN);
+        }
+
+        public void InitPIN(string pin)
+        {
+            Module.P11Module.InitPIN(hSession, pin);
+        }
+
         public void CloseSession()
         {
             this.Module.P11Module.CloseSession(hSession);
