@@ -203,7 +203,6 @@ namespace Net.Sf.Pkcs11.Test
 		public void Init()
 		{
 			Module m=Module.GetInstance("siecap11.dll");
-			m.Initialize();
 			
 			session= m.GetSlotList(true)[0].Token.OpenSession(false);
 			
@@ -214,7 +213,7 @@ namespace Net.Sf.Pkcs11.Test
 		public void Dispose()
 		{
 			session.Logout();
-			session.Module.Finalize_();
+			session.Module.Dispose();
 			
 			Console.WriteLine();
 		}
