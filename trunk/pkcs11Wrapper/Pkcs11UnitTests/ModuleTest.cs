@@ -12,13 +12,13 @@ namespace Net.Sf.Pkcs11.Test
 		[Test]
 		public void GetInfoTest()
 		{
-			Module m=Module.GetInstance("gclib.dll");
-			m.Initialize();
-			
-			Info info=m.GetInfo();
-			Console.WriteLine(info);
-			m.Finalize_();
-			
+			Module module=Module.GetInstance("gclib.dll");
+
+            using (module)
+            {
+                Info info = module.GetInfo();
+                Console.WriteLine(info);
+            }
 		}
 	}
 }

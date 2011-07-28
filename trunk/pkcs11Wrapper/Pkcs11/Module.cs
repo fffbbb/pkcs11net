@@ -6,21 +6,42 @@ using Net.Sf.Pkcs11.Wrapper;
 
 namespace Net.Sf.Pkcs11
 {
-	/// <summary>
-    /// Wrapper around Pkcs11 (high-level).
-	/// </summary>
-	public class Module
-	{
-		protected Pkcs11.Wrapper.Pkcs11Module p11Module;
+    /// <summary>
+    /// Wrapper around Pkcs11(Cryptoki) module (high-level).
+    /// </summary>
+    public class Module : IDisposable
+    {
+        #region Members
 
+        protected Pkcs11.Wrapper.Pkcs11Module p11Module;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Pkcs11Module property for low-level access
+        /// </summary>
         public Pkcs11Module P11Module
         {
-			get { return p11Module; }
-		}
-		protected Module(Pkcs11Module p11Module)
-		{
-			this.p11Module=p11Module;
-		}
+            get { return p11Module; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        #region Instance
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="p11Module">Pkcs11Module core object</param>
+        protected Module(Pkcs11Module p11Module)
+        {
+            this.p11Module = p11Module;
+            Initialize();
+        }
 
         /// <summary>
         /// Creates an instance of Pkcs11Module
@@ -34,44 +55,74 @@ namespace Net.Sf.Pkcs11
         /// </example>
         /// </param>
         /// <returns></returns>				
-		public static Module GetInstance(String moduleName)
-		{
-			if(moduleName == null)
-			{
-				throw new Exception("Argument \"pkcs11ModuleName\" must not be null.");
-			} else
-			{
-				Pkcs11.Wrapper.Pkcs11Module pm=Pkcs11.Wrapper.Pkcs11Module.GetInstance(moduleName);
-				
-				return new Module(pm);
-			}
-		}
-		
-		public void Finalize_(){
-			p11Module.Finalize_();
-		}
-		
-		public Info GetInfo()
-		{
-			CK_INFO localCK_INFO = this.p11Module.GetInfo();
+        public static Module GetInstance(String moduleName)
+        {
+            if (moduleName == null)
+            {
+                throw new Exception("Argument \"pkcs11ModuleName\" must not be null.");
+            }
+            else
+            {
+                Pkcs11.Wrapper.Pkcs11Module pm = Pkcs11.Wrapper.Pkcs11Module.GetInstance(moduleName);
 
-			return new Info(localCK_INFO);
-		}
-		
-		public void Initialize(){
-			p11Module.Initialize();
-		}
-		
-		public Slot[] GetSlotList(bool onlyTokenPresent){
-			List<Slot> l= new List<Slot>();
-			uint[] csis= p11Module.GetSlotList(onlyTokenPresent);
-			
-			for(int i=0;i<csis.Length;i++){
-				l.Add( new Slot(this, csis[i]) );
-			}
-			return l.ToArray();
-		}
-		
-		
-	}
+                return new Module(pm);
+            }
+        }
+
+        #endregion
+
+        #region Cryptoki Module Information
+        public Info GetInfo()
+        {
+            CK_INFO localCK_INFO = this.p11Module.GetInfo();
+
+            return new Info(localCK_INFO);
+        }
+        
+        #endregion        
+        
+        #region Slots
+
+        /// <summary>
+        /// Get an Array of Slots.
+        /// </summary>
+        /// <param name="onlyTokenPresent">true if you wish to get only slots with Token. false otherwise</param>
+        /// <returns>the Slots</returns>
+        public Slot[] GetSlotList(bool onlyTokenPresent)
+        {
+            var slotIds = p11Module.GetSlotList(onlyTokenPresent);
+            var slots = new List<Slot>();
+
+            foreach (var slotId in slotIds)
+            {
+                var slot = new Slot(this, slotId);
+                slots.Add(slot);
+            }
+
+            return (slots.ToArray());
+        }
+
+        #endregion
+       
+        #region General
+
+        private void Initialize()
+        {
+            p11Module.Initialize();
+        }
+
+        private void Finalize_()
+        {
+            p11Module.Finalize_();
+        }
+
+        public void Dispose()
+        {
+            Finalize_();
+        }
+
+        #endregion
+
+        #endregion
+    }
 }

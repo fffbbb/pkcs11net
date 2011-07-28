@@ -842,9 +842,12 @@ namespace Net.Sf.Pkcs11.Wrapper
 			return kp;
 		}
 		
-		protected void checkCKR(CKR retVal){
-			if(retVal!= CKR.OK)
-				throw new TokenException(retVal);
+		protected void checkCKR(CKR retVal)
+        {
+            if (retVal != CKR.OK)
+            {
+                throw new TokenException(retVal);
+            }
 		}
 	}
 }

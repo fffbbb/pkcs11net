@@ -45,10 +45,9 @@ namespace Tests
             {
                 // Initialize module.
                 Module lModule = Module.GetInstance(cbProviderDll.Text);
-                lModule.Initialize();
 
                 // Call event.
-                try
+                using (lModule)
                 {
                     // GetSlotList.
                     Slot[] lSlots = lModule.GetSlotList(true);
@@ -60,11 +59,6 @@ namespace Tests
 
                     if (aAction != null)
                         aAction(lSlots[Convert.ToInt32(udTokenIndex.Value)]);
-                }
-                finally
-                {
-                    // Finalize module.
-                    lModule.Finalize_();
                 }
             }
             catch (Exception E)
@@ -109,10 +103,8 @@ namespace Tests
             {
                 // Initialize module.
                 EtokenModule lModule = EtokenModule.GetInstance(cbProviderDll.Text);
-                lModule.Initialize();
 
-                // Call event.
-                try
+                using (lModule)
                 {
                     // GetSlotList.
                     Slot[] lSlots = lModule.GetSlotList(true);
@@ -125,11 +117,7 @@ namespace Tests
                     if (aAction != null)
                         aAction(lModule, lSlots[Convert.ToInt32(udTokenIndex.Value)]);
                 }
-                finally
-                {
-                    // Finalize module.
-                    lModule.Finalize_();
-                }
+                
             }
             catch (Exception E)
             {
