@@ -102,6 +102,17 @@ namespace Net.Sf.Pkcs11
             return (slots.ToArray());
         }
 
+        /// <summary>
+        /// Waits for a slot event to occur.
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public Slot WaitForSlotEvent(bool DO_NOT_BLOCK)
+        {
+            uint lSlotId = p11Module.WaitForSlotEvent(DO_NOT_BLOCK);
+            return new Slot(this, lSlotId);
+        }
+
         #endregion
        
         #region General
