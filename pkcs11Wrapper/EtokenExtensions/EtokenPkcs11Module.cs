@@ -1,6 +1,8 @@
 ﻿using System;
 using Net.Sf.Pkcs11.Wrapper;
 using Net.Sf.Pkcs11.EtokenExtensions.Delegates;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Net.Sf.Pkcs11.EtokenExtensions.Wrapper
 {
@@ -83,6 +85,28 @@ namespace Net.Sf.Pkcs11.EtokenExtensions.Wrapper
         }
 
         /// <summary>
+        /// Converts a string to an IntPtr using a rare UTF8 encoding.
+        /// </summary>
+        /// <param name="aInputStrArray"></param>
+        /// <returns></returns>
+        public static IntPtr StringArrayToIntPtr(string[] aInputStrArray)
+        {
+            int size = aInputStrArray.Length;
+            IntPtr[] InPointers = new IntPtr[size];
+            int dim = IntPtr.Size * size;
+            IntPtr rRoot = Marshal.AllocHGlobal(dim);
+            for (int i = 0; i < size; i++)
+            {
+                byte[] lBytes = Encoding.UTF8.GetBytes(aInputStrArray[i] + Convert.ToChar(0));
+                InPointers[i] = Marshal.AllocHGlobal(lBytes.Length);
+                Marshal.Copy(lBytes, 0, InPointers[i], lBytes.Length);
+            }
+            //copy the array of pointers
+            Marshal.Copy(InPointers, 0, rRoot, size);
+            return rRoot;
+        }
+
+        /// <summary>
         /// Create a certificate request.
         /// </summary>
         internal void createCSR(
@@ -99,8 +123,10 @@ namespace Net.Sf.Pkcs11.EtokenExtensions.Wrapper
             uint extensionsLength
             )
         {
+            IntPtr lPrt = StringArrayToIntPtr(dn);
+
             createCSR proc = (createCSR)DelegateUtil.GetDelegate(this.hLib, typeof(createCSR));
-            checkCKR(proc(session, publicKey, dn, dnLength, out csr, out csrLength, privateKey,
+            checkCKR(proc(session, publicKey, lPrt, dnLength, out csr, out csrLength, privateKey,
                 attributes, attributesLength, extensions, extensionsLength));
         }
 

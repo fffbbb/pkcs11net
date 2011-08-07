@@ -181,7 +181,7 @@ namespace Net.Sf.Pkcs11.EtokenExtensions.Delegates
     (
 		uint session,
         uint publicKey,
-        [MarshalAsAttribute(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] dn,
+        IntPtr dn,
 		uint dnLength,
         out IntPtr csr,
         out uint csrLength,
