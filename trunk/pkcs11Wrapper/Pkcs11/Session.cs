@@ -203,6 +203,11 @@ namespace Net.Sf.Pkcs11
             this.Module.P11Module.VerifyInit(hSession, signingMechanism.CK_MECHANISM, key.HObj);
         }
 
+        public void VerifyInit(Mechanism signingMechanism, Certificate certificate)
+        {
+            this.Module.P11Module.VerifyInit(hSession, signingMechanism.CK_MECHANISM, certificate.HObj);
+        }
+
         public void VerifyUpdate(byte[] data)
         {
             this.Module.P11Module.VerifyUpdate(hSession, data);
