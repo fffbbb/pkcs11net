@@ -11,7 +11,11 @@ namespace Net.Sf.Pkcs11
 	public class Token
 	{
 		protected Slot slot_;
-		
+		public Slot Slot
+        {
+            get { return slot_; }
+        }
+
 		public Module Module {
 			get { return slot_.Module; }
 		}
