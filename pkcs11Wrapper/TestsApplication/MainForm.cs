@@ -110,6 +110,7 @@ namespace Tests
                     P11Attribute[] lAttributes = new P11Attribute[]
                     {
                         new KeyTypeAttribute(CKK.GOST)
+                        //new CharArrayAttribute(CKA.LABEL){ Value = "ITS - d32f62f6-5cf5-4c4b-9cb2-4b70eee82c10".ToCharArray() }
                         //new ObjectClassAttribute(CKO.CERTIFICATE)
                         //new ByteArrayAttribute(CKA.ID) { Value = GENERATED_OBJECTS_ID }
                     };
@@ -117,6 +118,7 @@ namespace Tests
                     aSession.FindObjectsInit(lAttributes);
 
                     P11Object[] objs = aSession.FindObjects(50);
+                    aSession.FindObjectsFinal();
 
                     if (objs.Length == 0)
                     {
@@ -130,11 +132,18 @@ namespace Tests
                         return;
 
                     foreach (P11Object lObject in objs)
-                        aSession.DestroyObject(lObject);
+                    {
+                        if (lObject is Key)
+                        {
+                            if (new string(((Key)lObject).Label.Value) != "Astra Etoken Client")
+                                aSession.DestroyObject(lObject);
+                        }
+                        else if (!(lObject is DomainParameters))
+                            aSession.DestroyObject(lObject);
+                    }
                     MessageBox.Show(this, string.Format("Deleted {0} objects:" + Environment.NewLine +
                         string.Join<P11Object>(Environment.NewLine, objs),
                         objs.Length));
-                    aSession.FindObjectsFinal();
                 });
             }
             finally
@@ -176,6 +185,7 @@ namespace Tests
                     privTemplate.Sensitive.Value = true;
 
                     KeyPair kp = aSession.GenerateKeyPair(new Mechanism(CKM.RSA_PKCS_KEY_PAIR_GEN), pubTemplate, privTemplate);
+                    MessageBox.Show(kp.PublicKey.ToString());
                 });
             }
             finally
@@ -254,7 +264,7 @@ namespace Tests
                         "Initial Data:" + BitConverter.ToString(data) + Environment.NewLine +
                         "Hash:" + Environment.NewLine + BitConverter.ToString(hash));
 
-                    //get private key
+                    // Get private key.
                     aSession.FindObjectsInit(new P11Attribute[]{
 			                        	        new ObjectClassAttribute(CKO.PRIVATE_KEY),
 			                        	        new KeyTypeAttribute(CKK.GOST)
@@ -268,7 +278,7 @@ namespace Tests
                     GostPrivateKey pk = lObjects[0] as GostPrivateKey;
                     aSession.FindObjectsFinal();
 
-                    //sign
+                    // Sign.
                     aSession.SignInit(m, pk);
                     byte[] signature = aSession.Sign(hash);
 
@@ -277,7 +287,7 @@ namespace Tests
                         BitConverter.ToString(signature));
 
 
-                    //get public key
+                    // Get public key.
                     aSession.FindObjectsInit(new P11Attribute[]{
 			                        	        new ObjectClassAttribute(CKO.PUBLIC_KEY),
 			                        	        new KeyTypeAttribute(CKK.GOST),
@@ -335,8 +345,15 @@ namespace Tests
 
                     // Generate cert request.
                     byte[] lCertificateRequest;
-                    string[] lDN = new string[] { "CN", "Ivan Ivanov", "C", "RU" };
-                    string[] lExtensions = new string[] { "keyUsage", "digitalSignature,keyEncipherment" };
+                    string[] lDN = new string[]
+                    {
+                        "CN", "Иванов Иван",
+                        "C", "RU"
+                    };
+                    string[] lExtensions = new string[] {
+                        "keyUsage", "digitalSignature,keyEncipherment",
+                        "extendedKeyUsage", "clientAuth,emailProtection"
+                    };
                     aEtokenModule.createCSR(aSession, pubKey, lDN, null, lExtensions, out lCertificateRequest, null);
 
                     // Display cert req.
